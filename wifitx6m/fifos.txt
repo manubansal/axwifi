@@ -4,6 +4,8 @@
 # Released under the Apache License v2.0. See the LICENSE file for details.
 # Author(s): Manu Bansal
 
+
+#<command==fifo>:<instancename>:<numbufs>:<src/dst/sin>:<coreid>
 #<command==fill>:<instanename>:<initial fill data as Uint8's>
 
 fifo: ff_kk0  :2  :sin  :0

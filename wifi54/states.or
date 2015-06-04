@@ -4,6 +4,8 @@
 # Released under the Apache License v2.0. See the LICENSE file for details.
 # Author(s): Manu Bansal
 
+
+#<command==action>:<axnName>:<atomseq>
 #<command==state>:<stateName>:<stateNum>:<coreNum>:<action|noaxn>:<atomseq>
 #DEPRECATED <command==decway>....
 #where atomseq = (atomname;)+ (note that a semicolon must follow each

@@ -5,6 +5,8 @@ Released under the Apache License v2.0. See the LICENSE file for details.
 Author(s): Manu Bansal
 */
 
+#include <osl/inc/swpform.h>
+
 Int16 trace_skip_0_ns_780[] = {
        340,        480,
        -99,       -550,

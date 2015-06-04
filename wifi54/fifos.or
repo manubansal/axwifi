@@ -4,6 +4,8 @@
 # Released under the Apache License v2.0. See the LICENSE file for details.
 # Author(s): Manu Bansal
 
+
+#DEPRECATED: <command==fifo>:<instancename>:<numbufs>:<bufsize_bytes>:<src/dst/sin>:<coreid>
 #<command==fifo>:<instancename>:<numbufs>:<src/dst/sin>:<coreid>
 #<command==fill>:<instanename>:<initial fill data as Uint8's>
 #If initial fill data is provided, each buffer in the queue starts in the filled state, otherwise 

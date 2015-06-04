@@ -4,6 +4,8 @@
 # Released under the Apache License v2.0. See the LICENSE file for details.
 # Author(s): Manu Bansal
 
+
+#<command==atom>: <instancename>: <typename>: <core id>
 #<command==wire>: <instancename>: <fifo1>: [fifo2]: ...
 #<command==pars>: <instancename>: <par1>: [par2]: ...
 atom: kk0: BlockKK: 0
