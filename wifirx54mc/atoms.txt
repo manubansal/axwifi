@@ -1,0 +1,789 @@
+
+# Atomix project, atoms.txt, TODO: insert summary here
+# Copyright (c) 2015 Stanford University
+# Released under the Apache License v2.0. See the LICENSE file for details.
+# Author(s): Manu Bansal
+
+#<command==wire>: <instancename>: <fifo1>: [fifo2]: ...
+#<command==pars>: <instancename>: <par1>: [par2]: ...
+atom: kk0: BlockKK: 0
+atom: kk1: BlockKK: 1
+atom: kk2: BlockKK: 2
+atom: kk3: BlockKK: 3
+#
+#----------------
+#For init
+#----------------
+atom: traceReader80Init		: ORILIB_TraceReader80_Init			: 0
+atom: jumpInit			: BlockJ					: 0
+#
+atom: dxCpInit			: BlockCP	: 0
+#
+atom: dxTrInit0			: BlockTR	: 0
+atom: dxTrInit1			: BlockTR	: 1
+atom: dxTrInit2			: BlockTR	: 2
+atom: dxTrInit3			: BlockTR	: 3
+#
+#----------------
+#For pkt init
+#----------------
+atom: traceReader80		: ORILIB_TraceReader80				: 0
+#atom: fileTraceReader80		: ORILIB_FileTraceReader80			: 0
+atom: pktAlignInit		: ORILIB_PacketSearch_Align_InitPerPacket	: 0
+atom: pktDetectInit		: ORILIB_PacketSearch_Detect_InitPerPacket	: 0
+atom: jumpPktInit		: BlockJ					: 0
+#
+atom: dxCpPktInit			: BlockCP	: 0
+#
+atom: dxTrPktInit0			: BlockTR	: 0
+atom: dxTrPktInit1			: BlockTR	: 1
+atom: dxTrPktInit2			: BlockTR	: 2
+atom: dxTrPktInit3			: BlockTR	: 3
+#
+#----------------
+#For pkt detect
+#----------------
+atom: pktDetect			: ORILIB_PacketSearch_Detect			: 0
+atom: pktDetectDecision		: ORILIB_PacketSearch_Detect_Decision		: 0
+#atom: agcStateRetainer		: BlockCP2					: 0
+#
+atom: dxCpPktDetect			: BlockCP	: 0
+#
+atom: dxTrPktDetect0			: BlockTR	: 0
+atom: dxTrPktDetect1			: BlockTR	: 1
+atom: dxTrPktDetect2			: BlockTR	: 2
+atom: dxTrPktDetect3			: BlockTR	: 3
+#----------------
+#State drainers
+#----------------
+atom: alignStateDrainer		: BlockDrain					: 0 
+atom: energyStateDrainer	: BlockDrain					: 0 
+atom: corrStateDrainer		: BlockDrain					: 0 
+atom: agcStateDrainer		: BlockDrain					: 0
+atom: ofdmDemodStateDrainer	: BlockDrain					: 0
+#
+atom: cfoStateDrainer		: BlockDrain					: 0
+atom: chStateDrainer		: BlockDrain					: 0
+atom: plcpEqSymsDrainer		: BlockDrain					: 0
+atom: plcpParserStateDrainer	: BlockDrain					: 0
+#
+#
+#
+#----------------
+#For LTF proc 
+#----------------
+atom: bufAlign			: ORILIB_PacketSearch_Align			: 0
+atom: bufCopyTwoWays		: BlockCP2					: 0
+atom: bufJoin1			: ORILIB_BufferJoin2To1				: 0
+atom: cfoEstLTF			: ORILIB_CFOEstimatorLTF			: 0
+#atom: cfoStateRetainer		: BlockCP2					: 0
+atom: cfoCorrectorG_LTF		: ORILIB_CFOCorrectorG				: 0
+atom: cfoCorrectorGM_LTF	: ORILIB_CFOCorrectorGM				: 0
+atom: bufJoin2			: ORILIB_BufferJoin2To1				: 0
+#atom: chEstLTF			: ORILIB_ChEstimatorLTF_Float				: 0
+atom: chEstLTF			: ORILIB_ChEstimatorLTF				: 0
+#atom: chStateRetainer		: BlockCP2					: 0
+atom: jumpLTFProc		: BlockJ					: 0
+#
+atom: dxCpLTFProc			: BlockCP	: 0
+#
+atom: dxTrLTFProc0			: BlockTR	: 0
+atom: dxTrLTFProc1			: BlockTR	: 1
+atom: dxTrLTFProc2			: BlockTR	: 2
+atom: dxTrLTFProc3			: BlockTR	: 3
+#
+#----------------
+#For PLCP decode
+#----------------
+atom: cfoCorrectorG		: ORILIB_CFOCorrectorG				: 0
+atom: ofdmDemodPktInit		: ORILIB_OFDMDemodulator_InitPerPacket		: 0
+atom: ofdmDemod			: ORILIB_OFDMDemodulator			: 0
+#atom: plcpOfdmEq		: ORILIB_OFDMEqualizer_Float				: 0
+atom: plcpOfdmEq		: ORILIB_OFDMEqualizer				: 0
+atom: plcpSoftSlicerBPSK	: ORILIB_SoftDemapperBPSKyhstar			: 0
+atom: plcpSoftDeint48		: ORILIB_SoftDeinterleaver48			: 0
+atom: plcpSoftBM24		: ORILIB_SoftBranchMetricsR1by2F24		: 0
+#
+atom: plcpVitDecInit		: ORILIB_ViterbiDecoder_InitOnce		: 0
+atom: plcpVitDecGenConfSL	: ORILIB_ViterbiDecoder_GenConfSL		: 0
+atom: plcpVitDecStateRetainer	: BlockCP2					: 0
+atom: plcpVitDecSingleHT	: ORILIB_ViterbiDecoderVCP			: 0
+atom: plcpVitDecWFC		: ORILIB_ViterbiDecoderVCP_WaitForCompletion	: 0
+atom: plcpParser		: ORILIB_PLCPParser				: 0
+#
+atom: pktStateDrainer		: BlockDrain					: 0
+#
+atom: dxCpPlcpParser		: BlockCP	: 0
+#
+atom: dxTrPlcpParser0			: BlockTR	: 0
+atom: dxTrPlcpParser1			: BlockTR	: 1
+atom: dxTrPlcpParser2			: BlockTR	: 2
+atom: dxTrPlcpParser3			: BlockTR	: 3
+#
+#
+#---------------------
+#For data decode init
+#---------------------
+atom: d54mPlcpParserStateRetainer	: BlockCP2					: 0
+atom: d54mTrPlcpState		: BlockTR					: 2
+#
+#atom: d54mBMCacheInit		: ORILIB_ByteCacheInit_C432			: 2
+atom: d54mBmCacheCappedInitFPlcpState: ORILIB_ByteCacheCappedInitFPlcpState_C432	: 2
+atom: d54mVitDecMap			: ORILIB_ViterbiDecodingMap			: 0
+atom: d54mTrChState			: BlockTR					: 0
+atom: d54mHdCacheInit		: ORILIB_BitCacheInit_C1024			: 3
+atom: d54mDescrCacheInit		: ORILIB_BitCacheInit_C1024			: 3
+#
+atom: d54mCrc32VarBytesInit		: ORILIB_CRC32_VarBytes_Init			: 0
+atom: d54mCrc32StateTr		: BlockTR					: 0
+atom: d54mDescrCachePut		: ORILIB_BitCacheSkipPut_a8_C1024b		: 3
+atom: d54mDescrCacheGetServiceField2B: ORILIB_BitCacheGet_a8_C1024			: 3
+atom: d54mDrainServiceField2B	: BlockDrain					: 3
+atom: d54mDescrCacheGet27B		: ORILIB_BitCacheGet_a8_C1024			: 3
+atom: d54mDescrCacheGet25B		: ORILIB_BitCacheGet_a8_C1024			: 3
+atom: d54mCrc32Mid27B		: ORILIB_CRC32					: 3
+atom: d54mCrc32Tail25B		: ORILIB_CRC32					: 3
+atom: d54mCrc32Var			: ORILIB_CRC32_VarBytes				: 3
+atom: d54mDescrCacheDrainer		: BlockDrain					: 3
+atom: d54mCrc32Decision		: ORILIB_CRC32_Decision				: 3
+#atom: d54mCrc32StateDrainer		: BlockDrain					: 3
+#
+#------------------------------------------
+#For data decode - common for all rates
+#------------------------------------------
+#
+atom: d54mTrDataTones		: BlockTR					: 0
+atom: d54mTrPilotTones		: BlockTR					: 0
+#
+#
+#==============================================================================
+#------------------------------------------
+#For data decode 54m - upto branch metrics
+#------------------------------------------
+#atom: d54mChStateRetainer		: BlockCP2					: 1
+#atom: d54mOfdmEq			: ORILIB_OFDMEqualizer_Float				: 1
+atom: d54mOfdmEq			: ORILIB_OFDMEqualizer				: 1
+atom: d54myhstarDrainer		: BlockDrain					: 1
+atom: d54mOfdmEqStateDrainer		: BlockDrain					: 1
+atom: d54mSoftSlicer64QAM		: ORILIB_SoftSlicer64QAMyhatLUT			: 1
+atom: d54mSoftDeint288		: ORILIB_SoftDeinterleaver288			: 1
+atom: d54mSoftDepuncR3by4F216	: ORILIB_SoftDepuncturerR3by4F216		: 1
+atom: d54mSoftBM216			: ORILIB_SoftBranchMetricsR1by2F216		: 1
+#
+atom: d54mTrSoftBm			: BlockTR					: 1
+#
+#---------------------
+#For data decode 54m - branch metric caching and retrieval
+#---------------------
+atom: d54mBmCachePut			: ORILIB_ByteCacheCappedPut_a8_C432B432	: 2
+#
+#atom: d54mVitDecMapRetainer		: BlockCP2					: 0
+#atom: d54mVitDecHSR			: BlockCP2					: 3
+#atom: d54mVitDecMSR0			: BlockCP2					: 3
+#atom: d54mVitDecMSR1			: BlockCP2					: 3
+#atom: d54mVitDecMSR2			: BlockCP2					: 3
+#atom: d54mVitDecMSR3			: BlockCP2					: 3
+#atom: d54mVitDecTSR			: BlockCP2					: 0
+#
+#-------------------------
+#For viterbi decoding 54m
+#-------------------------
+atom: d54mBmCacheGetHTFrame		: ORILIB_ByteCacheCappedGetFrame_a8_C432		: 2
+#
+atom: d54mBmCacheGetHFrame		: ORILIB_ByteCacheCappedGetFrame_a8_C432		: 2
+#
+atom: d54mBmCacheGetMFrame0		: ORILIB_ByteCacheCappedGetFrame_a8_C432		: 2
+atom: d54mBmCacheGetMFrame1		: ORILIB_ByteCacheCappedGetFrame_a8_C432		: 2
+atom: d54mBmCacheGetMFrame2		: ORILIB_ByteCacheCappedGetFrame_a8_C432		: 2
+atom: d54mBmCacheGetMFrame3		: ORILIB_ByteCacheCappedGetFrame_a8_C432		: 2
+#
+atom: d54mBmCacheGetTFrame		: ORILIB_ByteCacheCappedGetFrame_a8_C432		: 2
+#
+atom: d54mTrBmFrame0			: BlockTR					: 2
+atom: d54mTrBmFrame1			: BlockTR					: 2
+atom: d54mTrBmFrame2			: BlockTR					: 2
+atom: d54mTrBmFrame3			: BlockTR					: 2
+#
+atom: d54mVitDecHeadInit		: ORILIB_ViterbiDecoder_InitOnce		: 3
+atom: d54mVitDecHeadGenConfSL	: ORILIB_ViterbiDecoder_GenConfSL		: 3
+#
+atom: d54mVitDecMidInit0		: ORILIB_ViterbiDecoder_InitOnce		: 3
+atom: d54mVitDecMidGenConfSL0	: ORILIB_ViterbiDecoder_GenConfSL		: 3
+atom: d54mVitDecMidInit1		: ORILIB_ViterbiDecoder_InitOnce		: 3
+atom: d54mVitDecMidGenConfSL1	: ORILIB_ViterbiDecoder_GenConfSL		: 3
+atom: d54mVitDecMidInit2		: ORILIB_ViterbiDecoder_InitOnce		: 3
+atom: d54mVitDecMidGenConfSL2	: ORILIB_ViterbiDecoder_GenConfSL		: 3
+atom: d54mVitDecMidInit3		: ORILIB_ViterbiDecoder_InitOnce		: 3
+atom: d54mVitDecMidGenConfSL3	: ORILIB_ViterbiDecoder_GenConfSL		: 3
+#
+#atom: d54mVitDecTailInit		: ORILIB_ViterbiDecoder_InitOnce		: 0
+#atom: d54mVitDecTailGenConf		: ORILIB_ViterbiDecoder_GenConf			: 0
+#
+#
+#
+atom: d54mVitDecHead1		: ORILIB_ViterbiDecoderVCP			: 3
+#
+atom: d54mVitDecMid0			: ORILIB_ViterbiDecoderVCP			: 3
+atom: d54mVitDecMid1			: ORILIB_ViterbiDecoderVCP			: 3
+atom: d54mVitDecMid2			: ORILIB_ViterbiDecoderVCP			: 3
+atom: d54mVitDecMid3			: ORILIB_ViterbiDecoderVCP			: 3
+#
+#atom: d54mVitDecTail0		: ORILIB_ViterbiDecoderVCP			: 3
+#
+atom: d54mVitDecWFC0			: ORILIB_ViterbiDecoderVCP_WaitForCompletion	: 3
+atom: d54mVitDecWFC1			: ORILIB_ViterbiDecoderVCP_WaitForCompletion	: 3
+atom: d54mVitDecWFC2			: ORILIB_ViterbiDecoderVCP_WaitForCompletion	: 3
+atom: d54mVitDecWFC3			: ORILIB_ViterbiDecoderVCP_WaitForCompletion	: 3
+#
+atom: d54mDecodeDecisionInit		: ORILIB_DataDecodeDecisionInit			: 0
+atom: d54mDecodeDecision		: ORILIB_DataDecodeDecision			: 0
+#
+atom: dxCpDataDecode			: BlockCP	: 0
+#
+atom: dxTrDataDecode0			: BlockTR	: 0
+atom: dxTrDataDecode1			: BlockTR	: 1
+atom: dxTrDataDecode2			: BlockTR	: 2
+atom: dxTrDataDecode3			: BlockTR	: 3
+#
+#--------------------
+#After viterbi step
+#--------------------
+atom: d54mHdCachePutHead		: ORILIB_BitCacheSkipPut_a8_C1024b		: 3
+atom: d54mHdCachePutMid		: ORILIB_BitCacheSkipPut_a8_C1024b		: 3
+#atom: d54mHdCachePutTail		: ORILIB_BitCacheSkipPut_a8_C1024b		: 3
+#
+atom: d54mHdCacheGet54	: ORILIB_BitCacheGet_a8_C1024		: 3
+#atom: serviceFieldGet		: ORILIB_BitCacheGet_a8_C1024		: 3
+atom: d54mHdCacheCopy	: BlockCP2				: 3
+atom: descramblerInit		: ORILIB_DescramblerInit		: 3
+atom: descramblerStateDrainer	: BlockDrain				: 3
+#atom: d54mHdCacheGet38	: ORILIB_BitCacheGet_a8_C1024		: 3
+#atom: d54mDescrambler38	: ORILIB_Descrambler			: 3
+atom: d54mDescrambler54	: ORILIB_Descrambler			: 3
+#
+#atom: d54mDebugPrintBitBucket	: ORILIB_DebugPrintBitBucket			: 3
+#
+#--------------------
+#After data decoding
+#--------------------
+#
+atom: d54mVitDecMapDrainer		: BlockDrain					: 0
+atom: d54mDecodeDecStDrainer		: BlockDrain					: 0
+atom: d54mChStateDrainer		: BlockDrain					: 1
+atom: d54mBmCacheDrainer		: BlockDrain					: 2
+atom: d54mHdCacheDrainer		: BlockDrain					: 3
+#
+atom: jumpToFinish			: BlockJ					: 0
+#
+atom: dxCpDataDecodeFinish			: BlockCP	: 0
+#
+atom: dxTrDataDecodeFinish0			: BlockTR	: 0
+atom: dxTrDataDecodeFinish1			: BlockTR	: 1
+atom: dxTrDataDecodeFinish2			: BlockTR	: 2
+atom: dxTrDataDecodeFinish3			: BlockTR	: 3
+#
+atom: d54mCore3DecodeDoneSignal		: BlockTouch	: 3
+atom: d54mCore3DecodeDoneWait		: BlockDrain	: 0
+atom: d54mCore3DecodeDoneTr			: BlockTR	: 0
+#
+atom: jumpToPktInit			: BlockJ					: 0
+#
+atom: dxCpRxFinish			: BlockCP	: 0
+#
+atom: dxTrRxFinish0			: BlockTR	: 0
+atom: dxTrRxFinish1			: BlockTR	: 1
+atom: dxTrRxFinish2			: BlockTR	: 2
+atom: dxTrRxFinish3			: BlockTR	: 3
+#
+#################
+# For the kernels
+#################
+wire: kk0:ff_kk0
+wire: kk1:ff_kk1
+wire: kk2:ff_kk2
+wire: kk3:ff_kk3
+#
+#################
+# For init
+#################
+wire: traceReader80Init			:ff_traceReaderState
+wire: jumpInit				:ff_dxInit
+#
+wire: dxCpInit			: ff_dxInit:ff_dxInit0:ff_dxInit1:ff_dxInit2:ff_dxInit3
+#
+wire: dxTrInit0			: ff_dxInit0:ff_kk0
+wire: dxTrInit1			: ff_dxInit1:ff_kk1
+wire: dxTrInit2			: ff_dxInit2:ff_kk2
+wire: dxTrInit3			: ff_dxInit3:ff_kk3
+#
+#################
+# For pkt init 
+#################
+wire: pktAlignInit			:ff_alignState
+wire: pktDetectInit			:ff_energyState:ff_corrState:ff_agcState
+#wire: agcStateRetainer			:ff_agcState:ff_agcState:ff_agcStateCopy
+wire: ofdmDemodPktInit		:ff_ofdmDemodState
+#
+wire: jumpPktInit			:ff_dxPktInit
+#
+wire: dxCpPktInit			: ff_dxPktInit:ff_dxPktInit0:ff_dxPktInit1:ff_dxPktInit2:ff_dxPktInit3
+#
+wire: dxTrPktInit0			: ff_dxPktInit0:ff_kk0
+wire: dxTrPktInit1			: ff_dxPktInit1:ff_kk1
+wire: dxTrPktInit2			: ff_dxPktInit2:ff_kk2
+wire: dxTrPktInit3			: ff_dxPktInit3:ff_kk3
+#
+#################
+# For pkt detect
+#################
+wire: traceReader80			:ff_traceReaderState:ff_traceSampleBuf:ff_traceReaderState
+#wire: fileTraceReader80			:ff_traceSampleBuf
+wire: pktDetect				:ff_traceSampleBuf:ff_alignState:ff_energyState:ff_corrState:ff_alignState:ff_energyState:ff_corrState:ff_detectState
+#wire: jumpPktDetect			:ff_kk0
+wire: agcStateDrainer			:ff_agcState
+#
+wire: pktDetectDecision			:ff_detectState:ff_agcState:ff_dxPktDetect
+#
+wire: dxCpPktDetect			: ff_dxPktDetect:ff_dxPktDetect0:ff_dxPktDetect1:ff_dxPktDetect2:ff_dxPktDetect3
+#
+wire: dxTrPktDetect0			: ff_dxPktDetect0:ff_kk0
+wire: dxTrPktDetect1			: ff_dxPktDetect1:ff_kk1
+wire: dxTrPktDetect2			: ff_dxPktDetect2:ff_kk2
+wire: dxTrPktDetect3			: ff_dxPktDetect3:ff_kk3
+#
+#################
+# For LTF Proc
+#################
+wire: bufAlign				:ff_traceSampleBuf:ff_alignState:ff_alignedSampleBuf:ff_alignState
+wire: bufCopyTwoWays			:ff_alignedSampleBuf:ff_LTFS1:ff_LTFS2
+wire: bufJoin1				:ff_LTFS1:ff_LTFS1:ff_joinedLTF1
+wire: cfoEstLTF				:ff_joinedLTF1:ff_agcState+:ff_cfoState
+#wire: cfoStateRetainer			:ff_cfoState:ff_cfoState:ff_cfoStateCopy
+wire: cfoCorrectorG_LTF			:ff_LTFS2:ff_cfoState+:ff_agcState+:ff_cfoCorrected
+wire: cfoCorrectorGM_LTF		:ff_LTFS2:ff_cfoState+:ff_agcState+:ff_cfoCorrected
+wire: bufJoin2				:ff_cfoCorrected:ff_cfoCorrected:ff_joinedLTF2
+wire: chEstLTF				:ff_joinedLTF2:ff_chState
+#wire: chStateRetainer			:ff_chState:ff_chState:ff_chStateCopy
+#
+wire: jumpLTFProc			:ff_dxLTFProc
+#
+wire: dxCpLTFProc			: ff_dxLTFProc:ff_dxLTFProc0:ff_dxLTFProc1:ff_dxLTFProc2:ff_dxLTFProc3
+#
+wire: dxTrLTFProc0			: ff_dxLTFProc0:ff_kk0
+wire: dxTrLTFProc1			: ff_dxLTFProc1:ff_kk1
+wire: dxTrLTFProc2			: ff_dxLTFProc2:ff_kk2
+wire: dxTrLTFProc3			: ff_dxLTFProc3:ff_kk3
+#
+#################
+# For PLCP Decode
+#################
+wire: cfoCorrectorG			: ff_alignedSampleBuf:ff_cfoState+:ff_agcState+:ff_cfoCorrected
+wire: ofdmDemod				: ff_cfoCorrected:ff_ofdmDemodState:ff_dataTones:ff_pilotTones:ff_ofdmDemodState
+#wire: plcpOfdmEq			: ff_dataTones:ff_pilotTones:ff_chStateCopy:ff_eqSyms:ff_yhstar:ff_plcpOfdmEqState
+wire: plcpOfdmEq			: ff_dataTones:ff_pilotTones:ff_chState+:ff_eqSyms:ff_yhstar:ff_plcpOfdmEqState
+wire: plcpSoftSlicerBPSK		: ff_yhstar:ff_plcpOfdmEqState:ff_plcpSoftSlicedBits
+wire: plcpSoftDeint48			: ff_plcpSoftSlicedBits:ff_plcpSoftDeintBits
+wire: plcpSoftBM24			: ff_plcpSoftDeintBits:ff_plcpSoftBranchMetrics
+wire: plcpVitDecInit			: ff_plcpVitDecState
+wire: plcpVitDecGenConfSL		: ff_plcpVitDecState:ff_plcpVitDecState
+wire: plcpVitDecStateRetainer		: ff_plcpVitDecState:ff_plcpVitDecState:ff_plcpVitDecStateCopy
+wire: plcpVitDecSingleHT		: ff_plcpSoftBranchMetrics:ff_plcpVitDecStateCopy:ff_plcpDecodedBits:ff_plcpVitDecWFCState
+wire: plcpVitDecWFC			: ff_plcpVitDecWFCState
+wire: plcpParser			: ff_plcpDecodedBits:ff_plcpParserState:ff_pktState:ff_dxPlcpParser
+wire: plcpParserStateDrainer		: ff_plcpParserState
+#
+wire: dxCpPlcpParser			: ff_dxPlcpParser:ff_dxPlcpParser0:ff_dxPlcpParser1:ff_dxPlcpParser2:ff_dxPlcpParser3
+#
+wire: dxTrPlcpParser0			: ff_dxPlcpParser0:ff_kk0
+wire: dxTrPlcpParser1			: ff_dxPlcpParser1:ff_kk1
+wire: dxTrPlcpParser2			: ff_dxPlcpParser2:ff_kk2
+wire: dxTrPlcpParser3			: ff_dxPlcpParser3:ff_kk3
+#
+#
+#####################
+# For data demodulate
+#####################
+#
+#
+#---------------------
+#
+#####################
+# For data decode setup 54m
+#####################
+wire: d54mVitDecMap			: ff_pktState:ff_d54mVitDecMap
+wire: d54mTrChState			: ff_chState: ff_d54mChState
+#
+wire: d54mDescrCacheInit		: ff_d54mDescrCache
+#
+wire: d54mPlcpParserStateRetainer	: ff_plcpParserState:ff_plcpParserState:ff_plcpParserState_Copy
+wire: d54mCrc32VarBytesInit		: ff_plcpParserState:ff_d54mCrc32State_0
+wire: d54mCrc32StateTr		: ff_d54mCrc32State_0:ff_d54mCrc32State
+#
+########################
+# For data pre-decode 54m
+########################
+wire: d54mTrDataTones		: ff_dataTones: ff_d54mDataTones_1
+wire: d54mTrPilotTones		: ff_pilotTones: ff_d54mPilotTones_1
+#wire: d54mChStateRetainer		: ff_d54mChState:ff_d54mChState:ff_d54mChStateCopy
+wire: d54mOfdmEq			: ff_d54mDataTones_1:ff_d54mPilotTones_1:ff_d54mChState+:ff_d54mEqSyms:ff_d54myhstar:ff_d54mOfdmEqState
+wire: d54mOfdmEqStateDrainer		: ff_d54mOfdmEqState
+wire: d54myhstarDrainer		: ff_d54myhstar
+wire: d54mSoftSlicer64QAM		: ff_d54mEqSyms:ff_d54mSoftSliced64QAMBits
+wire: d54mSoftDeint288		: ff_d54mSoftSliced64QAMBits:ff_d54mSoftDeint288Bits
+wire: d54mSoftDepuncR3by4F216	: ff_d54mSoftDeint288Bits:ff_d54mSoftDepunc432Bits
+wire: d54mSoftBM216			: ff_d54mSoftDepunc432Bits: ff_d54mSoftBM216_1
+wire: d54mTrSoftBm			: ff_d54mSoftBM216_1: ff_d54mSoftBM216_2
+#####################
+# For data decode 54m
+#####################
+#wire: d54mBMCacheInit		: ff_d54mBmCache
+wire: d54mTrPlcpState		: ff_plcpParserState_Copy:ff_plcpParserState_2
+wire: d54mBmCacheCappedInitFPlcpState: ff_plcpParserState_2:ff_d54mBmCache
+wire: d54mBmCachePut			: ff_d54mSoftBM216_2:ff_d54mBmCache:ff_d54mBmCache
+#
+wire: d54mBmCacheGetHTFrame		: ff_d54mBmCache:ff_d54mBmCache:ff_d54mBmFrame0_2
+#
+wire: d54mBmCacheGetHFrame		: ff_d54mBmCache:ff_d54mBmCache:ff_d54mBmFrame1_2
+#
+wire: d54mBmCacheGetMFrame0		: ff_d54mBmCache:ff_d54mBmCache:ff_d54mBmFrame0_2
+wire: d54mBmCacheGetMFrame1		: ff_d54mBmCache:ff_d54mBmCache:ff_d54mBmFrame1_2
+wire: d54mBmCacheGetMFrame2		: ff_d54mBmCache:ff_d54mBmCache:ff_d54mBmFrame2_2
+wire: d54mBmCacheGetMFrame3		: ff_d54mBmCache:ff_d54mBmCache:ff_d54mBmFrame3_2
+#
+wire: d54mBmCacheGetTFrame		: ff_d54mBmCache:ff_d54mBmCache:ff_d54mBmFrame0_2
+#
+wire: d54mTrBmFrame0			: ff_d54mBmFrame0_2:ff_d54mBmFrame0_3
+wire: d54mTrBmFrame1			: ff_d54mBmFrame1_2:ff_d54mBmFrame1_3
+wire: d54mTrBmFrame2			: ff_d54mBmFrame2_2:ff_d54mBmFrame2_3
+wire: d54mTrBmFrame3			: ff_d54mBmFrame3_2:ff_d54mBmFrame3_3
+#
+#
+wire: d54mVitDecHeadInit		: ff_d54mVitDecHeadState
+#
+wire: d54mVitDecMidInit0		: ff_d54mVitDecMidState0
+wire: d54mVitDecMidInit1		: ff_d54mVitDecMidState1
+wire: d54mVitDecMidInit2		: ff_d54mVitDecMidState2
+wire: d54mVitDecMidInit3		: ff_d54mVitDecMidState3
+#
+#wire: d54mVitDecTailInit		: ff_d54mVitDecTailState
+#
+#
+wire: d54mVitDecHeadGenConfSL	: ff_d54mVitDecHeadState:ff_d54mVitDecHeadState
+#
+wire: d54mVitDecMidGenConfSL0	: ff_d54mVitDecMidState0:ff_d54mVitDecMidState0
+wire: d54mVitDecMidGenConfSL1	: ff_d54mVitDecMidState1:ff_d54mVitDecMidState1
+wire: d54mVitDecMidGenConfSL2	: ff_d54mVitDecMidState2:ff_d54mVitDecMidState2
+wire: d54mVitDecMidGenConfSL3	: ff_d54mVitDecMidState3:ff_d54mVitDecMidState3
+#
+#wire: d54mVitDecTailGenConf		: ff_d54mVitDecMapCopy:ff_d54mVitDecTailStateCopy:ff_d54mVitDecTailStateCopy
+#wire: d54mTrVitDecTailState		: ff_d54mVitDecTailStateCopy:ff_d54mVitDecTailState_3
+#
+#
+#wire: d54mVitDecHSR : ff_d54mVitDecHeadState:ff_d54mVitDecHeadState:ff_d54mVitDecHeadStateCopy
+#wire: d54mVitDecMSR0: ff_d54mVitDecMidState0:ff_d54mVitDecMidState0:ff_d54mVitDecMidStateCopy0
+#wire: d54mVitDecMSR1: ff_d54mVitDecMidState1:ff_d54mVitDecMidState1:ff_d54mVitDecMidStateCopy1
+#wire: d54mVitDecMSR2: ff_d54mVitDecMidState2:ff_d54mVitDecMidState2:ff_d54mVitDecMidStateCopy2
+#wire: d54mVitDecMSR3: ff_d54mVitDecMidState3:ff_d54mVitDecMidState3:ff_d54mVitDecMidStateCopy3
+#wire: d54mVitDecTSR : ff_d54mVitDecTailState:ff_d54mVitDecTailState:ff_d54mVitDecTailStateCopy
+#
+#wire: d54mVitDecHead1	: ff_d54mBmFrame1_3:ff_d54mVitDecHeadStateCopy:ff_d54mDecodedBitsRaw:ff_d54mVitDecWFCState1
+wire: d54mVitDecHead1	: ff_d54mBmFrame1_3:ff_d54mVitDecHeadState+:ff_d54mDecodedBitsRaw:ff_d54mVitDecWFCState1
+#
+#wire: d54mVitDecMid0		: ff_d54mBmFrame0_3:ff_d54mVitDecMidStateCopy0:ff_d54mDecodedBitsRaw:ff_d54mVitDecWFCState0
+#wire: d54mVitDecMid1		: ff_d54mBmFrame1_3:ff_d54mVitDecMidStateCopy1:ff_d54mDecodedBitsRaw:ff_d54mVitDecWFCState1
+#wire: d54mVitDecMid2		: ff_d54mBmFrame2_3:ff_d54mVitDecMidStateCopy2:ff_d54mDecodedBitsRaw:ff_d54mVitDecWFCState2
+#wire: d54mVitDecMid3		: ff_d54mBmFrame3_3:ff_d54mVitDecMidStateCopy3:ff_d54mDecodedBitsRaw:ff_d54mVitDecWFCState3
+#
+wire: d54mVitDecMid0		: ff_d54mBmFrame0_3:ff_d54mVitDecMidState0+:ff_d54mDecodedBitsRaw:ff_d54mVitDecWFCState0
+wire: d54mVitDecMid1		: ff_d54mBmFrame1_3:ff_d54mVitDecMidState1+:ff_d54mDecodedBitsRaw:ff_d54mVitDecWFCState1
+wire: d54mVitDecMid2		: ff_d54mBmFrame2_3:ff_d54mVitDecMidState2+:ff_d54mDecodedBitsRaw:ff_d54mVitDecWFCState2
+wire: d54mVitDecMid3		: ff_d54mBmFrame3_3:ff_d54mVitDecMidState3+:ff_d54mDecodedBitsRaw:ff_d54mVitDecWFCState3
+#
+#wire: d54mVitDecTail0	: ff_d54mBmFrame0_3:ff_d54mVitDecTailState_3:ff_d54mDecodedBitsRaw:ff_d54mVitDecWFCState0
+#
+#
+#
+wire: d54mVitDecWFC0		: ff_d54mVitDecWFCState0
+wire: d54mVitDecWFC1		: ff_d54mVitDecWFCState1
+wire: d54mVitDecWFC2		: ff_d54mVitDecWFCState2
+wire: d54mVitDecWFC3		: ff_d54mVitDecWFCState3
+#
+wire: d54mHdCacheInit		: ff_d54mHdCache
+wire: d54mHdCachePutHead		: ff_d54mDecodedBitsRaw:ff_d54mHdCache:ff_d54mHdCache
+wire: d54mHdCachePutMid		: ff_d54mDecodedBitsRaw:ff_d54mHdCache:ff_d54mHdCache
+#wire: d54mHdCachePutTail		: ff_d54mDecodedBitsRaw:ff_d54mHdCache:ff_d54mHdCache
+#
+#wire: serviceFieldGet			: ff_d54mHdCache:ff_d54mHdCache:ff_serviceField
+wire: d54mHdCacheGet54		: ff_d54mHdCache:ff_d54mHdCache:ff_d54mHdFrames
+wire: d54mHdCacheCopy		: ff_d54mHdFrames:ff_d54mHdFrames:ff_d54mHdFrames
+#wire: descramblerInit			: ff_serviceField:ff_descramblerState
+wire: descramblerInit			: ff_d54mHdFrames:ff_descramblerState
+wire: descramblerStateDrainer		: ff_descramblerState
+#wire: d54mHdCacheGet38		: ff_d54mHdCache:ff_d54mHdCache:ff_d54mHdFrames
+#wire: d54mDescrambler38		: ff_d54mHdFrames:ff_descramblerState:ff_d54mDescrambled:ff_descramblerState
+wire: d54mDescrambler54		: ff_d54mHdFrames:ff_descramblerState:ff_d54mDescrambled:ff_descramblerState
+#
+#wire: d54mDebugPrintBitBucket	: ff_d54mDecodedBitsRaw
+#wire: d54mDebugPrintBitBucket	: ff_d54mHdFrames
+#wire: d54mDebugPrintBitBucket	: ff_d54mDescrambled
+wire: d54mDescrCachePut		: ff_d54mDescrambled:ff_d54mDescrCache:ff_d54mDescrCache
+wire: d54mDescrCacheGetServiceField2B: ff_d54mDescrCache:ff_d54mDescrCache:ff_d54mServiceField
+wire: d54mDrainServiceField2B	: ff_d54mServiceField
+wire: d54mDescrCacheGet27B		: ff_d54mDescrCache:ff_d54mDescrCache:ff_d54mPayloadFrame
+wire: d54mDescrCacheGet25B		: ff_d54mDescrCache:ff_d54mDescrCache:ff_d54mPayloadFrame
+wire: d54mCrc32Mid27B		: ff_d54mPayloadFrame:ff_d54mCrc32State:ff_d54mCrc32State
+wire: d54mCrc32Tail25B		: ff_d54mPayloadFrame:ff_d54mCrc32State:ff_d54mCrc32State
+wire: d54mCrc32Var			: ff_d54mPayloadFrame:ff_d54mCrc32State:ff_d54mCrc32State
+wire: d54mDescrCacheDrainer		: ff_d54mDescrCache
+#wire: d54mCrc32StateDrainer		: ff_d54mCrc32State
+wire: d54mCrc32Decision		: ff_d54mCrc32State
+#
+#wire: d54mVitDecMapRetainer	: ff_d54mVitDecMap:ff_d54mVitDecMap:ff_d54mVitDecMapCopy
+wire: d54mDecodeDecisionInit	: ff_d54mDecodeState
+#
+#wire: d54mDecodeDecision	: ff_d54mVitDecMapCopy:ff_d54mDecodeState:ff_d54mDecodeState:ff_dxDataDecode
+wire: d54mDecodeDecision	: ff_d54mVitDecMap+:ff_d54mDecodeState:ff_d54mDecodeState:ff_dxDataDecode
+#
+wire: dxCpDataDecode			: ff_dxDataDecode:ff_dxDataDecode0:ff_dxDataDecode1:ff_dxDataDecode2:ff_dxDataDecode3
+#
+wire: dxTrDataDecode0			: ff_dxDataDecode0:ff_kk0
+wire: dxTrDataDecode1			: ff_dxDataDecode1:ff_kk1
+wire: dxTrDataDecode2			: ff_dxDataDecode2:ff_kk2
+wire: dxTrDataDecode3			: ff_dxDataDecode3:ff_kk3
+#---------------------
+#
+wire: pktStateDrainer			: ff_pktState
+#
+#---------------------
+wire: jumpToFinish		: ff_dxDataDecodeFinish
+#
+wire: dxCpDataDecodeFinish			: ff_dxDataDecodeFinish:ff_dxDataDecodeFinish0:ff_dxDataDecodeFinish1:ff_dxDataDecodeFinish2:ff_dxDataDecodeFinish3
+#
+wire: dxTrDataDecodeFinish0			: ff_dxDataDecodeFinish0:ff_kk0
+wire: dxTrDataDecodeFinish1			: ff_dxDataDecodeFinish1:ff_kk1
+wire: dxTrDataDecodeFinish2			: ff_dxDataDecodeFinish2:ff_kk2
+wire: dxTrDataDecodeFinish3			: ff_dxDataDecodeFinish3:ff_kk3
+#
+wire: jumpToPktInit				: ff_dxRxFinish
+#
+wire: dxCpRxFinish			: ff_dxRxFinish:ff_dxRxFinish0:ff_dxRxFinish1:ff_dxRxFinish2:ff_dxRxFinish3
+#
+wire: dxTrRxFinish0			: ff_dxRxFinish0:ff_kk0
+wire: dxTrRxFinish1			: ff_dxRxFinish1:ff_kk1
+wire: dxTrRxFinish2			: ff_dxRxFinish2:ff_kk2
+wire: dxTrRxFinish3			: ff_dxRxFinish3:ff_kk3
+#
+wire: d54mCore3DecodeDoneSignal	: ff_decodeDoneSynchronization3
+wire: d54mCore3DecodeDoneWait	: ff_decodeDoneSynchronization0
+wire: d54mCore3DecodeDoneTr		: ff_decodeDoneSynchronization3:ff_decodeDoneSynchronization0
+#---------------------
+#
+#
+#-----------------------
+wire: alignStateDrainer		: ff_alignState
+wire: energyStateDrainer	: ff_energyState
+wire: corrStateDrainer		: ff_corrState
+wire: ofdmDemodStateDrainer	: ff_ofdmDemodState
+wire: cfoStateDrainer		: ff_cfoState 
+wire: chStateDrainer		: ff_chState
+wire: plcpEqSymsDrainer		: ff_eqSyms
+#
+#-----------------------
+wire: d54mVitDecMapDrainer	: ff_d54mVitDecMap
+wire: d54mDecodeDecStDrainer	: ff_d54mDecodeState
+wire: d54mBmCacheDrainer	: ff_d54mBmCache
+wire: d54mHdCacheDrainer	: ff_d54mHdCache
+wire: d54mChStateDrainer	: ff_d54mChState
+#-----------------------
+#
+############################################################################################
+conf:jumpInit			: staRxPktInit
+conf:jumpPktInit		: staRxPktDetect
+#conf:jumpPktDetect		: staRxPktDetect
+#conf:pktDetectDecision		: staRxPktInit,staRxPktDetect
+conf:pktDetectDecision		: staRxLTFProc,staRxPktDetect
+conf:jumpLTFProc		: staRxPLCPDecode
+#
+#conf:tr_pkt_init_0		: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(Decision_t))
+#conf:tr_pkt_init_1		: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(Decision_t))
+#conf:tr_pkt_init_2		: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(Decision_t))
+#conf:tr_pkt_init_3		: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(Decision_t))
+#conf:cp_1_1			: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(Decision_t))
+#
+####conf:traceReader80		: trace_54mbps_skip_400000_ns_10000,10000
+#conf:traceReader80		: trace_54mbps_skip_400000_ns_50000,50000
+#conf:traceReader80		: trace_skip_0_ns_6080,6000
+#conf:traceReader80		: trace_skip_0_ns_1340,1340,1
+conf:traceReader80		: INPUT_TRACE_ARRAY_NAME,INPUT_TRACE_N_SAMPLES,INPUT_TRACE_N_WRAPAROUNDS
+#conf:fileTraceReader80 	: INPUT_TRACE_FILE
+#
+conf:bufJoin1			: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(ORILIB_t_Cplx16Buf80))
+conf:bufCopyTwoWays		: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(ORILIB_t_Cplx16Buf80))
+conf:bufJoin2			: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(ORILIB_t_Cplx16Buf80))
+#conf:agcStateRetainer		: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(ORILIB_t_PktAgcState))
+#conf:cfoStateRetainer		: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(ORILIB_t_CFOState))
+#conf:chStateRetainer		: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(ORILIB_t_ChEstimatorLTF_Float_State))
+#conf:chStateRetainer		: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(ORILIB_t_ChEstimatorLTF_State))
+conf:plcpVitDecInit		: kVCPI_0, VITDEC_HEADTAIL, VITDEC_CL_36
+conf:plcpVitDecGenConfSL	: VITDEC_HEADTAIL, 18
+conf: plcpVitDecStateRetainer: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(ORILIB_t_ViterbiDecoderState))
+#conf: plcpParser		: staRxFinish, staRxDataDecode6m_setup, staRxDataDecode54m_setup
+#conf: plcpParser		: staRxFinish, staRxFinish, staRxDataDecode54m_setup
+conf: plcpParser		: staRxContinue, staRxContinue, staRxDataDecode54m_setup
+############################
+# conf for 54m data decoding
+############################
+conf: d54mVitDecMap		: 54, 36
+#conf: d54mTrVitDecTailState	: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(ORILIB_t_ViterbiDecoderState))
+#conf: d54mVitDecMapRetainer	: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(Vitdec_ViterbiDecodingMap))
+#
+#conf: d54mVitDecHSR: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(ORILIB_t_ViterbiDecoderState))
+#conf: d54mVitDecMSR0: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(ORILIB_t_ViterbiDecoderState))
+#conf: d54mVitDecMSR1: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(ORILIB_t_ViterbiDecoderState))
+#conf: d54mVitDecMSR2: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(ORILIB_t_ViterbiDecoderState))
+#conf: d54mVitDecMSR3: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(ORILIB_t_ViterbiDecoderState))
+#conf: d54mVitDecTSR: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(ORILIB_t_ViterbiDecoderState))
+# The following needs to be tested again after changes to VitDecMap block. --MB  12/20/2013
+# The following needs to be tested again after changes to Capped bytecache block. --MB  12/25/2013
+conf: d54mBmCacheGetHTFrame	: MAXUINT32, MAXUINT32, 0, 0
+#
+conf: d54mBmCacheGetHFrame	: ((54 + 36) * 2),((54-36) * 2),0,0x3F003F00
+#
+conf: d54mBmCacheGetMFrame0	: ((36 + 54 + 36) * 2),((36 + 54 - 36) * 2),0,0x3F003F00
+conf: d54mBmCacheGetMFrame1	: ((36 + 54 + 36) * 2),((36 + 54 - 36) * 2),0,0x3F003F00
+conf: d54mBmCacheGetMFrame2	: ((36 + 54 + 36) * 2),((36 + 54 - 36) * 2),0,0x3F003F00
+conf: d54mBmCacheGetMFrame3	: ((36 + 54 + 36) * 2),((36 + 54 - 36) * 2),0,0x3F003F00
+#
+#old#tail frame can have at most 18 + 216 + 18 - 1 symbols to decode (otherwise we would
+#old#have issued one more mid convergent). However, for the tail frame, the actual number
+#old#of symbols is variable. So the get frame block provides a special mode to retrieve
+#old#and consume *all* that it has in the cache, whatever that number is.
+#old#conf: d54mBmCacheGetTFrame	: MAXUINT32, MAXUINT32
+#The #old# version of d54mBmCacheGetTFrame is now outdated. In the new version, pad bits 
+#are also included in decoding so that the tail frame always has frameLength (f) number
+#of bits to decode. Also, since tail is also decoded as a mid-convergent decode in the 
+#new version, it will operate on c + f + c symbols. However, the one thing that's different
+#for tail is that the BM cache will only be able to give it c + f branch metrics, not c + f + c.
+#The last c metrics are zero-extension that are added to the bm buffer by the new padding feature
+#of ByteCacheGetFrame block. Also, the tail get call declares all branch metrics as consumed since 
+#no more decodes need to happen for the frame. 0x40004000 corresponds to branch metrics for two
+#symbols that decode to 0. 0x3F = 63, 0x40 = 64.
+#conf: d54mBmCacheGetTFrame	: ((36 + 54) * 2),((36 + 54) * 2),((36 * 2) / 4),0x3F003F00
+#
+#Yet another update, this time to the Capped byte cache version.
+conf: d54mBmCacheGetTFrame	: ((36 + 54) * 2),((36 + 54 - 36) * 2),0,0x3F003F00
+#
+#
+conf: d54mVitDecHeadInit	: kVCPI_1, VITDEC_HEADCONVGT, VITDEC_CL_36
+conf: d54mVitDecHeadGenConfSL	: VITDEC_HEADCONVGT, 54
+conf: d54mVitDecMidInit0 	: kVCPI_0, VITDEC_MIDCONVGT, VITDEC_CL_36
+conf: d54mVitDecMidInit1 	: kVCPI_1, VITDEC_MIDCONVGT, VITDEC_CL_36
+conf: d54mVitDecMidInit2 	: kVCPI_2, VITDEC_MIDCONVGT, VITDEC_CL_36
+conf: d54mVitDecMidInit3 	: kVCPI_3, VITDEC_MIDCONVGT, VITDEC_CL_36
+conf: d54mVitDecMidGenConfSL0	: VITDEC_MIDCONVGT, 54
+conf: d54mVitDecMidGenConfSL1	: VITDEC_MIDCONVGT, 54
+conf: d54mVitDecMidGenConfSL2	: VITDEC_MIDCONVGT, 54
+conf: d54mVitDecMidGenConfSL3	: VITDEC_MIDCONVGT, 54
+#conf: d54mVitDecTailInit 	: kVCPI_0, VITDEC_TAILCONVGT, VITDEC_CL_36
+#conf: d54mVitDecTailGenConf	: VITDEC_TAILCONVGT
+#
+conf: d54mDecodeDecision	: staRxDataDecode54m_c, staRxDataDecode54m_HT, staRxDataDecode54m_H, staRxDataDecode54m_Mp, staRxDataDecode54m_M, staRxDataDecode54m_T, staRxDataDecode54m_TfH, staRxDataDecode54m_f, staRxDataDecode54m_TfH_f
+#
+conf: d54mHdCachePutHead	: 512, 54, 0
+conf: d54mHdCachePutMid		: 512, 54, 36
+#conf: d54mHdCachePutTail	: 512, 54, 36
+#
+#conf: serviceFieldGet		: 64, 16
+#conf: d54mHdCacheGet38		: 64, 38
+conf: d54mHdCacheGet54		: 64, 54
+#conf: d54mDescrambler38	: (54 - 16)
+conf: d54mDescrambler54		: 54
+
+#
+#
+#conf: d54mDebugPrintBitBucket: 16
+#conf: d54mDebugPrintBitBucket: 4
+#conf: d54mDebugPrintBitBucket: 2
+#
+conf: d54mTrPlcpState	: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(ORILIB_t_PLCPParserState))
+#
+conf: d54mHdCacheCopy	: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(ORILIB_t_BitBucket64))
+#
+conf: d54mPlcpParserStateRetainer		: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(ORILIB_t_PLCPParserState))
+#
+conf: d54mDescrCachePut			: 64, 54, 0
+conf: d54mDescrCacheGetServiceField2B	: 256, 16
+conf: d54mDescrCacheGet27B			: 256, 216
+conf: d54mDescrCacheGet25B			: 256, 200
+conf: d54mCrc32VarBytesInit			: 27
+conf: d54mCrc32StateTr			: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(ORILIB_t_PLCPParserState))
+conf: d54mCrc32Mid27B			: 27
+conf: d54mCrc32Tail25B			: 25
+#
+########################
+conf: jumpToFinish		: staRxFinish
+conf: jumpToPktInit		: staRxPktInit
+#
+#
+#conf: d54mTrChState 		: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(ORILIB_t_ChEstimatorLTF_Float_State))
+conf: d54mTrChState 		: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(ORILIB_t_ChEstimatorLTF_State))
+conf: d54mTrDataTones 	: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(ORILIB_t_Cplx16Buf48))
+conf: d54mTrPilotTones 	: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(ORILIB_t_Cplx16Buf4))
+#conf: d54mChStateRetainer 	: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(ORILIB_t_ChEstimatorLTF_Float_State))
+#conf: d54mChStateRetainer 	: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(ORILIB_t_ChEstimatorLTF_State))
+conf: d54mTrSoftBm 		: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(ORILIB_t_SoftBitBuf432))
+conf: d54mTrBmFrame0 	: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(((36 + 54 + 36 ) * 2))
+conf: d54mTrBmFrame1 	: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(((36 + 54 + 36 ) * 2))
+conf: d54mTrBmFrame2 	: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(((36 + 54 + 36 ) * 2))
+conf: d54mTrBmFrame3 	: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(((36 + 54 + 36 ) * 2))
+#
+conf: dxCpInit		: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(Decision_t))
+conf: dxTrInit0		: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(Decision_t))
+conf: dxTrInit1		: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(Decision_t))
+conf: dxTrInit2		: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(Decision_t))
+conf: dxTrInit3		: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(Decision_t))
+#
+conf: dxCpPktInit		: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(Decision_t))
+conf: dxTrPktInit0		: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(Decision_t))
+conf: dxTrPktInit1		: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(Decision_t))
+conf: dxTrPktInit2		: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(Decision_t))
+conf: dxTrPktInit3		: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(Decision_t))
+#
+conf: dxCpPktDetect		: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(Decision_t))
+conf: dxTrPktDetect0		: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(Decision_t))
+conf: dxTrPktDetect1		: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(Decision_t))
+conf: dxTrPktDetect2		: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(Decision_t))
+conf: dxTrPktDetect3		: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(Decision_t))
+#
+conf: dxCpLTFProc		: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(Decision_t))
+conf: dxTrLTFProc0		: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(Decision_t))
+conf: dxTrLTFProc1		: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(Decision_t))
+conf: dxTrLTFProc2		: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(Decision_t))
+conf: dxTrLTFProc3		: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(Decision_t))
+#
+conf: dxCpPlcpParser		: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(Decision_t))
+conf: dxTrPlcpParser0		: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(Decision_t))
+conf: dxTrPlcpParser1		: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(Decision_t))
+conf: dxTrPlcpParser2		: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(Decision_t))
+conf: dxTrPlcpParser3		: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(Decision_t))
+#
+conf: dxCpDataDecode		: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(Decision_t))
+conf: dxTrDataDecode0		: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(Decision_t))
+conf: dxTrDataDecode1		: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(Decision_t))
+conf: dxTrDataDecode2		: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(Decision_t))
+conf: dxTrDataDecode3		: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(Decision_t))
+#
+conf: dxCpDataDecodeFinish		: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(Decision_t))
+conf: dxTrDataDecodeFinish0		: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(Decision_t))
+conf: dxTrDataDecodeFinish1		: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(Decision_t))
+conf: dxTrDataDecodeFinish2		: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(Decision_t))
+conf: dxTrDataDecodeFinish3		: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(Decision_t))
+#
+conf: dxCpRxFinish		: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(Decision_t))
+conf: dxTrRxFinish0		: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(Decision_t))
+conf: dxTrRxFinish1		: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(Decision_t))
+conf: dxTrRxFinish2		: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(Decision_t))
+conf: dxTrRxFinish3		: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(Decision_t))
+#
+conf: d54mCore3DecodeDoneTr	: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(Uint64))
+#

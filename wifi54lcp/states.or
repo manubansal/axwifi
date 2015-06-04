@@ -1,0 +1,1455 @@
+
+# Atomix project, states.or, TODO: insert summary here
+# Copyright (c) 2015 Stanford University
+# Released under the Apache License v2.0. See the LICENSE file for details.
+# Author(s): Manu Bansal
+
+#<command==state>:<stateName>:<stateNum>:<coreNum>:<action|noaxn>:<atomseq>
+#DEPRECATED <command==decway>....
+#where atomseq = (atomname;)+ (note that a semicolon must follow each
+#atom in the sequence, even the last one.)
+#
+#-----------------------------------------------------------------------
+# states
+#-----------------------------------------------------------------------
+state : staRxInit
+state : staRxPktInit
+#
+state : staRxPktDetect
+#
+state : staRxLTFProc
+#
+state : staRxPLCPDecode
+state : staRxPLCPDecodeSpec
+#
+state : staRxDataDecode54m_setup
+state : staRxDataDecode54m_setup_onesymrx
+state : staRxDataDecode54m_c
+state : staRxDataDecode54m_HT
+state : staRxDataDecode54m_H
+state : staRxDataDecode54m_H_onesymrx
+state : staRxDataDecode54m_Mp
+state : staRxDataDecode54m_M
+state : staRxDataDecode54m_T
+state : staRxDataDecode54m_f
+state : staRxDataDecode54m_TfH
+state : staRxDataDecode54m_TfH_onesymrx
+state : staRxDataDecode54m_TfH_f
+state : staRxDataDecode54m_TfH_f_onesymrx
+state : staRxDataFinish
+#
+state : staTxAckInit
+state : staTxAckPreambleSignal
+state : staTxAck
+state : staTxAckFinal
+#
+state : staRxContinue
+#
+state : staRxFinish
+#
+#-----------------------------------------------------------------------
+# actions
+#-----------------------------------------------------------------------
+
+#==================================================================================
+# To initialize once for the rx chain
+#==================================================================================
+
+action: axnRxInit0			: { 	
+						#atx_ethWriterInit;
+						atx_symbolMemWriterInit;
+						sampleReaderInit; 
+						}
+
+action: axnRxInit1			: { 	
+						plcpVitDecInit; 
+						plcpVitDecGenConfSL; 
+
+						d54mVitDecHeadInit_1; 
+						d54mVitDecHeadGenConfSL_1; 
+						d54mVitDecMidInit0_1; 
+						#d54mVitDecMidInit1_1; 
+						d54mVitDecMidInit2_1; 
+						d54mVitDecMidInit3_1; 
+						d54mVitDecMidGenConfSL0_1; 
+						#d54mVitDecMidGenConfSL1_1; 
+						d54mVitDecMidGenConfSL2_1; 
+						d54mVitDecMidGenConfSL3_1; 
+						}
+
+action: axnRxInit2			: {
+						d54mVitDecHeadInit_2; 
+						d54mVitDecHeadGenConfSL_2; 
+						d54mVitDecMidInit2_2; 
+						d54mVitDecMidInit3_2; 
+						d54mVitDecMidInit0_2; 
+						d54mVitDecMidInit1_2; 
+						d54mVitDecMidGenConfSL_2; 
+						d54mVitDecMidGenConfSL_2; 
+						d54mVitDecMidGenConfSL_2; 
+						d54mVitDecMidGenConfSL_2; 
+						d54mVitDecTrueWFC1_2;
+						d54mVitDecTrueWFC2_2;
+						d54mVitDecTrueWFC3_2;
+						d54mVitDecTrueWFC0_2;
+						}
+
+action: axnRxInit3			: {	
+						}
+
+#==================================================================================
+# To initialize once per pkt for the rx chain
+#==================================================================================
+#
+action: axnRxPktInit0  			: {	
+						gpio1Off;
+						simpleEnergyTrackerInit;
+						autoGainCtrlrInit;
+						preambleDetectorInit;
+						bufAlignInit;
+						ofdmDemodPktInit;
+						dallDecodeDecisionInit0;
+						sampleReaderReInit;
+						}
+action: axnRxPktInit1  			: {
+						dallDecodeDecisionInit1;
+
+						#TODO: this needs to be put back in; I commented them out
+						#because these initializations are part of the common init
+						#state, but drainers for those init buffers are in onesymrx
+						#path only. In the case when we process longer pkts, this 
+						#creates fifo input-output rate mismatch, ultimately leading
+						#to deadlock.
+						#dallPayloadCacheInit_1;
+						}
+action: axnRxPktInit2  			: 
+action: axnRxPktInit3  			: {
+						dallPayloadCacheInit_3;
+						}
+#
+
+#
+#==================================================================================
+# To detect packet on the air
+#==================================================================================
+#
+action: axnRxPktDetect0			: {	
+						gpio1Off;
+						#sampleReader;
+						sampleReader80;
+						simpleEnergyTracker;
+						cnrTracker;
+						autoGainCtrlr;
+						windowCorrelator;
+						schmidlCoxMetricComputer;
+						peakDetector;
+						}
+
+#==================================================================================
+# To process the preamble
+#==================================================================================
+#
+action: axnRxLTFProc0   		: {	
+						gpio0On;
+						sampleReader;
+						gpio2Toggle;
+						bufAlignOffset0;
+						sampleReader;
+						gpio2Toggle;
+						bufAlignOffset80;
+						cfoEstLTF; 
+						cfoCorrectorG_LTF; 
+						cfoCorrectorGM_LTF; 
+						chIRLTF;
+						trCfoCorrectedLTF;
+						}
+
+action: axnRxLTFProc1   		: {	
+						chEstLTF;
+						}
+
+#==================================================================================
+# To process the PLCP (PHY header)
+#==================================================================================
+#
+action: axnRxPLCPDecode0 		: { 	
+						sampleReader;
+						gpio2Toggle;
+						bufAlign; 
+						cfoCorrectorG; 
+						ofdmDemod; 
+						plcpTrDataTones; 
+						plcpTrPilotTones;
+						}
+
+action: axnRxPLCPDecode1 		: {
+						plcpOfdmEq; 
+						plcpEVMEstimator;
+						plcpEqSymsDrainer; 
+						plcpSoftSlicerBPSK; 
+						plcpSoftDeint48; 
+						plcpSoftBM24; 
+						plcpVitDecStateRetainer; 
+						plcpVitDecSingleHT; 
+						plcpVitDecWFC; 
+						plcpVitDecTouchInOut;
+						plcpParser;  
+						plcpParserStateRetainer;
+						}
+
+
+#==================================================================================
+# To process the PLCP (PHY header) and first data symbol's ofdm demod
+#==================================================================================
+# To process data part of any packet, we can start early with ofdm demod of
+# the first ofdm symbol since it is common to all data rates. We can do this
+# speculatively while the plcp is being decoded to inform the data rate.
+
+action: axnRxPLCPDecodeSpec0: {
+						sampleReader;
+						gpio2Toggle;
+						bufAlign; 
+						cfoCorrectorG; 
+						ofdmDemod; 
+						plcpTrDataTones; 
+						plcpTrPilotTones;
+
+						sampleReader;
+						gpio2Toggle;
+						bufAlign; 
+						cfoCorrectorG; 
+						ofdmDemod;
+						dallTrDataTones; 
+						dallTrPilotTones;
+						}
+
+action: axnRxPLCPDecodeSpec1 		: {
+						plcpOfdmEq; 
+						plcpEVMEstimator;
+						plcpEqSymsDrainer; 
+						plcpSoftSlicerBPSK; 
+						plcpSoftDeint48; 
+						plcpSoftBM24; 
+						plcpVitDecStateRetainer; 
+						plcpVitDecSingleHT; 
+						plcpVitDecWFC; 
+						plcpVitDecTouchInOut;
+						plcpParser;  
+						dxCpPlcpParser; 
+						plcpParserStateRetainer;
+						}
+#
+#==================================================================================
+# To process data part of a 54Mbps packet
+#==================================================================================
+
+action: axnRxDataDecode54m_setup_0	: {
+						d54mVitDecMapTr0;
+						}
+
+action: axnRxDataDecode54m_setup_0_onesymrx: {
+						d54mVitDecMapTr0;
+						}
+
+action: axnRxDataDecode54m_setup_1 	: {	
+						d54mVitDecMap; 
+						d54mVitDecMapCp1;
+						d54mCrc32VarBytesInit;
+						d54mCrc32StateTr13;
+						}
+
+action: axnRxDataDecode54m_setup_1_onesymrx: {	
+						d54mVitDecMap_FL54; 
+						d54mVitDecMapCp1;
+						d54mCrc32VarBytesInit;
+						d54mBmCacheCappedInitFPlcpState_1; 
+						d54mHdCacheInit_1;
+						d54mDescrCacheInit_1;
+						}
+
+action: axnRxDataDecode54m_setup_2 	: {
+						d54mTrPlcpState_2;
+						d54mBmCacheCappedInitFPlcpState_2; 
+						}
+
+action: axnRxDataDecode54m_setup_2_onesymrx: {
+						}
+
+action: axnRxDataDecode54m_setup_3 	: {	
+						d54mHdCacheInit_3;
+						d54mDescrCacheInit_3;
+						}
+
+action: axnRxDataDecode54m_setup_3_onesymrx: {	
+						}
+
+#
+action: axnRxDataDecode54m_HT_0		: 
+#
+action: axnRxDataDecode54m_c_0		: {	
+						sampleReader;
+						gpio2Toggle;
+						bufAlign; 
+						cfoCorrectorG; 
+						ofdmDemod;
+						dallTrDataTones; 
+						dallTrPilotTones;
+						}
+#
+action: axnRxDataDecode54m_c_1		: {	
+						dallOfdmEq; 
+						d54myhstarDrainer; 
+						dallOfdmEqStateDrainer; 
+						d54mSoftSlicer64QAM; 
+						d54mSoftDeint288; 
+						d54mSoftDepuncR3by4F216; 
+						d54mSoftBM216; 
+						d54mTrSoftBm;
+						}
+
+action: axnRxDataDecode54m_c_2		: 	d54mBmCachePut_2;
+
+action: axnRxDataDecode54m_c_3		: 
+
+########
+action: axnRxDataDecode54m_H_0		: {	
+						sampleReader;
+						gpio2Toggle;
+						#bufAlign; 
+						#cfoCorrectorG; 
+						#ofdmDemod;
+						#dallTrDataTones; 
+						#dallTrPilotTones;
+						}
+
+action: axnRxDataDecode54m_H_0_onexymrx		: {	
+						}
+
+action: axnRxDataDecode54m_H_1		: {	
+						dallOfdmEq; 
+						d54myhstarDrainer; 
+						dallOfdmEqStateDrainer; 
+						d54mSoftSlicer64QAM; 
+						d54mSoftDeint288; 
+						d54mSoftDepuncR3by4F216; 
+						d54mSoftBM216; 
+						d54mTrSoftBm;
+						}
+
+
+action: axnRxDataDecode54m_H_1_onesymrx	: {	
+						dallOfdmEq; 
+						d54myhstarDrainer; 
+						dallOfdmEqStateDrainer; 
+						d54mSoftSlicer64QAM; 
+						d54mSoftDeint288; 
+						d54mSoftDepuncR3by4F216; 
+						d54mSoftBM216; 
+
+						d54mBmCachePut_1; 
+						d54mBmCacheGetHFrame_1; 
+						d54mBmCacheGetMFrame2_1; 
+						d54mBmCacheGetMFrame3_1; 
+						d54mVitDecHead1_1; 
+						d54mVitDecMid2_1; 
+						d54mVitDecMid3_1;
+						}
+
+
+action: axnRxDataDecode54m_H_2		: {	d54mBmCachePut_2; 
+
+						d54mBmCacheGetHFrame_2; 
+						#d54mTrBmFrame_23; 
+
+						d54mVitDecWFCBeforeIssue_2; 
+						d54mVitDecHead_2; 
+						}
+
+action: axnRxDataDecode54m_H_2_onesymrx	: {	
+						}
+
+
+action: axnRxDataDecode54m_H_3		: {	
+
+						}
+action: axnRxDataDecode54m_H_3_onesymrx	: {	
+						}
+
+
+
+#########
+action: axnRxDataDecode54m_Mp_0		: {	
+						sampleReader;
+						gpio2Toggle;
+						bufAlign; 
+						cfoCorrectorG; 
+						ofdmDemod;
+						dallTrDataTones; 
+						dallTrPilotTones;
+
+						#-----------------------------
+
+						sampleReader;
+						gpio2Toggle;
+						bufAlign; 
+						cfoCorrectorG; 
+						ofdmDemod;
+						dallTrDataTones; 
+						dallTrPilotTones;
+						}
+
+action: axnRxDataDecode54m_Mp_1		: {	
+						dallOfdmEq; 
+						d54myhstarDrainer; 
+						dallOfdmEqStateDrainer; 
+						d54mSoftSlicer64QAM; 
+						d54mSoftDeint288; 
+						d54mSoftDepuncR3by4F216; 
+						d54mSoftBM216; 
+						d54mTrSoftBm;
+
+						#-----------------------------
+
+						dallOfdmEq; 
+						d54myhstarDrainer; 
+						dallOfdmEqStateDrainer; 
+						d54mSoftSlicer64QAM; 
+						d54mSoftDeint288; 
+						d54mSoftDepuncR3by4F216; 
+						d54mSoftBM216; 
+						d54mTrSoftBm;
+						}
+
+action: axnRxDataDecode54m_Mp_2		: {	
+						d54mBmCachePut_2; 
+
+						d54mBmCacheGetMFrame_2; 
+						d54mBmCacheGetMFrame_2; 
+						#d54mTrBmFrame_23; 
+						#d54mTrBmFrame_23; 
+
+						#-----------------------------
+
+						d54mVitDecWFCBeforeIssue_2; 
+						d54mVitDecMid_2; 
+
+						d54mVitDecWFCBeforeIssue_2; 
+						d54mVitDecMid_2; 
+
+						#-----------------------------
+
+						d54mBmCachePut_2; 
+
+						d54mBmCacheGetMFrame_2; 
+						d54mBmCacheGetMFrame_2; 
+						#d54mTrBmFrame_23; 
+						#d54mTrBmFrame_23; 
+
+						#-----------------------------
+
+						d54mVitDecWFCBeforeIssue_2; 
+						d54mVitDecMid_2; 
+
+						d54mVitDecWFCBeforeFinish_2; 
+						d54mVitDecTouchInOut_2;
+
+
+						d54mVitDecWFCBeforeIssue_2; 
+						d54mVitDecMid_2; 
+
+						d54mTrHdBuf_23; 
+						}
+
+action: axnRxDataDecode54m_Mp_3		: {	
+
+
+						d54mHdCachePutHead_3; 
+
+						d54mHdCacheGet54_3; 
+						d54mHdFrameCopy_3; 
+						descramblerInit_3;
+
+						d54mDescrambler54_3;
+						d54mDescrCachePut_3;
+
+
+						d54mHdCacheGet54_3; 
+						d54mDescrambler54_3;
+						d54mDescrCachePut_3;
+
+						#the following is to throw away the service field
+						dallDescrCacheGetServiceField2B_3;
+						dallDrainServiceField2B_3;
+						}
+
+#########
+action: axnRxDataDecode54m_M_0		: {	
+						sampleReader; 
+						gpio2Toggle;
+						bufAlign; 
+						cfoCorrectorG; 
+						ofdmDemod;
+						dallTrDataTones; 
+						dallTrPilotTones;
+						}
+
+action: axnRxDataDecode54m_M_1		: {	
+						dallOfdmEq; 
+						d54myhstarDrainer; 
+						dallOfdmEqStateDrainer; 
+						d54mSoftSlicer64QAM; 
+						d54mSoftDeint288; 
+						d54mSoftDepuncR3by4F216; 
+						d54mSoftBM216; 
+						d54mTrSoftBm;
+						}
+
+action: axnRxDataDecode54m_M_2		: {	d54mBmCachePut_2; 
+
+						d54mBmCacheGetMFrame_2; 
+						d54mBmCacheGetMFrame_2;  
+						#d54mTrBmFrame_23; 
+						#d54mTrBmFrame_23; 
+
+						d54mVitDecWFCBeforeFinish_2; 
+						d54mVitDecTouchInOut_2;
+
+						d54mVitDecWFCBeforeFinish_2; 
+						d54mVitDecTouchInOut_2;
+
+						d54mVitDecWFCBeforeIssue_2; 
+						d54mVitDecMid_2; 
+
+						d54mVitDecWFCBeforeIssue_2; 
+						d54mVitDecMid_2; 
+
+						d54mTrHdBuf_23; 
+						d54mTrHdBuf_23; 
+						}
+
+action: axnRxDataDecode54m_M_3		: {	
+
+						d54mHdCachePutMid_3; 
+						d54mHdCachePutMid_3; 
+
+						d54mHdCacheGet54_3; 
+						d54mDescrambler54_3;
+						d54mDescrCachePut_3;
+
+						d54mHdCacheGet54_3; 
+						d54mDescrambler54_3;
+						d54mDescrCachePut_3;
+
+						d54mHdCacheGet54_3; 
+						d54mDescrambler54_3;
+						d54mDescrCachePut_3;
+
+						d54mHdCacheGet54_3; 
+						d54mDescrambler54_3;
+						d54mDescrCachePut_3;
+
+						d54mDescrCacheGet27B_3;
+						d54mCrc32Mid27B_3;
+						#d54mPayloadCachePut27B_3;
+						}
+#########
+action: axnRxDataDecode54m_T_0		: {	
+						}
+
+action: axnRxDataDecode54m_T_1		: {	
+						}
+
+action: axnRxDataDecode54m_T_2		: {	
+						d54mBmCacheGetTFrame_2; 
+						#d54mTrBmFrame_23; 
+
+						d54mVitDecWFCBeforeFinish_2; 
+						d54mVitDecTouchInOut_2;
+
+						d54mVitDecWFCBeforeFinish_2; 
+						d54mVitDecTouchInOut_2;
+
+						d54mVitDecWFCBeforeIssue_2; 
+						#d54mVitDecTail0; 
+						#d54mVitDecMSR0; 
+						d54mVitDecMid_2; 
+
+						d54mTrHdBuf_23; 
+						d54mTrHdBuf_23; 
+						}
+
+action: axnRxDataDecode54m_T_3		: {	
+
+						d54mHdCachePutMid_3; 
+						d54mHdCachePutMid_3; 
+
+						d54mHdCacheGet54_3; 
+						d54mDescrambler54_3;
+						d54mDescrCachePut_3;
+
+						d54mHdCacheGet54_3; 
+						d54mDescrambler54_3;
+						d54mDescrCachePut_3;
+
+						d54mHdCacheGet54_3; 
+						d54mDescrambler54_3;
+						d54mDescrCachePut_3;
+
+						d54mHdCacheGet54_3; 
+						d54mDescrambler54_3;
+						d54mDescrCachePut_3;
+
+						d54mDescrCacheGet27B_3;
+						d54mCrc32Mid27B_3;
+						#d54mPayloadCachePut27B_3;
+
+						#d54mDescrCacheGet25B_3;
+						#d54mCrc32Tail25B_3;
+						#d54mPayloadCachePut25B_3;
+
+						#d54mCore3DecodeDoneSignal;
+						}
+#########
+action: axnRxDataDecode54m_TfH_0_onesymrx: {	
+						}
+
+action: axnRxDataDecode54m_TfH_0	: {	
+						}
+
+action: axnRxDataDecode54m_TfH_1	: {	
+						}
+
+action: axnRxDataDecode54m_TfH_1_onesymrx: {	
+						d54mBmCacheGetTFrame_1; 
+						d54mVitDecMid0_1; 
+						d54mCore1DecodeDoneSignal;
+						}
+
+
+action: axnRxDataDecode54m_TfH_2	: {	
+						d54mBmCacheGetTFrame_2; 
+						#d54mTrBmFrame_23; 
+
+						d54mVitDecWFCBeforeIssue_2; 
+						d54mVitDecMid_2; 
+						}
+
+action: axnRxDataDecode54m_TfH_2_onesymrx: {	
+						}
+
+action: axnRxDataDecode54m_TfH_3	: {
+						#d54mVitDecMid0_3; 
+
+						d54mCore3DecodeDoneSignal;
+						}
+
+action: axnRxDataDecode54m_TfH_3_onesymrx: {
+						}
+#########
+
+action: axnRxDataDecode54m_f_0		: { 		
+						sampleReader;
+						gpio2Toggle;
+						sampleDrainer;
+						sampleReader;
+						gpio2Toggle;
+						sampleDrainer;
+						sampleReader;
+						gpio2Toggle;
+						sampleDrainer;
+						sampleReader;
+						gpio2Toggle;
+						sampleDrainer;
+						sampleReader;
+						gpio2Toggle;
+						sampleDrainer;
+
+						d54mCore3DecodeDoneTr;
+						d54mCore3DecodeDoneWait;
+						d54mVitDecMapDrainer0;
+						}
+
+action: axnRxDataDecode54m_f_1		: {
+						d54mChStateDrainer; 
+						d54mVitDecMapDrainer1;
+						}
+
+action: axnRxDataDecode54m_f_2		: {	
+						d54mVitDecWFCBeforeFinish_2; 
+						d54mVitDecTouchInOut_2;
+
+						d54mVitDecWFCBeforeFinish_2; 
+						d54mVitDecTouchInOut_2;
+
+						d54mVitDecWFCBeforeFinish_2; 
+						d54mVitDecTouchInOut_2;
+
+						d54mTrHdBuf_23; 
+						d54mTrHdBuf_23; 
+						d54mTrHdBuf_23; 
+
+						d54mBmCacheDrainer_2; 
+						}
+
+action: axnRxDataDecode54m_f_3		: {	
+						d54mHdCachePutMid_3; 
+
+						d54mHdCachePutMid_3; 
+
+						d54mHdCacheGet54_3; 
+						d54mDescrambler54_3;
+						d54mDescrCachePut_3;
+
+						d54mHdCacheGet54_3; 
+						d54mDescrambler54_3;
+						d54mDescrCachePut_3;
+
+						d54mHdCacheGet54_3; 
+						d54mDescrambler54_3;
+						d54mDescrCachePut_3;
+
+						d54mHdCacheGet54_3; 
+						d54mDescrambler54_3;
+						d54mDescrCachePut_3;
+
+						d54mDescrCacheGet25B_3;
+						d54mCrc32Tail25B_3;
+						#d54mPayloadCachePut25B_3;
+
+						#-------------
+
+						#d54mHdCachePutTail_3; 
+						d54mHdCachePutMid_3; 
+
+						d54mHdCacheGet54_3; 
+						d54mDescrambler54_3;
+						d54mDescrCachePut_3;
+
+						d54mHdCacheGet54_3; 
+						d54mDescrambler54_3;
+						d54mDescrCachePut_3;
+
+						d54mDescrCacheGet27B_3;
+						d54mCrc32Var_3;
+						#d54mPayloadCachePut27B_3;
+
+						#-------------
+
+						d54mHdCacheDrainer_3; 
+						descramblerStateDrainer_3;
+						d54mDescrCacheDrainer_3;
+
+						dallPayloadParser_3;
+						dallPayloadCacheDrainer_3;
+
+						#-------------
+
+						d54mCore3DecodeDoneSignal;
+						}
+
+
+#########
+
+action: axnRxDataDecode54m_TfH_f_0_onesymrx: { 	
+						d54mCore1DecodeDoneTr;
+						d54mCore1DecodeDoneWait;
+						d54mVitDecMapDrainer0;
+						}
+
+action: axnRxDataDecode54m_TfH_f_0	: { 	
+						d54mCore3DecodeDoneTr;
+						d54mCore3DecodeDoneWait;
+						d54mVitDecMapDrainer0;
+						}
+
+action: axnRxDataDecode54m_TfH_f_1_onesymrx: {
+						d54mChStateDrainer; 
+						d54mVitDecMapDrainer1;
+						d54mBmCacheDrainer_1;
+
+						d54mVitDecWFC1_1; 
+						d54mVitDecTouchInOut1_1;
+						d54mHdCachePutHead_1; 
+						d54mHdCacheGet54_1; 
+						d54mHdFrameCopy_1; 
+						descramblerInit_1;
+						d54mDescrambler54_1;
+						d54mDescrCachePut_1;
+
+						
+						d54mVitDecWFC2_1; 
+						d54mVitDecTouchInOut2_1;
+						d54mHdCachePutMid2_1; 
+						d54mHdCacheGet54_1; 
+						d54mDescrambler54_1;
+						d54mDescrCachePut_1;
+
+						d54mVitDecWFC3_1; 
+						d54mVitDecTouchInOut3_1;
+						d54mHdCachePutMid3_1; 
+						d54mHdCacheGet54_1; 
+						d54mDescrambler54_1;
+						d54mDescrCachePut_1;
+
+						d54mVitDecWFC0_1; 
+						d54mVitDecTouchInOut0_1;
+						d54mHdCachePutMid0_1; 
+						d54mHdCacheGet54_1; 
+						d54mDescrambler54_1;
+						d54mDescrCachePut_1;
+
+						# the following is to throw 
+						# away the service field
+						dallDescrCacheGetServiceField2B_1;
+						dallDrainServiceField2B_1;
+
+						d54mDescrCacheGet25B_1;
+						d54mCrc32Var_1;
+						#d54mPayloadCachePut25B_1;
+
+						d54mHdCacheDrainer_1; 
+						descramblerStateDrainer_1;
+						d54mDescrCacheDrainer_1;
+
+						dallPayloadParser_1;
+						dallPayloadCacheDrainer_1;
+						}
+
+action: axnRxDataDecode54m_TfH_f_1	: {
+						d54mChStateDrainer; 
+						d54mVitDecMapDrainer1;
+						}
+
+action: axnRxDataDecode54m_TfH_f_2_onesymrx: {
+						}
+
+action: axnRxDataDecode54m_TfH_f_2	: {
+						d54mVitDecWFCBeforeFinish_2; 
+						d54mVitDecTouchInOut_2;
+
+						d54mVitDecWFCBeforeFinish_2; 
+						d54mVitDecTouchInOut_2;
+
+						d54mTrHdBuf_23;
+						d54mTrHdBuf_23;
+
+						d54mBmCacheDrainer_2; 
+						}
+
+action: axnRxDataDecode54m_TfH_f_3_onesymrx: {
+						}
+
+action: axnRxDataDecode54m_TfH_f_3	: {	
+
+						d54mHdCachePutHead_3; 
+						
+						d54mHdCacheGet54_3; 
+						d54mHdFrameCopy_3; 
+						descramblerInit_3;
+						d54mDescrambler54_3;
+						d54mDescrCachePut_3;
+
+						
+						d54mHdCacheGet54_3; 
+						d54mDescrambler54_3;
+						d54mDescrCachePut_3;
+
+						d54mHdCachePutMid_3; 
+
+						d54mHdCacheGet54_3; 
+						d54mDescrambler54_3;
+						d54mDescrCachePut_3;
+
+						d54mHdCacheGet54_3; 
+						d54mDescrambler54_3;
+						d54mDescrCachePut_3;
+
+						# the following is to throw 
+						# away the service field
+						dallDescrCacheGetServiceField2B_3;
+						dallDrainServiceField2B_3;
+
+						d54mDescrCacheGet25B_3;
+						d54mCrc32Var_3;
+						#d54mPayloadCachePut25B_3;
+
+						d54mHdCacheDrainer_3; 
+						descramblerStateDrainer_3;
+						d54mDescrCacheDrainer_3;
+
+						dallPayloadParser_3;
+						dallPayloadCacheDrainer_3;
+						}
+
+# *** TODO ACK TX removed for timing testing *****
+
+#==================================================================================
+# To initialize once per pkt for the ack tx chain
+#==================================================================================
+
+action: axnTxAckInit0     		: {   
+						gpio3Toggle;
+						#atx_preambleTraceReaderInit;
+        		#atx_byteReaderInit;	
+						#atx_bitCacheInit;
+						#atx_scramblerInit;
+        		#atx_convEncoderInit;
+        		#atx_ofdmModPktInit;
+						#atx_byteReader;
+						#atx_ackPacker;
+						#atx_bitCachePut;
+        					}
+action: axnTxAckInit1     		:
+action: axnTxAckInit2     		:
+action: axnTxAckInit3     		:
+
+#==================================================================================
+# To send an ack when data rx was successful (crc match)
+#==================================================================================
+#
+action: axnTxAckPreambleSignal0     	: {   
+						#atx_preambleTraceReader;
+						##atx_ofdmModDrain;
+						#atx_ethWriter;
+						#atx_symbolMemWriter;
+        					}
+action: axnTxAckPreambleSignal1     	:
+action: axnTxAckPreambleSignal2     	:
+action: axnTxAckPreambleSignal3     	:
+
+action: axnTxAck0        		: {   
+						#atx_bitCacheGet;
+						#atx_scrambler;
+						#atx_convEncoder;
+ 						#atx_puncturer;
+						#atx_interleaver;
+        		#atx_bpskMapper;
+						#atx_ofdmMod; 
+        		##atx_ofdmModDrain;
+						##atx_ethWriter;
+						#atx_symbolMemWriter;
+        					}
+action: axnTxAck1         		:
+action: axnTxAck2         		:
+action: axnTxAck3         		:
+
+action: axnTxAckFinal0    		: {   
+						#atx_bitCacheGet;
+						#atx_scrambler;
+						#atx_tailZeroer;
+        		#atx_convEncoderFinal;
+ 						#atx_puncturer;
+						#atx_interleaver;
+        		#atx_bpskMapper;
+        		#atx_ofdmMod; 
+        		##atx_ofdmModDrain;
+						##atx_ethWriter;
+						#atx_symbolMemWriter;
+
+						#atx_preambleTraceReaderStateDrainer;
+						#atx_byteReaderStateDrainer;
+						#atx_bitCacheStateDrainer;
+						#atx_scramblerStateDrainer;
+        		#atx_convEncoderStateDrainer;
+        		#atx_ofdmModPktStateDrainer;
+
+        					}
+action: axnTxAckFinal1    		:
+action: axnTxAckFinal2    		:
+action: axnTxAckFinal3    		:
+
+#
+#==================================================================================
+# When we are not processing data (bad plcp, bad param etc.)
+#==================================================================================
+action: axnRxContinue_0			: {
+						#dallDecodeDecStDrainer0;
+						#ofdmDemodStateDrainer;
+						}
+
+action: axnRxContinue_1			: {	
+						pktStateDrainer; 
+						chStateDrainer;
+						plcpParserStateDrainer;
+						plcpParserStateCopyDrainer;
+						dataTonesDrainer;
+						pilotTonesDrainer;
+						#dallDecodeDecStDrainer1;
+
+						#TODO: This needs to be sorted out. It may need to be put back in.
+						#See axnRxPktInit1 for a corresponding TODO note. 
+						#dallPayloadCacheDrainer_1;
+						}
+
+action: axnRxContinue_3			: {	
+						dallPayloadCacheDrainer_3;
+						}
+
+
+#
+#==================================================================================
+# To clean up after all rx processing
+#==================================================================================
+#whether we processed data or not # (continue), whether crc matched or not
+
+action: axnRxFinish_0			: {	
+						alignStateDrainer; 
+						corrStateDrainer; 
+						simpleEnergyStateDrainer;
+						gainStateDrainer;
+						windowEnergyGainStateDrainer;
+						agcStateDrainer; 
+						ofdmDemodStateDrainer; 
+						cfoStateDrainer; 
+						dallDecodeDecStDrainer0;
+						}
+
+action: axnRxFinish_1			: {
+						dallDecodeDecStDrainer1;
+						}
+action: axnRxFinish_2			:
+
+action: axnRxFinish_3			: {
+						}
+
+
+#-----------------------------------------------------------------------
+# statep's
+#-----------------------------------------------------------------------
+
+statep: staRxInit		: 0: axnRxInit0			: {
+									jumpInit;
+									dxCpInit;
+									dxTrInit0;
+									}
+statep: staRxInit		: 1: axnRxInit1			: { 
+									dxTrInit1;
+									}
+statep: staRxInit		: 2: axnRxInit2			: {
+									dxTrInit2;
+									}
+statep: staRxInit		: 3: axnRxInit3			: {
+									dxTrInit3;
+									}
+#
+statep: staRxPktInit		: 0: axnRxPktInit0		: {
+			 						jumpPktInit;
+									dxCpPktInit;
+									dxTrPktInit0;
+									}
+statep: staRxPktInit		: 1: axnRxPktInit1		: 	dxTrPktInit1;
+statep: staRxPktInit		: 2: axnRxPktInit2		: 	dxTrPktInit2;
+statep: staRxPktInit		: 3: axnRxPktInit3		: 	dxTrPktInit3;
+#
+statep: staRxPktDetect		: 0: axnRxPktDetect0		: {
+									agcStateDrainer;
+									pktDetectDecision;
+									dxCpPktDetect;	
+									dxTrPktDetect0;
+									}
+statep: staRxPktDetect		: 1: noaxn  			: {
+									dxTrPktDetect1;
+									}
+statep: staRxPktDetect		: 2: noaxn  			: {
+									dxTrPktDetect2;
+									}
+statep: staRxPktDetect		: 3: noaxn  			: {
+									dxTrPktDetect3;
+									}
+#
+statep: staRxLTFProc		: 0: axnRxLTFProc0		: {
+									jumpToPLCPDecode0;
+									}
+
+statep: staRxLTFProc		: 1: axnRxLTFProc1		: {
+									jumpToPLCPDecode1;
+									}
+statep: staRxLTFProc		: 2: noaxn  			: { 	
+									jumpToPLCPDecode2;
+									}
+statep: staRxLTFProc		: 3: noaxn  			: {
+									jumpToPLCPDecode3;
+									}
+#
+statep: staRxPLCPDecode 	: 0: axnRxPLCPDecode0		: {
+									dxTrPlcpParser0;
+									}
+statep: staRxPLCPDecode 	: 1: axnRxPLCPDecode1		: {
+									dxCpPlcpParser; 
+									dxTrPlcpParser1;
+									}
+
+statep: staRxPLCPDecode 	: 2: noaxn			: 	dxTrPlcpParser2;
+statep: staRxPLCPDecode 	: 3: noaxn			: 	dxTrPlcpParser3;
+#
+statep: staRxPLCPDecodeSpec 	: 0: axnRxPLCPDecodeSpec0	: {
+									dxTrPlcpParser0;
+									}
+statep: staRxPLCPDecodeSpec 	: 1: axnRxPLCPDecodeSpec1	: {
+									dxTrPlcpParser1;
+									}
+
+statep: staRxPLCPDecodeSpec 	: 2: noaxn			: 	dxTrPlcpParser2;
+statep: staRxPLCPDecodeSpec 	: 3: noaxn			: 	dxTrPlcpParser3;
+#
+#
+#
+#######################
+# d54m decode setup 
+#######################
+statep: staRxDataDecode54m_setup	: 0: axnRxDataDecode54m_setup_0 : {
+										d54mDecodeDecision0;
+										dxCpDataDecode0;
+										dxTrDataDecode00;
+										}
+statep: staRxDataDecode54m_setup	: 1: axnRxDataDecode54m_setup_1 : {
+										d54mDecodeDecision1;
+										dxTrDataDecode11;
+										}
+statep: staRxDataDecode54m_setup	: 2: axnRxDataDecode54m_setup_2 : {
+										dxTrDataDecode02;
+										}
+statep: staRxDataDecode54m_setup	: 3: axnRxDataDecode54m_setup_3 : {
+										dxTrDataDecode03;
+										}
+
+#------------------------------------
+statep: staRxDataDecode54m_setup_onesymrx	: 0: axnRxDataDecode54m_setup_0_onesymrx : {
+										d54mDecodeDecision0;
+										dxCpDataDecode0;
+										dxTrDataDecode00;
+										}
+statep: staRxDataDecode54m_setup_onesymrx	: 1: axnRxDataDecode54m_setup_1_onesymrx : {
+										d54mDecodeDecision1;
+										dxTrDataDecode11;
+										}
+statep: staRxDataDecode54m_setup_onesymrx	: 2: axnRxDataDecode54m_setup_2_onesymrx : {
+										dxTrDataDecode02;
+										}
+statep: staRxDataDecode54m_setup_onesymrx	: 3: axnRxDataDecode54m_setup_3_onesymrx : {
+										dxTrDataDecode03;
+										}
+#
+########################
+# per-symbol common 54m
+########################
+#statep: staRxDataDecode54m_c		: 0: axnRxDataDecode54m_c_0 	: {
+statep: staRxDataDecode54m_c		: 0: noaxn			: {
+										d54mDecodeDecision0;
+										dxCpDataDecode0;
+										dxTrDataDecode00;
+										}
+statep: staRxDataDecode54m_c		: 1: axnRxDataDecode54m_c_1 	: {
+										d54mDecodeDecision1;
+										dxTrDataDecode11;
+										}
+statep: staRxDataDecode54m_c		: 2: axnRxDataDecode54m_c_2 	: {
+										dxTrDataDecode02;
+										}
+statep: staRxDataDecode54m_c		: 3: axnRxDataDecode54m_c_3 	: {
+										dxTrDataDecode03;
+										}
+#
+########################
+# head-tail decoding 54m
+######################
+statep: staRxDataDecode54m_HT		: 0: noaxn			:
+statep: staRxDataDecode54m_HT		: 1: noaxn			:
+statep: staRxDataDecode54m_HT		: 2: noaxn			:
+statep: staRxDataDecode54m_HT		: 3: noaxn			:
+########################
+# head decoding 54m
+######################
+#statep: staRxDataDecode54m_H		: 0: axnRxDataDecode54m_H_0	: {
+
+statep: staRxDataDecode54m_H		: 0: noaxn			: {
+										d54mDecodeDecision0;	
+										dxCpDataDecode0;			
+										dxTrDataDecode00;
+										}
+
+statep: staRxDataDecode54m_H		: 1: axnRxDataDecode54m_H_1	: { 
+										d54mDecodeDecision1;
+										dxTrDataDecode11;
+										}
+statep: staRxDataDecode54m_H		: 2: axnRxDataDecode54m_H_2	: { 
+										dxTrDataDecode02;
+										}
+statep: staRxDataDecode54m_H		: 3: axnRxDataDecode54m_H_3	: { 
+										dxTrDataDecode03;
+										}
+
+#------------------------------------
+statep: staRxDataDecode54m_H_onesymrx		: 0: noaxn			: {
+										d54mDecodeDecision0;	
+										dxCpDataDecode0;			
+										dxTrDataDecode00;
+										}
+
+statep: staRxDataDecode54m_H_onesymrx		: 1: axnRxDataDecode54m_H_1_onesymrx	: { 
+										d54mDecodeDecision1;
+										dxTrDataDecode11;
+										}
+statep: staRxDataDecode54m_H_onesymrx		: 2: axnRxDataDecode54m_H_2_onesymrx	: { 
+										dxTrDataDecode02;
+										}
+statep: staRxDataDecode54m_H_onesymrx		: 3: axnRxDataDecode54m_H_3_onesymrx	: { 
+										dxTrDataDecode03;
+										}
+#
+######################
+# mid-pre decoding 54m
+######################
+statep: staRxDataDecode54m_Mp		: 0: axnRxDataDecode54m_Mp_0	: {
+										d54mDecodeDecision0;
+										dxCpDataDecode0;
+										dxTrDataDecode00;
+										}
+statep: staRxDataDecode54m_Mp		: 1: axnRxDataDecode54m_Mp_1	: {
+										d54mDecodeDecision1;
+										dxTrDataDecode11;
+										}
+statep: staRxDataDecode54m_Mp		: 2: axnRxDataDecode54m_Mp_2	: {
+										dxTrDataDecode02;
+										}
+statep: staRxDataDecode54m_Mp		: 3: axnRxDataDecode54m_Mp_3	: {
+										dxTrDataDecode03;
+										}
+######################
+# mid decoding 54m
+######################
+statep: staRxDataDecode54m_M		: 0: axnRxDataDecode54m_M_0	: {	
+										d54mDecodeDecision0;
+										dxCpDataDecode0;
+										dxTrDataDecode00;
+										}
+statep: staRxDataDecode54m_M		: 1: axnRxDataDecode54m_M_1	: {
+										d54mDecodeDecision1;
+										dxTrDataDecode11;
+										}
+statep: staRxDataDecode54m_M		: 2: axnRxDataDecode54m_M_2	: {
+										dxTrDataDecode02;
+										}
+statep: staRxDataDecode54m_M		: 3: axnRxDataDecode54m_M_3	: {
+										dxTrDataDecode03;
+										}
+#
+######################
+# tail decoding 54m
+######################
+statep: staRxDataDecode54m_T		: 0: axnRxDataDecode54m_T_0	: {	
+										d54mDecodeDecision0;
+										dxCpDataDecode0;
+										dxTrDataDecode00;
+										}
+statep: staRxDataDecode54m_T		: 1: axnRxDataDecode54m_T_1	: {
+										d54mDecodeDecision1;
+										dxTrDataDecode11;
+										}
+statep: staRxDataDecode54m_T		: 2: axnRxDataDecode54m_T_2	: { 
+										dxTrDataDecode02;
+										}
+statep: staRxDataDecode54m_T		: 3: axnRxDataDecode54m_T_3	: { 
+										dxTrDataDecode03;
+										}
+#
+######################
+# tail-from-head decoding 54m
+######################
+statep: staRxDataDecode54m_TfH		: 0: axnRxDataDecode54m_TfH_0	: {	
+										d54mDecodeDecision0;
+										dxCpDataDecode0;
+										dxTrDataDecode00;
+										}
+statep: staRxDataDecode54m_TfH		: 1: axnRxDataDecode54m_TfH_1	: {
+										d54mDecodeDecision1;
+										dxTrDataDecode11;
+										}
+statep: staRxDataDecode54m_TfH		: 2: axnRxDataDecode54m_TfH_2	: {
+										dxTrDataDecode02;
+										}
+statep: staRxDataDecode54m_TfH		: 3: axnRxDataDecode54m_TfH_3	: {
+										dxTrDataDecode03;
+										}
+
+#-----------------------------------
+statep: staRxDataDecode54m_TfH_onesymrx		: 0: axnRxDataDecode54m_TfH_0_onesymrx	: {	
+										d54mDecodeDecision0;
+										dxCpDataDecode0;
+										dxTrDataDecode00;
+										}
+statep: staRxDataDecode54m_TfH_onesymrx		: 1: axnRxDataDecode54m_TfH_1_onesymrx	: {
+										d54mDecodeDecision1;
+										dxTrDataDecode11;
+										}
+statep: staRxDataDecode54m_TfH_onesymrx		: 2: axnRxDataDecode54m_TfH_2_onesymrx	: {
+										dxTrDataDecode02;
+										}
+statep: staRxDataDecode54m_TfH_onesymrx		: 3: axnRxDataDecode54m_TfH_3_onesymrx	: {
+										dxTrDataDecode03;
+										}
+#
+######################
+# post-decode finish 54m
+######################
+statep: staRxDataDecode54m_f		: 0: axnRxDataDecode54m_f_0	: {
+										jumpToRxDataFinish0;
+										}
+statep: staRxDataDecode54m_f		: 1: axnRxDataDecode54m_f_1	: {
+										jumpToRxDataFinish1;
+										}
+statep: staRxDataDecode54m_f		: 2: axnRxDataDecode54m_f_2	: {
+										jumpToRxDataFinish2;
+										}
+statep: staRxDataDecode54m_f		: 3: axnRxDataDecode54m_f_3	: {
+										jumpToRxDataFinish3;
+										gpio0Off;
+	  								dallCrc32Decision_3;
+										gpio1On;
+										dxCpDataDecodeFinish_3;
+										}
+#
+######################
+# post-decode finish 54m
+######################
+statep: staRxDataDecode54m_TfH_f	: 0: axnRxDataDecode54m_TfH_f_0	: {
+										jumpToRxDataFinish0;
+										}
+statep: staRxDataDecode54m_TfH_f	: 1: axnRxDataDecode54m_TfH_f_1	: {
+										jumpToRxDataFinish1;
+										}
+statep: staRxDataDecode54m_TfH_f	: 2: axnRxDataDecode54m_TfH_f_2	: {
+										jumpToRxDataFinish2;
+										}
+statep: staRxDataDecode54m_TfH_f	: 3: axnRxDataDecode54m_TfH_f_3	: {
+	  									jumpToRxDataFinish3;
+	  									dallCrc32Decision_3;
+										dxCpDataDecodeFinish_3;
+										}
+#-----------------------------
+
+statep: staRxDataDecode54m_TfH_f_onesymrx	: 0: axnRxDataDecode54m_TfH_f_0_onesymrx	: {
+										jumpToRxDataFinish_onesymrx_0;
+										}
+statep: staRxDataDecode54m_TfH_f_onesymrx	: 1: axnRxDataDecode54m_TfH_f_1_onesymrx	: {
+										jumpToRxDataFinish_onesymrx_1;
+	  									dallCrc32Decision_1;
+										dallCrc32DecisionTr13;
+										#dxCpDataDecodeFinish_1;
+										}
+statep: staRxDataDecode54m_TfH_f_onesymrx	: 2: axnRxDataDecode54m_TfH_f_2_onesymrx	: {
+										jumpToRxDataFinish_onesymrx_2;
+										}
+statep: staRxDataDecode54m_TfH_f_onesymrx	: 3: axnRxDataDecode54m_TfH_f_3_onesymrx	: {
+	  									jumpToRxDataFinish_onesymrx_3;
+										dxCpDataDecodeFinish_3;
+										}
+#-----------------------------
+
+
+statep: staRxDataFinish			: 0: noaxn			: {
+						   			  	dxTrDataDecodeFinish30;
+						   			     	}
+statep: staRxDataFinish			: 1: noaxn 			: {
+						   			     	dxTrDataDecodeFinish31;
+						   			     	}
+statep: staRxDataFinish			: 2: noaxn 			: {
+						   			     	dxTrDataDecodeFinish32;
+						   			     	}
+statep: staRxDataFinish			: 3: noaxn 			: {
+	  									#dallCrc32Decision_3;
+										#dxCpDataDecodeFinish_3;
+										dxTrDataDecodeFinish33;
+										}
+
+##-----------------------------
+#==================================================================================
+#When we are not processing the data rate
+#==================================================================================
+statep: staRxContinue			: 0: axnRxContinue_0		: {	
+										dxTrDataDecodeFinish30;
+										}
+statep: staRxContinue			: 1: axnRxContinue_1		: {
+										dxTrDataDecodeFinish31;
+										}
+statep: staRxContinue			: 2: noaxn			: {
+										dxTrDataDecodeFinish32;
+										}
+statep: staRxContinue			: 3: axnRxContinue_3		: {
+										jumpToFinish_3;	
+										dxCpDataDecodeFinish_3;
+										dxTrDataDecodeFinish33;
+										}
+
+#==================================================================================
+# To tx an ACK
+#==================================================================================
+
+statep: staTxAckInit    : 0 : axnTxAckInit0 				: {
+										atx_jumpToTxAckPreambleSignal;
+										}
+statep: staTxAckInit    : 1 : noaxn 					: {
+										atx_jumpToTxAckFinal1;
+										}
+statep: staTxAckInit    : 2 : noaxn 					: {
+										atx_jumpToTxAckFinal2;
+										}
+statep: staTxAckInit    : 3 : noaxn 					: {
+										atx_jumpToTxAckFinal3;
+										}
+
+statep: staTxAckPreambleSignal    : 0 : axnTxAckPreambleSignal0 	: {
+										atx_jumpPreambleSignal;
+										}
+statep: staTxAckPreambleSignal    : 1 : noaxn 				: 
+statep: staTxAckPreambleSignal    : 2 : noaxn 				: 
+statep: staTxAckPreambleSignal    : 3 : noaxn 				: 
+
+statep: staTxAck        : 0 : axnTxAck0 				: {
+										atx_jumpTxAck;
+										}
+statep: staTxAck        : 1 : noaxn 					: 
+statep: staTxAck        : 2 : noaxn 					: 
+statep: staTxAck        : 3 : noaxn 					: 
+
+statep: staTxAckFinal   : 0 : axnTxAckFinal0 				: {
+										dxTrDataDecodeFinish30;
+										}
+statep: staTxAckFinal   : 1 : noaxn 					: {
+										dxTrDataDecodeFinish31;
+										}
+statep: staTxAckFinal   : 2 : noaxn					: {
+										dxTrDataDecodeFinish32;
+										}
+statep: staTxAckFinal   : 3 : noaxn					: {
+										jumpToFinish_3;
+										dxCpDataDecodeFinish_3;
+										dxTrDataDecodeFinish33;
+										}
+
+#==================================================================================
+# Clean up after data decode (ack tx or not) or after continue 
+#==================================================================================
+#In either case - processed data rate or not
+
+statep: staRxFinish			: 0: axnRxFinish_0		: {
+										jumpToPktInit;
+										dxCpRxFinish;
+										dxTrRxFinish0;
+										}
+statep: staRxFinish			: 1: axnRxFinish_1		: {
+										dxTrRxFinish1;
+										}
+statep: staRxFinish			: 2: axnRxFinish_2		: {
+										dxTrRxFinish2;
+										}
+statep: staRxFinish			: 3: axnRxFinish_3		: { 
+										dxTrRxFinish3;
+										}
+
+
+#------------------------------------------------
+# initial state and initial state iteration count
+#------------------------------------------------
+#<command=statei>:<initState>:<iterCount>
+statei: staRxInit		: 1

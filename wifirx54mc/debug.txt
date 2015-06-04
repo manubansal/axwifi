@@ -1,0 +1,66 @@
+
+# Atomix project, debug.txt, TODO: insert summary here
+# Copyright (c) 2015 Stanford University
+# Released under the Apache License v2.0. See the LICENSE file for details.
+# Author(s): Manu Bansal
+
+##traceReader80
+#
+##pktDetect
+##bufAlign
+#
+#cfoEstLTF
+#chEstLTF
+#
+##plcpCfoCorrectorG
+#plcpOfdmDemod
+#plcpOfdmEq
+#plcpSoftSlicerBPSK
+##plcpSoftDeint48
+##plcpSoftBM24
+##plcpVitDecInit
+##plcpVitDecGenConfSL
+##plcpVitDecStateRetainer
+##plcpVitDecSingleHT
+##plcpVitDecWFC
+##plcpParser
+#
+##dataCfoCorrectorG
+##dataOfdmDemod
+##d54mOfdmEq
+##d54mSoftSlicer64QAM
+##d54mSoftDepuncR3by4F216
+#d54mSoftBM216
+#d54mBmCacheGetHFrame
+#d54mBmCacheGetMFrame0
+#d54mBmCacheGetMFrame1
+#d54mBmCacheGetMFrame2
+#d54mBmCacheGetMFrame3
+#d54mBmCacheGetTFrame
+#d54mHdCacheGet54
+#d54mHdCacheCopy
+##serviceFieldGet
+#d54mDescramblerInit
+##d54mDescrambler38
+#d54mDescrambler54
+#d54mDebugPrintBitBucket
+
+#ts_atii:cfoEstLTF
+#ts_atii:chEstLTF
+#ts_atii:plcpOfdmEq
+#ts_atii:data54mOfdmEq
+
+#ts_st: staRxLTFProc
+ts_st: .*
+ts_atii: .*
+
+#ts_at: .*
+
+#to limit 'at' timestamping to a specific atom:
+#ts_at:chEstLTF
+
+#to limit 'at' timestamping to a specific atom but only 
+#in the context of a specific axn, qualify it in the namespace
+#ts_at: axnRxLTFProc0.chEstLTF
+
+#ts_at: axnRxLTFProc0\..*

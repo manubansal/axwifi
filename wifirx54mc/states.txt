@@ -1,0 +1,788 @@
+
+# Atomix project, states.txt, TODO: insert summary here
+# Copyright (c) 2015 Stanford University
+# Released under the Apache License v2.0. See the LICENSE file for details.
+# Author(s): Manu Bansal
+
+#<command==state>:<stateName>:<stateNum>:<coreNum>:<action|noaxn>:<atomseq>
+#DEPRECATED <command==decway>....
+#where atomseq = (atomname;)+ (note that a semicolon must follow each
+#atom in the sequence, even the last one.)
+#
+state : staRxInit
+state : staRxPktInit
+state : staRxPktDetect
+state : staRxLTFProc
+state : staRxPLCPDecode
+#
+state : staRxDataDecode54m_setup
+state : staRxDataDecode54m_c
+state : staRxDataDecode54m_HT
+state : staRxDataDecode54m_H
+state : staRxDataDecode54m_Mp
+state : staRxDataDecode54m_M
+state : staRxDataDecode54m_T
+state : staRxDataDecode54m_f
+state : staRxDataDecode54m_TfH
+state : staRxDataDecode54m_TfH_f
+#
+state : staRxContinue
+#
+state : staRxFinish
+#
+#----------------------------------------------------------------------------------
+action: axnRxInit0			: { 	traceReader80Init; 
+						plcpVitDecInit; 
+						plcpVitDecGenConfSL; 
+						#d54mVitDecTailInit; 
+						}
+
+action: axnRxInit1			: 
+action: axnRxInit2			: 
+action: axnRxInit3			: {	d54mVitDecHeadInit; 
+						d54mVitDecHeadGenConfSL; 
+						d54mVitDecMidInit0; 
+						d54mVitDecMidInit1; 
+						d54mVitDecMidInit2; 
+						d54mVitDecMidInit3; 
+						d54mVitDecMidGenConfSL0; 
+						d54mVitDecMidGenConfSL1; 
+						d54mVitDecMidGenConfSL2; 
+						d54mVitDecMidGenConfSL3; 
+						}
+#
+action: axnRxPktInit0  			: {	pktAlignInit; 
+						pktDetectInit; 
+						ofdmDemodPktInit;
+						}
+action: axnRxPktInit1  			: 
+action: axnRxPktInit2  			: 
+action: axnRxPktInit3  			: 
+#
+action: axnRxPktDetect0			: {	traceReader80; 
+						pktDetect;
+						}
+#
+action: axnRxLTFProc0   		: {	traceReader80; 
+						bufAlign; 
+						traceReader80; 
+						bufAlign; 
+						bufCopyTwoWays; 
+						bufCopyTwoWays; 
+						bufJoin1; 
+						cfoEstLTF; 
+						cfoCorrectorG_LTF; 
+						cfoCorrectorGM_LTF; 
+						bufJoin2; 
+						chEstLTF;
+						}
+#
+action: axnRxPLCPDecode0: 		{ 	traceReader80; 
+						bufAlign; 
+						cfoCorrectorG; 
+						ofdmDemod; 
+						plcpOfdmEq; 
+						plcpEqSymsDrainer; 
+						plcpSoftSlicerBPSK; 
+						plcpSoftDeint48; 
+						plcpSoftBM24; 
+						plcpVitDecStateRetainer; 
+						plcpVitDecSingleHT; 
+						plcpVitDecWFC; 
+						plcpParser;  
+						}
+
+####################################################################################
+# 54mbps
+####################################################################################
+action: axnRxDataDecode54m_setup_0: 	{	d54mVitDecMap; 
+						d54mDecodeDecisionInit; 
+						d54mTrChState;
+						d54mPlcpParserStateRetainer;
+						d54mCrc32VarBytesInit;
+						d54mCrc32StateTr;
+						}
+
+action: axnRxDataDecode54m_setup_1:
+
+action: axnRxDataDecode54m_setup_2: 	{
+						#d54mBMCacheInit; 
+						d54mTrPlcpState;
+						d54mBmCacheCappedInitFPlcpState; 
+						}
+
+action: axnRxDataDecode54m_setup_3: 	{	d54mHdCacheInit;
+						d54mDescrCacheInit;
+						}
+
+#
+action: axnRxDataDecode54m_HT_0		: 
+#
+action: axnRxDataDecode54m_c_0		: {	traceReader80; 
+						bufAlign; 
+						cfoCorrectorG; 
+						ofdmDemod;
+						d54mTrDataTones; 
+						d54mTrPilotTones;
+						}
+#
+action: axnRxDataDecode54m_c_1		: {	
+						d54mOfdmEq; 
+						d54myhstarDrainer; 
+						d54mOfdmEqStateDrainer; 
+						d54mSoftSlicer64QAM; 
+						d54mSoftDeint288; 
+						d54mSoftDepuncR3by4F216; 
+						d54mSoftBM216; 
+						d54mTrSoftBm;
+						}
+
+action: axnRxDataDecode54m_c_2		: 	d54mBmCachePut;
+
+action: axnRxDataDecode54m_c_3		: 
+
+########
+action: axnRxDataDecode54m_H_0		: {	traceReader80; 
+						bufAlign; 
+						cfoCorrectorG; 
+						ofdmDemod;
+						d54mTrDataTones; 
+						d54mTrPilotTones;
+						}
+
+action: axnRxDataDecode54m_H_1		: {	
+						d54mOfdmEq; 
+						d54myhstarDrainer; 
+						d54mOfdmEqStateDrainer; 
+						d54mSoftSlicer64QAM; 
+						d54mSoftDeint288; 
+						d54mSoftDepuncR3by4F216; 
+						d54mSoftBM216; 
+						d54mTrSoftBm;
+						}
+
+action: axnRxDataDecode54m_H_2		: {	d54mBmCachePut; 
+
+						d54mBmCacheGetHFrame; 
+						d54mTrBmFrame1; 
+
+						d54mBmCacheGetMFrame2; 
+						d54mTrBmFrame2; 
+
+						d54mBmCacheGetMFrame3; 
+						d54mTrBmFrame3;
+						}
+
+
+action: axnRxDataDecode54m_H_3		: {	
+						#d54mVitDecHSR; 
+						d54mVitDecHead1; 
+
+						#d54mVitDecMSR2; 
+						d54mVitDecMid2; 
+
+						#d54mVitDecMSR3; 
+						d54mVitDecMid3;
+						}
+
+#########
+action: axnRxDataDecode54m_Mp_0		: {	traceReader80; 
+						bufAlign; 
+						cfoCorrectorG; 
+						ofdmDemod;
+						d54mTrDataTones; 
+						d54mTrPilotTones;
+						}
+
+action: axnRxDataDecode54m_Mp_1		: {	
+						d54mOfdmEq; 
+						d54myhstarDrainer; 
+						d54mOfdmEqStateDrainer; 
+						d54mSoftSlicer64QAM; 
+						d54mSoftDeint288; 
+						d54mSoftDepuncR3by4F216; 
+						d54mSoftBM216; 
+						d54mTrSoftBm;
+						}
+
+action: axnRxDataDecode54m_Mp_2		: {	d54mBmCachePut; 
+
+						d54mBmCacheGetMFrame0; 
+						d54mBmCacheGetMFrame1; 
+						d54mBmCacheGetMFrame2; 
+						d54mBmCacheGetMFrame3;  
+						d54mTrBmFrame0; 
+						d54mTrBmFrame1; 
+						d54mTrBmFrame2; 
+						d54mTrBmFrame3;
+						}
+
+action: axnRxDataDecode54m_Mp_3		: {	
+						#d54mVitDecMSR0; 
+						d54mVitDecMid0; 
+
+						d54mVitDecWFC1; 
+						#d54mVitDecMSR1; 
+						d54mVitDecMid1; 
+
+						d54mVitDecWFC2; 
+						#d54mVitDecMSR2; 
+						d54mVitDecMid2; 
+
+						d54mVitDecWFC3; 
+						#d54mVitDecMSR3; 
+						d54mVitDecMid3; 
+
+						d54mHdCachePutHead; 
+						d54mHdCachePutMid; 
+						d54mHdCachePutMid; 
+
+						d54mHdCacheGet54; 
+						d54mHdCacheCopy; 
+						#serviceFieldGet;
+						descramblerInit;
+
+						d54mDescrambler54;
+						#d54mDebugPrintBitBucket; 
+						d54mDescrCachePut;
+
+
+						d54mHdCacheGet54; 
+						d54mDescrambler54;
+						#d54mDebugPrintBitBucket;
+						d54mDescrCachePut;
+
+						d54mHdCacheGet54; 
+						d54mDescrambler54;
+						#d54mDebugPrintBitBucket;
+						d54mDescrCachePut;
+
+						#the following is to throw away the service field
+						d54mDescrCacheGetServiceField2B;
+						d54mDrainServiceField2B;
+						}
+
+#########
+action: axnRxDataDecode54m_M_0		: {	traceReader80; 
+						bufAlign; 
+						cfoCorrectorG; 
+						ofdmDemod;
+						d54mTrDataTones; 
+						d54mTrPilotTones;
+						}
+
+action: axnRxDataDecode54m_M_1		: {	
+						d54mOfdmEq; 
+						d54myhstarDrainer; 
+						d54mOfdmEqStateDrainer; 
+						d54mSoftSlicer64QAM; 
+						d54mSoftDeint288; 
+						d54mSoftDepuncR3by4F216; 
+						d54mSoftBM216; 
+						d54mTrSoftBm;
+						}
+
+action: axnRxDataDecode54m_M_2		: {	d54mBmCachePut; 
+
+						d54mBmCacheGetMFrame0; 
+						d54mBmCacheGetMFrame1; 
+						d54mBmCacheGetMFrame2; 
+						d54mBmCacheGetMFrame3;  
+						d54mTrBmFrame0; 
+						d54mTrBmFrame1; 
+						d54mTrBmFrame2; 
+						d54mTrBmFrame3;
+						}
+
+action: axnRxDataDecode54m_M_3		: {	d54mVitDecWFC0; 
+						#d54mVitDecMSR0; 
+						d54mVitDecMid0; 
+
+						d54mVitDecWFC1; 
+						#d54mVitDecMSR1; 
+						d54mVitDecMid1; 
+
+						d54mVitDecWFC2; 
+						#d54mVitDecMSR2; 
+						d54mVitDecMid2; 
+
+						d54mVitDecWFC3; 
+						#d54mVitDecMSR3; 
+						d54mVitDecMid3; 
+
+						d54mHdCachePutMid; 
+						d54mHdCachePutMid; 
+						d54mHdCachePutMid; 
+						d54mHdCachePutMid; 
+
+						d54mHdCacheGet54; 
+						d54mDescrambler54;
+						#d54mDebugPrintBitBucket; 
+						d54mDescrCachePut;
+
+						d54mHdCacheGet54; 
+						d54mDescrambler54;
+						#d54mDebugPrintBitBucket; 
+						d54mDescrCachePut;
+
+						d54mHdCacheGet54; 
+						d54mDescrambler54;
+						#d54mDebugPrintBitBucket; 
+						d54mDescrCachePut;
+
+						d54mHdCacheGet54; 
+						d54mDescrambler54;
+						#d54mDebugPrintBitBucket; 
+						d54mDescrCachePut;
+
+						d54mDescrCacheGet27B;
+						d54mCrc32Mid27B;
+						}
+#########
+action: axnRxDataDecode54m_T_0		: {	
+						}
+
+action: axnRxDataDecode54m_T_1		: {	
+						}
+
+action: axnRxDataDecode54m_T_2		: {	
+						d54mBmCacheGetTFrame; 
+						d54mTrBmFrame0;
+						}
+
+action: axnRxDataDecode54m_T_3		: {	d54mVitDecWFC0; 
+						#d54mVitDecTail0; 
+						#d54mVitDecMSR0; 
+						d54mVitDecMid0; 
+
+						d54mHdCachePutMid; 
+
+						d54mHdCacheGet54; 
+						d54mDescrambler54;
+						#d54mDebugPrintBitBucket;  
+						d54mDescrCachePut;
+
+						d54mDescrCacheGet25B;
+						d54mCrc32Tail25B;
+
+						d54mCore3DecodeDoneSignal;
+						}
+#########
+action: axnRxDataDecode54m_TfH_0	: {	
+						}
+
+action: axnRxDataDecode54m_TfH_1	: {	
+						}
+
+action: axnRxDataDecode54m_TfH_2	: {	
+						d54mBmCacheGetTFrame; 
+						d54mTrBmFrame0;
+						}
+
+action: axnRxDataDecode54m_TfH_3	: {
+						#d54mVitDecTail0; 
+						#d54mVitDecMSR0; 
+						d54mVitDecMid0; 
+
+
+						#d54mDescrCacheGet25B;
+						#d54mCrc32Tail25B;
+
+						d54mCore3DecodeDoneSignal;
+						}
+#########
+
+action: axnRxDataDecode54m_f_0		: { 	d54mCore3DecodeDoneTr;
+						d54mCore3DecodeDoneWait;
+
+						d54mDecodeDecStDrainer; 
+						d54mVitDecMapDrainer;  	
+						}
+action: axnRxDataDecode54m_f_1		: 	d54mChStateDrainer; 
+action: axnRxDataDecode54m_f_2		: 	d54mBmCacheDrainer; 
+
+action: axnRxDataDecode54m_f_3		: {	d54mVitDecWFC1; 
+						d54mVitDecWFC2; 
+						d54mVitDecWFC3; 
+						d54mVitDecWFC0; 
+
+						d54mHdCachePutMid; 
+						d54mHdCachePutMid; 
+						d54mHdCachePutMid; 
+						#d54mHdCachePutTail; 
+						d54mHdCachePutMid; 
+
+						d54mHdCacheGet54; 
+						d54mDescrambler54;
+						#d54mDebugPrintBitBucket; 
+						d54mDescrCachePut;
+
+						d54mHdCacheGet54; 
+						d54mDescrambler54;
+						#d54mDebugPrintBitBucket; 
+						d54mDescrCachePut;
+
+						d54mHdCacheGet54; 
+						d54mDescrambler54;
+						#d54mDebugPrintBitBucket; 
+						d54mDescrCachePut;
+
+						d54mHdCacheGet54; 
+						d54mDescrambler54;
+						#d54mDebugPrintBitBucket; 
+						d54mDescrCachePut;
+
+						d54mDescrCacheGet27B;
+						d54mCrc32Var;
+
+						d54mCrc32Decision;
+
+						d54mHdCacheDrainer; 
+						descramblerStateDrainer;
+						d54mDescrCacheDrainer;
+						#d54mCrc32StateDrainer;
+						}
+
+
+#########
+
+action: axnRxDataDecode54m_TfH_f_0	: { 	d54mCore3DecodeDoneTr;
+						d54mCore3DecodeDoneWait;
+
+						d54mDecodeDecStDrainer; 
+						d54mVitDecMapDrainer;  	
+						}
+action: axnRxDataDecode54m_TfH_f_1	: 	d54mChStateDrainer; 
+action: axnRxDataDecode54m_TfH_f_2	: 	d54mBmCacheDrainer; 
+action: axnRxDataDecode54m_TfH_f_3	: {	d54mVitDecWFC1; 
+						d54mVitDecWFC2; 
+						d54mVitDecWFC3; 
+						d54mVitDecWFC0; 
+
+						d54mHdCachePutHead; 
+						d54mHdCachePutMid; 
+						d54mHdCachePutMid; 
+						d54mHdCachePutMid; 
+
+
+						d54mHdCacheGet54; 
+						d54mHdCacheCopy; 
+						#serviceFieldGet;
+						descramblerInit;
+						d54mDescrambler54;
+						#d54mDebugPrintBitBucket;  
+						d54mDescrCachePut;
+
+
+						d54mHdCacheGet54; 
+						d54mDescrambler54;
+						#d54mDebugPrintBitBucket;
+						d54mDescrCachePut;
+
+						d54mHdCacheGet54; 
+						d54mDescrambler54;
+						#d54mDebugPrintBitBucket;
+						d54mDescrCachePut;
+						
+						d54mHdCacheGet54; 
+						d54mDescrambler54;
+						#d54mDebugPrintBitBucket; 
+						d54mDescrCachePut;
+
+						#the following is to throw away the service field
+						d54mDescrCacheGetServiceField2B;
+						d54mDrainServiceField2B;
+
+						d54mDescrCacheGet25B;
+						d54mCrc32Var;
+
+						d54mCrc32Decision;
+
+						d54mHdCacheDrainer; 
+						descramblerStateDrainer;
+						d54mDescrCacheDrainer;
+						#d54mCrc32StateDrainer;
+						}
+
+#
+####################################
+action: axnRxContinue_0			: {	pktStateDrainer; 
+						chStateDrainer;
+						plcpParserStateDrainer;
+						}
+#
+####################################
+####################################
+action: axnRxFinish_0			: {	alignStateDrainer; 
+						energyStateDrainer; 
+						corrStateDrainer; 
+						agcStateDrainer; 
+						ofdmDemodStateDrainer; 
+						cfoStateDrainer; 
+						}
+action: axnRxFinish_1			: 
+####################################
+statep: staRxInit			: 0: axnRxInit0			: {
+										jumpInit;
+										dxCpInit;			
+										dxTrInit0;
+										}
+statep: staRxInit			: 1: axnRxInit1			: { 
+										dxTrInit1;
+										}
+statep: staRxInit			: 2: axnRxInit2			: {
+										dxTrInit2;
+										}
+statep: staRxInit			: 3: axnRxInit3			: {
+										dxTrInit3;
+										}
+#
+statep: staRxPktInit			: 0: axnRxPktInit0		: {
+			 							jumpPktInit; 		
+										dxCpPktInit;			
+										dxTrPktInit0;
+										}
+statep: staRxPktInit			: 1: axnRxPktInit1		:                                       		                		dxTrPktInit1;
+statep: staRxPktInit			: 2: axnRxPktInit2		:                                       		                		dxTrPktInit2;
+statep: staRxPktInit			: 3: axnRxPktInit3		:                                       		                		dxTrPktInit3;
+#
+statep: staRxPktDetect			: 0: axnRxPktDetect0		: {
+										agcStateDrainer; 
+										pktDetectDecision; 			
+										dxCpPktDetect;			
+										dxTrPktDetect0;
+										}
+statep: staRxPktDetect			: 1: noaxn  			: {
+										dxTrPktDetect1;
+										}
+statep: staRxPktDetect			: 2: noaxn  			: {
+										dxTrPktDetect2;
+										}
+statep: staRxPktDetect			: 3: noaxn  			: {
+										dxTrPktDetect3;
+										}
+#
+statep: staRxLTFProc			: 0: axnRxLTFProc0		: jumpLTFProc; dxCpLTFProc; dxTrLTFProc0;
+statep: staRxLTFProc			: 1: noaxn  			: dxTrLTFProc1;
+statep: staRxLTFProc			: 2: noaxn  			: dxTrLTFProc2;
+statep: staRxLTFProc			: 3: noaxn  			: dxTrLTFProc3;
+#
+statep: staRxPLCPDecode 		: 0: axnRxPLCPDecode0		: dxCpPlcpParser; dxTrPlcpParser0;
+statep: staRxPLCPDecode 		: 1: noaxn			: dxTrPlcpParser1;
+statep: staRxPLCPDecode 		: 2: noaxn			: dxTrPlcpParser2;
+statep: staRxPLCPDecode 		: 3: noaxn			: dxTrPlcpParser3;
+#
+#
+#
+#######################
+# d54m decode setup 
+#######################
+statep: staRxDataDecode54m_setup	: 0: axnRxDataDecode54m_setup_0 : {
+										#d54mVitDecMapRetainer; 
+										d54mDecodeDecision;	
+										dxCpDataDecode;			
+										dxTrDataDecode0;
+										}
+statep: staRxDataDecode54m_setup	: 1: axnRxDataDecode54m_setup_1 : {
+										dxTrDataDecode1;
+										}
+statep: staRxDataDecode54m_setup	: 2: axnRxDataDecode54m_setup_2 : {
+										dxTrDataDecode2;
+										}
+statep: staRxDataDecode54m_setup	: 3: axnRxDataDecode54m_setup_3 : {
+										dxTrDataDecode3;
+										}
+#
+########################
+# per-symbol common 54m
+########################
+statep: staRxDataDecode54m_c		: 0: axnRxDataDecode54m_c_0 	: {
+										#d54mVitDecMapRetainer; 
+										d54mDecodeDecision;	
+										dxCpDataDecode;			
+										dxTrDataDecode0;
+										}
+statep: staRxDataDecode54m_c		: 1: axnRxDataDecode54m_c_1 	: {
+										dxTrDataDecode1;
+										}
+statep: staRxDataDecode54m_c		: 2: axnRxDataDecode54m_c_2 	: {
+										dxTrDataDecode2;
+										}
+statep: staRxDataDecode54m_c		: 3: axnRxDataDecode54m_c_3 	: {
+										dxTrDataDecode3;
+										}
+#
+########################
+# head-tail decoding 54m
+######################
+statep: staRxDataDecode54m_HT		: 0: noaxn			:
+statep: staRxDataDecode54m_HT		: 1: noaxn			:
+statep: staRxDataDecode54m_HT		: 2: noaxn			:
+statep: staRxDataDecode54m_HT		: 3: noaxn			:
+########################
+# head decoding 54m
+######################
+statep: staRxDataDecode54m_H		: 0: axnRxDataDecode54m_H_0	: {
+										#d54mVitDecMapRetainer; 
+										d54mDecodeDecision;	
+										dxCpDataDecode;			
+										dxTrDataDecode0;
+										}
+
+statep: staRxDataDecode54m_H		: 1: axnRxDataDecode54m_H_1	: { 
+										dxTrDataDecode1;
+										}
+statep: staRxDataDecode54m_H		: 2: axnRxDataDecode54m_H_2	: { 
+										dxTrDataDecode2;
+										}
+statep: staRxDataDecode54m_H		: 3: axnRxDataDecode54m_H_3	: { 
+										dxTrDataDecode3;
+										}
+#
+######################
+# mid-pre decoding 54m
+######################
+statep: staRxDataDecode54m_Mp		: 0: axnRxDataDecode54m_Mp_0	: {
+										#d54mVitDecMapRetainer; 
+										d54mDecodeDecision;	
+										dxCpDataDecode;			
+										dxTrDataDecode0;
+										}
+statep: staRxDataDecode54m_Mp		: 1: axnRxDataDecode54m_Mp_1	: {
+										dxTrDataDecode1;
+										}
+statep: staRxDataDecode54m_Mp		: 2: axnRxDataDecode54m_Mp_2	: {
+										dxTrDataDecode2;
+										}
+statep: staRxDataDecode54m_Mp		: 3: axnRxDataDecode54m_Mp_3	: {
+										dxTrDataDecode3;
+										}
+######################
+# mid decoding 54m
+######################
+statep: staRxDataDecode54m_M		: 0: axnRxDataDecode54m_M_0	: {	
+										#d54mVitDecMapRetainer; 
+										d54mDecodeDecision;	
+										dxCpDataDecode;			
+										dxTrDataDecode0;
+										}
+statep: staRxDataDecode54m_M		: 1: axnRxDataDecode54m_M_1	: {
+										dxTrDataDecode1;
+										}
+statep: staRxDataDecode54m_M		: 2: axnRxDataDecode54m_M_2	: {
+										dxTrDataDecode2;
+										}
+statep: staRxDataDecode54m_M		: 3: axnRxDataDecode54m_M_3	: {
+										dxTrDataDecode3;
+										}
+#
+######################
+# tail decoding 54m
+######################
+statep: staRxDataDecode54m_T		: 0: axnRxDataDecode54m_T_0	: {	
+										#d54mVitDecMapRetainer; 
+										d54mDecodeDecision;	
+										dxCpDataDecode;			
+										dxTrDataDecode0;
+										}
+statep: staRxDataDecode54m_T		: 1: axnRxDataDecode54m_T_1	: {
+										dxTrDataDecode1;
+										}
+statep: staRxDataDecode54m_T		: 2: axnRxDataDecode54m_T_2	: { 
+										dxTrDataDecode2;
+										}
+statep: staRxDataDecode54m_T		: 3: axnRxDataDecode54m_T_3	: { 
+										dxTrDataDecode3;
+										}
+#
+######################
+# tail-from-head decoding 54m
+######################
+statep: staRxDataDecode54m_TfH		: 0: axnRxDataDecode54m_TfH_0	: {	
+										#d54mVitDecMapRetainer; 
+										d54mDecodeDecision;	
+										dxCpDataDecode;			
+										dxTrDataDecode0;
+										}
+statep: staRxDataDecode54m_TfH		: 1: axnRxDataDecode54m_TfH_1	: {
+										dxTrDataDecode1;
+										}
+statep: staRxDataDecode54m_TfH		: 2: axnRxDataDecode54m_TfH_2	: {
+										dxTrDataDecode2;
+										}
+statep: staRxDataDecode54m_TfH		: 3: axnRxDataDecode54m_TfH_3	: {
+										dxTrDataDecode3;
+										}
+#
+######################
+# post-decode finish 54m
+######################
+statep: staRxDataDecode54m_f		: 0: axnRxDataDecode54m_f_0	: {
+										jumpToFinish;	
+										dxCpDataDecodeFinish;		
+										dxTrDataDecodeFinish0;
+										}
+statep: staRxDataDecode54m_f		: 1: axnRxDataDecode54m_f_1	: {
+										dxTrDataDecodeFinish1;
+										}
+statep: staRxDataDecode54m_f		: 2: axnRxDataDecode54m_f_2	: {
+										dxTrDataDecodeFinish2;
+										}
+statep: staRxDataDecode54m_f		: 3: axnRxDataDecode54m_f_3	: {
+										dxTrDataDecodeFinish3;
+										}
+#
+######################
+# post-decode finish 54m
+######################
+statep: staRxDataDecode54m_TfH_f	: 0: axnRxDataDecode54m_TfH_f_0	: {
+										jumpToFinish;
+										dxCpDataDecodeFinish;
+										dxTrDataDecodeFinish0;
+										}
+statep: staRxDataDecode54m_TfH_f	: 1: axnRxDataDecode54m_TfH_f_1	: {
+										dxTrDataDecodeFinish1;
+										}
+statep: staRxDataDecode54m_TfH_f	: 2: axnRxDataDecode54m_TfH_f_2	: {
+										dxTrDataDecodeFinish2;
+										}
+statep: staRxDataDecode54m_TfH_f	: 3: axnRxDataDecode54m_TfH_f_3	: {
+										dxTrDataDecodeFinish3;
+										}
+#==================================================================================
+#When we are not processing the data rate
+#==================================================================================
+statep: staRxContinue			: 0: axnRxContinue_0		: {	
+										jumpToFinish;	
+										dxCpDataDecodeFinish;		
+										dxTrDataDecodeFinish0;
+										}
+statep: staRxContinue			: 1: noaxn			: {
+										dxTrDataDecodeFinish1;
+										}
+statep: staRxContinue			: 2: noaxn			: {
+										dxTrDataDecodeFinish2;
+										}
+statep: staRxContinue			: 3: noaxn			: {
+										dxTrDataDecodeFinish3;
+										}
+#==================================================================================
+#In either case - processed data rate or not
+#==================================================================================
+statep: staRxFinish			: 0: axnRxFinish_0		: {
+										jumpToPktInit;					
+										dxCpRxFinish;			
+										dxTrRxFinish0;
+										}
+statep: staRxFinish			: 1: noaxn			: {
+										dxTrRxFinish1;
+										}
+statep: staRxFinish			: 2: noaxn			: {
+										dxTrRxFinish2;
+										}
+statep: staRxFinish			: 3: noaxn			: { 
+										dxTrRxFinish3;
+										}
+#
+#<command=statei>:<initState>:<iterCount>
+statei: staRxInit		: 1

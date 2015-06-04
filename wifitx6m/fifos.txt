@@ -1,0 +1,32 @@
+
+# Atomix project, fifos.txt, TODO: insert summary here
+# Copyright (c) 2015 Stanford University
+# Released under the Apache License v2.0. See the LICENSE file for details.
+# Author(s): Manu Bansal
+
+#<command==fill>:<instanename>:<initial fill data as Uint8's>
+
+fifo: ff_kk0  :2  :sin  :0
+fifo: ff_kk1  :2  :sin  :1
+fifo: ff_kk2  :2  :sin  :2
+fifo: ff_kk3  :2  :sin  :3
+
+fifo: ff_preambleTraceReaderState   :4  :sin  :0
+fifo: ff_ofdmModState               :4  :sin  :0
+fifo: ff_byteReaderState            :4  :sin  :0
+fifo: ff_convEncoderState           :4  :sin  :0
+fifo: ff_scramState                 :4  :sin  :0
+fifo: ff_tailZeroState              :4  :sin  :0
+
+fifo: ff_bitCache           :4  :sin  :0
+fifo: ff_byteBuf            :4  :sin  :0
+fifo: ff_ackBitsBuf         :4  :sin  :0
+fifo: ff_ackSymbolBitsBuf   :4  :sin  :0
+fifo: ff_scramBitsBuf       :4  :sin  :0
+fifo: ff_convBitsBufA       :4  :sin  :0
+fifo: ff_convBitsBufB       :4  :sin  :0
+fifo: ff_puncturedBitsBuf   :4  :sin  :0
+fifo: ff_interleavedBitsBuf :4  :sin  :0
+fifo: ff_mappedSymbolBuf    :4  :sin  :0
+fifo: ff_ofdmModSymbols     :4  :sin  :0
+fifo: ff_tailZeroBitsBuf    :4  :sin  :0

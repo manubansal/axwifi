@@ -1,0 +1,224 @@
+
+# Atomix project, states.txt, TODO: insert summary here
+# Copyright (c) 2015 Stanford University
+# Released under the Apache License v2.0. See the LICENSE file for details.
+# Author(s): Manu Bansal
+
+#<command==state>:<stateName>:<stateNum>:<coreNum>:<action|noaxn>:<atomseq>
+#DEPRECATED <command==decway>....
+#where atomseq = (atomname;)+ (note that a semicolon must follow each
+#atom in the sequence, even the last one.)
+#
+state : staRxInit
+state : staRxPktInit
+state : staRxPktDetect
+state : staRxLTFProc
+state : staRxPLCPDecode
+#
+state : staRxDataDecode6m_setup
+state : staRxDataDecode6m_c
+state : staRxDataDecode6m_HT
+state : staRxDataDecode6m_H
+state : staRxDataDecode6m_M
+state : staRxDataDecode6m_T
+state : staRxDataDecode6m_f
+#
+state : staRxDataDecode54m_setup
+state : staRxDataDecode54m_c
+state : staRxDataDecode54m_HT
+state : staRxDataDecode54m_H
+state : staRxDataDecode54m_M
+state : staRxDataDecode54m_T
+state : staRxDataDecode54m_f
+#
+state : staRxFinish
+#
+#----------------------------------------------------------------------------------
+action: axnRxInit0	: traceReader80Init; plcpVitDecInit; plcpVitDecGenConfSL; data6mVitDecHeadInit; data6mVitDecHeadGenConfSL; data6mVitDecMidInit; data6mVitDecMidGenConfSL; data6mVitDecTailInit; data6mVitDecHeadTailInit; data54mVitDecHeadInit; data54mVitDecHeadGenConfSL; data54mVitDecMidInit; data54mVitDecMidGenConfSL; data54mVitDecTailInit; data54mVitDecHeadTailInit;
+#
+action: axnRxPktInit0  	: pktAlignInit; pktDetectInit; plcpOfdmDemodPktInit; dataOfdmDemodPktInit; 
+#
+action: axnRxPktDetect0	: traceReader80; pktDetect;
+#
+action: axnRxLTFProc0   : traceReader80; bufAlign; traceReader80; bufAlign; bufCopyTwoWays; bufCopyTwoWays; bufJoin1; agcStateRetainer; cfoEstLTF; cfoStateRetainer; agcStateRetainer; cfoCorrectorG; cfoStateRetainer; agcStateRetainer; cfoCorrectorGM; bufJoin2; chEstLTF;
+#
+action: axnRxPLCPDecode0: traceReader80; bufAlign; cfoStateRetainer; agcStateRetainer; plcpCfoCorrectorG; plcpOfdmDemod; chStateRetainer; plcpOfdmEq; plcpEqSymsDrainer; plcpSoftSlicerBPSK; plcpSoftDeint48; plcpSoftBM24; plcpVitDecStateRetainer; plcpVitDecSingleHT; plcpVitDecWFC; plcpParser; 
+####################################################################################
+# 6mbps
+####################################################################################
+action: axnRxDataDecode6m_setup_0: data6mBMCacheInit; data6mDecodeDecisionInit; data6mVitDecMap; data6mVitDecMapRetainer; data6mVitDecTailGenConf; data6mVitDecMapRetainer; data6mVitDecHeadTailGenConf; data6mVitDecMapRetainer;
+#
+action: axnRxDataDecode6m_c_0: traceReader80; bufAlign; cfoStateRetainer; agcStateRetainer; dataCfoCorrectorG; dataOfdmDemod; chStateRetainer; dataOfdmEq; dataEqSymsDrainer; dataSoftSlicerBPSK; dataSoftDeint48; dataSoftBM24; data6mBmCachePut;
+#
+action: axnRxDataDecode6m_HT_0: traceReader80; bufAlign; cfoStateRetainer; agcStateRetainer; dataCfoCorrectorG; dataOfdmDemod; chStateRetainer; dataOfdmEq; dataEqSymsDrainer; dataSoftSlicerBPSK; dataSoftDeint48; dataSoftBM24; data6mBmCachePut; data6mBmCacheGetHTFrame; data6mVitDecHeadTail;
+#
+action: axnRxDataDecode6m_H_0: traceReader80; bufAlign; cfoStateRetainer; agcStateRetainer; dataCfoCorrectorG; dataOfdmDemod; chStateRetainer; dataOfdmEq; dataEqSymsDrainer; dataSoftSlicerBPSK; dataSoftDeint48; dataSoftBM24; data6mBmCachePut; data6mBmCacheGetHFrame; data6mVitDecHeadStateRetainer; data6mVitDecHead;
+#
+action: axnRxDataDecode6m_M_0: traceReader80; bufAlign; cfoStateRetainer; agcStateRetainer; dataCfoCorrectorG; dataOfdmDemod; chStateRetainer; dataOfdmEq; dataEqSymsDrainer; dataSoftSlicerBPSK; dataSoftDeint48; dataSoftBM24; data6mBmCachePut; data6mBmCacheGetMFrame; data6mVitDecWFC; data6mDebugPrintBitBucket; data6mVitDecMidStateRetainer; data6mVitDecMid;
+#
+action: axnRxDataDecode6m_T_0: traceReader80; bufAlign; cfoStateRetainer; agcStateRetainer; dataCfoCorrectorG; dataOfdmDemod; chStateRetainer; dataOfdmEq; dataEqSymsDrainer; dataSoftSlicerBPSK; dataSoftDeint48; dataSoftBM24; data6mBmCachePut; data6mBmCacheGetTFrame; data6mVitDecWFC; data6mDebugPrintBitBucket; data6mVitDecTailStateRetainer; data6mVitDecTail;
+#
+action: axnRxDataDecode6m_f_0: data6mVitDecWFC; data6mDebugPrintBitBucket; data6mVitDecMapRetainer; dataOfdmDemodStateDrainer; data6mDecodeDecStDrainer; data6mBmCacheDrainer;
+####################################################################################
+# 54mbps
+####################################################################################
+action: axnRxDataDecode54m_setup_0: data54mVitDecMap; data54mBMCacheInit; data54mDecodeDecisionInit; data54mVitDecMapRetainer; data54mVitDecTailGenConf; data54mVitDecMapRetainer; data54mVitDecHeadTailGenConf; data54mVitDecMapRetainer;
+#
+action: axnRxDataDecode54m_c_0: traceReader80; bufAlign; cfoStateRetainer; agcStateRetainer; dataCfoCorrectorG; dataOfdmDemod; chStateRetainer; dataOfdmEq; datayhstarDrainer; dataOfdmEqStateDrainer; dataSoftSlicer64QAM; dataSoftDeint288; dataSoftDepuncR3by4F216; dataSoftBM216; data54mBmCachePut;
+#
+action: axnRxDataDecode54m_HT_0: traceReader80; bufAlign; cfoStateRetainer; agcStateRetainer; dataCfoCorrectorG; dataOfdmDemod; chStateRetainer; dataOfdmEq; datayhstarDrainer; dataOfdmEqStateDrainer; dataSoftSlicer64QAM; dataSoftDeint288; dataSoftDepuncR3by4F216; dataSoftBM216; data54mBmCachePut; data54mBmCacheGetHTFrame; data54mVitDecHeadTail;
+#
+action: axnRxDataDecode54m_H_0: traceReader80; bufAlign; cfoStateRetainer; agcStateRetainer; dataCfoCorrectorG; dataOfdmDemod; chStateRetainer; dataOfdmEq; datayhstarDrainer; dataOfdmEqStateDrainer; dataSoftSlicer64QAM; dataSoftDeint288; dataSoftDepuncR3by4F216; dataSoftBM216; data54mBmCachePut; data54mBmCacheGetHFrame; data54mVitDecHeadStateRetainer; data54mVitDecHead;
+#
+action: axnRxDataDecode54m_M_0: traceReader80; bufAlign; cfoStateRetainer; agcStateRetainer; dataCfoCorrectorG; dataOfdmDemod; chStateRetainer; dataOfdmEq; datayhstarDrainer; dataOfdmEqStateDrainer; dataSoftSlicer64QAM; dataSoftDeint288; dataSoftDepuncR3by4F216; dataSoftBM216; data54mBmCachePut; data54mBmCacheGetMFrame; data54mVitDecWFC; data54mDebugPrintBitBucket; data54mVitDecMidStateRetainer; data54mVitDecMid;
+#
+action: axnRxDataDecode54m_T_0: traceReader80; bufAlign; cfoStateRetainer; agcStateRetainer; dataCfoCorrectorG; dataOfdmDemod; chStateRetainer; dataOfdmEq; datayhstarDrainer; dataOfdmEqStateDrainer; dataSoftSlicer64QAM; dataSoftDeint288; dataSoftDepuncR3by4F216; dataSoftBM216; data54mBmCachePut; data54mBmCacheGetTFrame; data54mVitDecWFC; data54mDebugPrintBitBucket; data54mVitDecTailStateRetainer; data54mVitDecTail;
+#
+action: axnRxDataDecode54m_f_0: data54mVitDecWFC; data54mDebugPrintBitBucket; data54mVitDecMapRetainer; dataOfdmDemodStateDrainer; data54mDecodeDecStDrainer; data54mBmCacheDrainer;
+####################################
+action: axnRxFinish_0: alignStateDrainer; energyStateDrainer; corrStateDrainer; agcStateDrainer; plcpOfdmDemodStateDrainer; cfoStateDrainer; chStateDrainer; 
+####################################
+statep: staRxInit		: 0: axnRxInit0		: jumpInit; 
+statep: staRxInit		: 1: noaxn		: 
+statep: staRxInit		: 2: noaxn		: 
+statep: staRxInit		: 3: noaxn		: 
+#
+statep: staRxPktInit		: 0: axnRxPktInit0	: jumpPktInit; 
+statep: staRxPktInit		: 1: noaxn  		: 
+statep: staRxPktInit		: 2: noaxn  		: 
+statep: staRxPktInit		: 3: noaxn  		: 
+#
+statep: staRxPktDetect		: 0: axnRxPktDetect0	: agcStateDrainer; pktDetectDecision; 
+statep: staRxPktDetect		: 1: noaxn  		: 
+statep: staRxPktDetect		: 2: noaxn  		: 
+statep: staRxPktDetect		: 3: noaxn  		: 
+#
+statep: staRxLTFProc		: 0: axnRxLTFProc0	: jumpLTFProc; 
+statep: staRxLTFProc		: 1: noaxn  		: 
+statep: staRxLTFProc		: 2: noaxn  		: 
+statep: staRxLTFProc		: 3: noaxn  		: 
+#
+statep: staRxPLCPDecode 	: 0: axnRxPLCPDecode0	: 
+statep: staRxPLCPDecode 	: 1: noaxn		:
+statep: staRxPLCPDecode 	: 2: noaxn		:
+statep: staRxPLCPDecode 	: 3: noaxn		:
+#
+#######################
+# data6m decode setup 
+#######################
+statep: staRxDataDecode6m_setup	: 0: axnRxDataDecode6m_setup_0 :  data6mDecodeDecision;
+statep: staRxDataDecode6m_setup	: 1: noaxn		:
+statep: staRxDataDecode6m_setup	: 2: noaxn		:
+statep: staRxDataDecode6m_setup	: 3: noaxn		:
+#
+########################
+# per-symbol common 6m
+########################
+statep: staRxDataDecode6m_c	: 0: axnRxDataDecode6m_c_0 : data6mVitDecMapRetainer; data6mDecodeDecision;
+statep: staRxDataDecode6m_c	: 1: noaxn 	:
+statep: staRxDataDecode6m_c	: 2: noaxn 	:
+statep: staRxDataDecode6m_c	: 3: noaxn 	:
+#
+########################
+# head-tail decoding
+######################
+statep: staRxDataDecode6m_HT	: 0: axnRxDataDecode6m_HT_0	: data6mVitDecMapRetainer;data6mDecodeDecision;
+statep: staRxDataDecode6m_HT	: 1: noaxn	:
+statep: staRxDataDecode6m_HT	: 2: noaxn	:
+statep: staRxDataDecode6m_HT	: 3: noaxn	:
+########################
+# head decoding
+######################
+statep: staRxDataDecode6m_H	: 0: axnRxDataDecode6m_H_0	: data6mVitDecMapRetainer;data6mDecodeDecision;
+statep: staRxDataDecode6m_H	: 1: noaxn	:
+statep: staRxDataDecode6m_H	: 2: noaxn	:
+statep: staRxDataDecode6m_H	: 3: noaxn	:
+#
+######################
+# mid decoding
+######################
+statep: staRxDataDecode6m_M	: 0: axnRxDataDecode6m_M_0	: data6mVitDecMapRetainer;data6mDecodeDecision;
+statep: staRxDataDecode6m_M	: 1: noaxn	:
+statep: staRxDataDecode6m_M	: 2: noaxn	:
+statep: staRxDataDecode6m_M	: 3: noaxn	:
+#
+######################
+# tail decoding
+######################
+statep: staRxDataDecode6m_T	: 0: axnRxDataDecode6m_T_0	: data6mVitDecMapRetainer;data6mDecodeDecision;
+statep: staRxDataDecode6m_T	: 1: noaxn	:
+statep: staRxDataDecode6m_T	: 2: noaxn	:
+statep: staRxDataDecode6m_T	: 3: noaxn	:
+#
+######################
+# post-decode finish
+######################
+statep: staRxDataDecode6m_f	: 0: axnRxDataDecode6m_f_0	: jumpToFinish;
+statep: staRxDataDecode6m_f	: 1: noaxn	:
+statep: staRxDataDecode6m_f	: 2: noaxn	:
+statep: staRxDataDecode6m_f	: 3: noaxn	:
+#==================================================================================
+#
+#######################
+# data54m decode setup 
+#######################
+statep: staRxDataDecode54m_setup	: 0: axnRxDataDecode54m_setup_0 :  data54mDecodeDecision;
+statep: staRxDataDecode54m_setup	: 1: noaxn		:
+statep: staRxDataDecode54m_setup	: 2: noaxn		:
+statep: staRxDataDecode54m_setup	: 3: noaxn		:
+#
+########################
+# per-symbol common 54m
+########################
+statep: staRxDataDecode54m_c	: 0: axnRxDataDecode54m_c_0 : data54mVitDecMapRetainer;data54mDecodeDecision;
+statep: staRxDataDecode54m_c	: 1: noaxn 	:
+statep: staRxDataDecode54m_c	: 2: noaxn 	:
+statep: staRxDataDecode54m_c	: 3: noaxn 	:
+#
+########################
+# head-tail decoding 54m
+######################
+statep: staRxDataDecode54m_HT	: 0: axnRxDataDecode54m_HT_0	: data54mVitDecMapRetainer;data54mDecodeDecision;
+statep: staRxDataDecode54m_HT	: 1: noaxn	:
+statep: staRxDataDecode54m_HT	: 2: noaxn	:
+statep: staRxDataDecode54m_HT	: 3: noaxn	:
+########################
+# head decoding 54m
+######################
+statep: staRxDataDecode54m_H	: 0: axnRxDataDecode54m_H_0	: data54mVitDecMapRetainer;data54mDecodeDecision;
+statep: staRxDataDecode54m_H	: 1: noaxn	:
+statep: staRxDataDecode54m_H	: 2: noaxn	:
+statep: staRxDataDecode54m_H	: 3: noaxn	:
+#
+######################
+# mid decoding 54m
+######################
+statep: staRxDataDecode54m_M	: 0: axnRxDataDecode54m_M_0	: data54mVitDecMapRetainer;data54mDecodeDecision;
+statep: staRxDataDecode54m_M	: 1: noaxn	:
+statep: staRxDataDecode54m_M	: 2: noaxn	:
+statep: staRxDataDecode54m_M	: 3: noaxn	:
+#
+######################
+# tail decoding 54m
+######################
+statep: staRxDataDecode54m_T	: 0: axnRxDataDecode54m_T_0	: data54mVitDecMapRetainer; data54mDecodeDecision;
+statep: staRxDataDecode54m_T	: 1: noaxn	:
+statep: staRxDataDecode54m_T	: 2: noaxn	:
+statep: staRxDataDecode54m_T	: 3: noaxn	:
+#
+######################
+# post-decode finish 54m
+######################
+statep: staRxDataDecode54m_f	: 0: axnRxDataDecode54m_f_0	: jumpToFinish;
+statep: staRxDataDecode54m_f	: 1: noaxn	:
+statep: staRxDataDecode54m_f	: 2: noaxn	:
+statep: staRxDataDecode54m_f	: 3: noaxn	:
+#
+#==================================================================================
+statep: staRxFinish	: 0: axnRxFinish_0: jumpToPktInit;
+statep: staRxFinish	: 1: noaxn	:
+statep: staRxFinish	: 2: noaxn	:
+statep: staRxFinish	: 3: noaxn	:
+#
+#<command=statei>:<initState>:<iterCount>
+statei: staRxInit		: 1

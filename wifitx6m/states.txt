@@ -1,0 +1,87 @@
+
+# Atomix project, states.txt, TODO: insert summary here
+# Copyright (c) 2015 Stanford University
+# Released under the Apache License v2.0. See the LICENSE file for details.
+# Author(s): Manu Bansal
+
+#<command==state>:<stateName>:<stateNum>:<coreNum>:<action|noaxn>:<atomseq>
+
+state : staTxAckInit
+state : staTxAckPreambleSignal
+state : staTxAck
+state : staTxAckFinal
+
+action: axnTxAckInit0     : {   
+	preambleTraceReaderInit;
+        byteReaderInit;	
+	bitCacheInit;
+	scramblerInit;
+        convEncoderInit;
+        ofdmModPktInit;
+	byteReader;
+	ackPacker;
+	bitCachePut;
+        }
+action: axnTxAckInit1     :
+action: axnTxAckInit2     :
+action: axnTxAckInit3     :
+
+action: axnTxAckPreambleSignal0     : {   
+	preambleTraceReader;
+        ofdmModDrain;
+        }
+action: axnTxAckPreambleSignal1     :
+action: axnTxAckPreambleSignal2     :
+action: axnTxAckPreambleSignal3     :
+
+action: axnTxAck0         : {   
+	bitCacheGet;
+	scrambler;
+        convEncoder;
+ 	puncturer;
+	interleaver;
+        bpskMapper;
+        ofdmMod; 
+        ofdmModDrain;
+        }
+action: axnTxAck1         :
+action: axnTxAck2         :
+action: axnTxAck3         :
+
+action: axnTxAckFinal0    : {   
+	bitCacheGet;
+	scrambler;
+	tailZeroer;
+        convEncoderFinal;
+ 	puncturer;
+	interleaver;
+        bpskMapper;
+        ofdmMod; 
+        ofdmModDrain;
+        }
+action: axnTxAckFinal1    :
+action: axnTxAckFinal2    :
+action: axnTxAckFinal3    :
+
+statep: staTxAckInit    : 0 : axnTxAckInit0 : jumpInit;
+statep: staTxAckInit    : 1 : noaxn : 
+statep: staTxAckInit    : 2 : noaxn : 
+statep: staTxAckInit    : 3 : noaxn : 
+
+statep: staTxAckPreambleSignal    : 0 : axnTxAckPreambleSignal0 : jumpPreambleSignal;
+statep: staTxAckPreambleSignal    : 1 : noaxn : 
+statep: staTxAckPreambleSignal    : 2 : noaxn : 
+statep: staTxAckPreambleSignal    : 3 : noaxn : 
+
+statep: staTxAck        : 0 : axnTxAck0 : jumpTxAck;
+statep: staTxAck        : 1 : noaxn : 
+statep: staTxAck        : 2 : noaxn : 
+statep: staTxAck        : 3 : noaxn : 
+
+statep: staTxAckFinal   : 0 : axnTxAckFinal0 :
+statep: staTxAckFinal   : 1 : noaxn : 
+statep: staTxAckFinal   : 2 : noaxn : 
+statep: staTxAckFinal   : 3 : noaxn : 
+
+#<command=statei>:<initState>:<iterCount>
+statei: staTxAckInit : 1

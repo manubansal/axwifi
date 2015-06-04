@@ -1,0 +1,19 @@
+
+# Atomix project, atoms.ethreader.or, TODO: insert summary here
+# Copyright (c) 2015 Stanford University
+# Released under the Apache License v2.0. See the LICENSE file for details.
+# Author(s): Manu Bansal
+
+#-------------
+## ethReader ##
+#-------------
+atom: sampleReader		: ORILIB_EthReader				: 0
+wire: sampleReader		: ff_sampleReaderState:ff_rxSampleBuf:ff_sampleReaderState
+conf: sampleReader		: 80, 1
+
+atom: sampleReaderInit		: ORILIB_EthReader_Init				: 0
+wire: sampleReaderInit		: ff_sampleReaderState
+
+atom: sampleReaderReInit	: ORILIB_EthReader_Reinit     : 0
+wire: sampleReaderReInit	: null
+

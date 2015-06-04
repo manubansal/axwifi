@@ -1,0 +1,325 @@
+
+# Atomix project, fifos.or, TODO: insert summary here
+# Copyright (c) 2015 Stanford University
+# Released under the Apache License v2.0. See the LICENSE file for details.
+# Author(s): Manu Bansal
+
+#<command==fifo>:<instancename>:<numbufs>:<src/dst/sin>:<coreid>
+#<command==fill>:<instanename>:<initial fill data as Uint8's>
+#If initial fill data is provided, each buffer in the queue starts in the filled state, otherwise 
+#each buffer starts in the empty state.
+#DEPRECATED: <command==link>: <instancename>: <instancename>: <pull|push>
+#DEPRECATED: <command==link>: <instancename>: <instancename>: <coreid of the transfer block>
+#fill: ff3: {0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,3,0,0,0,0}
+#
+#-------------
+# kernel fifos
+#-------------
+fifo: ff_kk0					: 2 	: sin	: 0
+fifo: ff_kk1					: 2 	: sin	: 1
+fifo: ff_kk2					: 2 	: sin	: 2
+fifo: ff_kk3					: 2 	: sin	: 3
+#
+#-------------
+# for ack tx
+#-------------
+fifo: ff_preambleTraceReaderState   		: 4  	: sin  	: 0
+fifo: ff_ofdmModState               		: 4  	: sin  	: 0
+fifo: ff_byteReaderState            		: 4  	: sin  	: 0
+fifo: ff_convEncoderState           		: 4  	: sin  	: 0
+fifo: ff_scramState                 		: 4  	: sin  	: 0
+fifo: ff_tailZeroState              		: 4  	: sin  	: 0
+
+fifo: ff_bitCache           			: 4  	: sin  	: 0
+fifo: ff_byteBuf            			: 4  	: sin  	: 0
+fifo: ff_ackBitsBuf         			: 4  	: sin  	: 0
+fifo: ff_ackSymbolBitsBuf   			: 4  	: sin  	: 0
+fifo: ff_scramBitsBuf       			: 4  	: sin  	: 0
+fifo: ff_convBitsBufA       			: 4  	: sin  	: 0
+fifo: ff_convBitsBufB       			: 4  	: sin  	: 0
+fifo: ff_puncturedBitsBuf   			: 4  	: sin  	: 0
+fifo: ff_interleavedBitsBuf 			: 4  	: sin  	: 0
+fifo: ff_mappedSymbolBuf    			: 4  	: sin  	: 0
+fifo: ff_ofdmModSymbols     			: 4  	: sin  	: 0
+fifo: ff_tailZeroBitsBuf    			: 4  	: sin  	: 0
+#fifo: ff_ethWriterState          : 4  	: sin  	: 0
+fifo: ff_symbolMemWriterState			: 4  	: sin  	: 0
+#
+
+#-------------
+# for rx chain
+#-------------
+fifo: ff_sampleReaderState			: 2   	: sin	: 0
+fifo: ff_rxSampleBuf  				: 4	: sin	: 0
+fifo: ff_alignState				: 4	: sin	: 0
+fifo: ff_corrState				: 4	: sin	: 0
+fifo: ff_corrStateAux				: 4	: sin	: 0
+fifo: ff_detectState				: 4	: sin	: 0
+fifo: ff_agcState				: 4	: sin	: 0
+fifo: ff_simpleEnergyState			: 4	: sin	: 0
+fifo: ff_gainState				: 4	: sin	: 0
+fifo: ff_gainStateAux				: 4	: sin	: 0
+fifo: ff_gainSampleBuf				: 4	: sin	: 0
+#fifo: ff_agcStateCopy				: 4	: sin	: 0
+#
+fifo: ff_alignedSampleBuf			: 4	: sin	: 0
+fifo: ff_joinedLTF1				: 4	: sin	: 0
+fifo: ff_cfoState				: 4	: sin	: 0
+fifo: ff_cfoCorrected				: 4	: sin	: 0
+fifo: ff_joinedLTF2				: 4	: sin	: 0
+fifo: ff_joinedLTF2_1				: 4	: sin	: 1
+#
+fifo: ff_chState				: 4	: sin	: 1
+#
+fifo: ff_ofdmDemodState				: 4	: sin	: 0
+fifo: ff_dataTones				: 4	: sin	: 0
+fifo: ff_pilotTones				: 4	: sin	: 0
+#
+fifo: ff_plcpDataTones_1			: 4	: sin	: 1
+fifo: ff_plcpPilotTones_1			: 4	: sin	: 1
+fifo: ff_plcpEqSyms				: 4	: sin	: 1
+fifo: ff_plcpyhstar				: 4	: sin	: 1
+fifo: ff_plcpOfdmEqState			: 4	: sin	: 1
+fifo: ff_plcpSoftSlicedBits			: 4	: sin	: 1
+fifo: ff_plcpSoftDeintBits			: 4	: sin	: 1
+fifo: ff_plcpSoftBranchMetrics			: 4	: sin	: 1
+fifo: ff_plcpVitDecState			: 4	: sin	: 1
+fifo: ff_plcpVitDecWFCState			: 4	: sin	: 1
+fifo: ff_plcpVitDecStateCopy			: 4	: sin	: 1
+fifo: ff_plcpDecodedBits			: 4	: sin	: 1
+fifo: ff_plcpParserState_1			: 4	: sin	: 1
+fifo: ff_plcpParserState_1_Copy			: 4	: sin	: 1
+fifo: ff_pktState				: 4	: sin	: 1
+#########################################
+#
+#########################################
+#
+fifo: ff_plcpParserState_2			: 4	: sin	: 2
+fifo: ff_dallDataTones_1			: 4	: sin	: 1
+fifo: ff_dallPilotTones_1			: 4	: sin	: 1
+fifo: ff_d54mEqSyms				: 4	: sin	: 1
+fifo: ff_d54myhstar				: 4	: sin	: 1
+fifo: ff_dallOfdmEqState			: 4	: sin	: 1
+fifo: ff_d54mSoftSliced64QAMBits		: 4	: sin	: 1
+fifo: ff_d54mSoftDeint288Bits			: 4	: sin	: 1
+fifo: ff_d54mSoftDepunc432Bits			: 4	: sin	: 1
+#
+fifo: ff_d54mSoftBM216_1			: 4	: sin	: 1
+
+fifo: ff_d54mSoftBM216_2			: 4	: sin	: 2
+fifo: ff_d54mBmCache_1				: 4	: sin	: 1
+fifo: ff_d54mBmCache_2				: 4	: sin	: 2
+
+fifo: ff_d54mBmFrame0_1				: 4	: sin	: 1
+fifo: ff_d54mBmFrame1_1				: 4	: sin	: 1
+fifo: ff_d54mBmFrame2_1				: 4	: sin	: 1
+fifo: ff_d54mBmFrame3_1				: 4	: sin	: 1
+
+fifo: ff_d54mBmFrame_2				: 6	: sin	: 2
+#
+#fifo: ff_d54mBmFrame0_3			: 4	: sin	: 3
+#fifo: ff_d54mBmFrame1_3			: 4	: sin	: 3
+#fifo: ff_d54mBmFrame2_3			: 4	: sin	: 3
+#fifo: ff_d54mBmFrame3_3			: 4	: sin	: 3
+#fifo: ff_d54mBmFrame_3				: 8	: sin	: 3
+#
+fifo: ff_d54mVitDecMap0				: 4	: sin	: 0
+fifo: ff_d54mVitDecMap1				: 4	: sin	: 1
+fifo: ff_d54mVitDecMap1Copy			: 4	: sin	: 1
+#
+fifo: ff_d54mVitDecHeadState_1			: 4	: sin	: 1
+fifo: ff_d54mVitDecMidState0_1			: 4	: sin	: 1
+#fifo: ff_d54mVitDecMidState1_1			: 4	: sin	: 1
+fifo: ff_d54mVitDecMidState2_1			: 4	: sin	: 1
+fifo: ff_d54mVitDecMidState3_1			: 4	: sin	: 1
+
+fifo: ff_d54mVitDecHeadState_2			: 4	: sin	: 2
+#NOTE: It is critical that this fifo's length be 4 when using all 4 vcps,
+#so that it cycles correctly between four vcp configurations (state buffers)
+fifo: ff_d54mVitDecMidState_2			: 4	: sin	: 2
+#
+fifo: ff_d54mVitDecWFCState0_1			: 4	: sin	: 1
+fifo: ff_d54mVitDecWFCState1_1			: 4	: sin	: 1
+fifo: ff_d54mVitDecWFCState2_1			: 4	: sin	: 1
+fifo: ff_d54mVitDecWFCState3_1			: 4	: sin	: 1
+
+#fifo: ff_vcpIdxs_3				: 4	: sin	: 3
+
+fifo: ff_d54mVitDecWFCState_2			: 4	: sin	: 2
+#
+fifo: ff_d54mDecodedBitsRaw0_1			: 8	: sin	: 1
+fifo: ff_d54mDecodedBitsRaw1_1			: 8	: sin	: 1
+fifo: ff_d54mDecodedBitsRaw2_1			: 8	: sin	: 1
+fifo: ff_d54mDecodedBitsRaw3_1			: 8	: sin	: 1
+
+fifo: ff_d54mDecodedBitsRaw_2			: 8	: sin	: 2
+fifo: ff_d54mDecodedBitsRaw_3			: 8	: sin	: 3
+#
+
+fifo: ff_d54mHdCache_1				: 4	: sin	: 1
+fifo: ff_d54mHdFrames_1				: 8	: sin	: 1
+fifo: ff_descramblerState_1			: 4	: sin	: 1
+fifo: ff_d54mDescrambled_1			: 8	: sin	: 1
+fifo: ff_d54mDescrCache_1			: 4	: sin	: 1
+fifo: ff_dallServiceField_1			: 1	: sin	: 1
+fifo: ff_d54mPayloadFrame_1			: 4	: sin	: 1
+fifo: ff_d54mCrc32State_1			: 4	: sin	: 1
+fifo: ff_dallPayloadCache_1			: 2	: sin	: 1
+
+fifo: ff_d54mHdCache_3				: 4	: sin	: 3
+fifo: ff_d54mHdFrames_3				: 8	: sin	: 3
+fifo: ff_descramblerState_3			: 4	: sin	: 3
+fifo: ff_d54mDescrambled_3			: 8	: sin	: 3
+fifo: ff_d54mDescrCache_3			: 4	: sin	: 3
+fifo: ff_dallServiceField_3			: 1	: sin	: 3
+fifo: ff_d54mPayloadFrame_3			: 4	: sin	: 3
+fifo: ff_d54mCrc32State_3			: 4	: sin	: 3
+fifo: ff_dallPayloadCache_3			: 2	: sin	: 3
+#
+fifo: ff_dallDecodeState0			: 4	: sin	: 0
+fifo: ff_dallDecodeState1			: 4	: sin	: 1
+###################################
+fifo: ff_dxInit					: 4	: sin	: 0
+fifo: ff_dxInit0				: 4	: sin	: 0
+fifo: ff_dxInit1				: 4	: sin	: 0
+fifo: ff_dxInit2				: 4	: sin	: 0
+fifo: ff_dxInit3				: 4	: sin	: 0
+#
+fifo: ff_dxPktInit				: 4	: sin	: 0
+fifo: ff_dxPktInit0				: 4	: sin	: 0
+fifo: ff_dxPktInit1				: 4	: sin	: 0
+fifo: ff_dxPktInit2				: 4	: sin	: 0
+fifo: ff_dxPktInit3				: 4	: sin	: 0
+#
+fifo: ff_dxPktDetect				: 4	: sin	: 0
+fifo: ff_dxPktDetect0				: 4	: sin	: 0
+fifo: ff_dxPktDetect1				: 4	: sin	: 0
+fifo: ff_dxPktDetect2				: 4	: sin	: 0
+fifo: ff_dxPktDetect3				: 4	: sin	: 0
+#
+fifo: ff_dxPlcpParser				: 4	: sin	: 1
+fifo: ff_dxPlcpParser0				: 4	: sin	: 1
+fifo: ff_dxPlcpParser1				: 4	: sin	: 1
+fifo: ff_dxPlcpParser2				: 4	: sin	: 1
+fifo: ff_dxPlcpParser3				: 4	: sin	: 1
+#
+fifo: ff_dxDataDecode0				: 4	: sin	: 0
+fifo: ff_dxDataDecode1				: 4	: sin	: 1
+#fifo: ff_dxDataDecode00				: 4	: sin	: 0
+#fifo: ff_dxDataDecode01				: 4	: sin	: 0
+fifo: ff_dxDataDecode02				: 4	: sin	: 0
+fifo: ff_dxDataDecode03				: 4	: sin	: 0
+#
+fifo: ff_dxDataDecodeFinish_1			: 4	: sin	: 1
+fifo: ff_dxDataDecodeFinish_3			: 4	: sin	: 3
+
+#fifo: ff_dxDataDecodeFinish0_1			: 4	: sin	: 1
+#fifo: ff_dxDataDecodeFinish1_1			: 4	: sin	: 1
+#fifo: ff_dxDataDecodeFinish2_1			: 4	: sin	: 1
+#fifo: ff_dxDataDecodeFinish3_1			: 4	: sin	: 1
+
+fifo: ff_dxDataDecodeFinish0_3			: 4	: sin	: 3
+fifo: ff_dxDataDecodeFinish1_3			: 4	: sin	: 3
+fifo: ff_dxDataDecodeFinish2_3			: 4	: sin	: 3
+fifo: ff_dxDataDecodeFinish3_3			: 4	: sin	: 3
+#
+fifo: ff_dxRxFinish				: 4	: sin	: 0
+fifo: ff_dxRxFinish0				: 4	: sin	: 0
+fifo: ff_dxRxFinish1				: 4	: sin	: 0
+fifo: ff_dxRxFinish2				: 4	: sin	: 0
+fifo: ff_dxRxFinish3				: 4	: sin	: 0
+#
+fifo: ff_decodeDoneSynchronization1		: 1	: sin	: 1
+fifo: ff_decodeDoneSynchronization3		: 1	: sin	: 3
+fifo: ff_decodeDoneSynchronization0		: 1	: sin	: 0
+###################################
+#--------------------------------
+typehint: ff_d54mSoftBM216_2 			: ORILIB_t_SoftBitBuf432
+
+typehint: ff_d54mBmFrame0_1			: ORILIB_t_SoftBitBuf800
+typehint: ff_d54mBmFrame1_1			: ORILIB_t_SoftBitBuf800
+typehint: ff_d54mBmFrame2_1			: ORILIB_t_SoftBitBuf800
+typehint: ff_d54mBmFrame3_1			: ORILIB_t_SoftBitBuf800
+
+typehint: ff_d54mBmFrame_2			: ORILIB_t_SoftBitBuf800
+#
+#typehint: ff_d54mBmFrame0_3			: ORILIB_t_SoftBitBuf800
+#typehint: ff_d54mBmFrame1_3			: ORILIB_t_SoftBitBuf800
+#typehint: ff_d54mBmFrame2_3			: ORILIB_t_SoftBitBuf800
+#typehint: ff_d54mBmFrame3_3			: ORILIB_t_SoftBitBuf800
+#typehint: ff_d54mBmFrame_3			: ORILIB_t_SoftBitBuf800
+#
+typehint: ff_d54mDecodedBitsRaw0_1		: ORILIB_t_BitBucket512
+typehint: ff_d54mDecodedBitsRaw1_1		: ORILIB_t_BitBucket512
+typehint: ff_d54mDecodedBitsRaw2_1		: ORILIB_t_BitBucket512
+typehint: ff_d54mDecodedBitsRaw3_1		: ORILIB_t_BitBucket512
+
+typehint: ff_d54mDecodedBitsRaw_2		: ORILIB_t_BitBucket512
+typehint: ff_d54mDecodedBitsRaw_3		: ORILIB_t_BitBucket512
+#
+typehint: ff_d54mHdFrames_1			: ORILIB_t_BitBucket64
+typehint: ff_d54mDescrambled_1			: ORILIB_t_BitBucket64
+
+typehint: ff_d54mHdFrames_3			: ORILIB_t_BitBucket64
+typehint: ff_d54mDescrambled_3			: ORILIB_t_BitBucket64
+##
+#
+typehint: ff_dxInit0				: Decision_t	
+typehint: ff_dxInit1				: Decision_t	
+typehint: ff_dxInit2				: Decision_t	
+typehint: ff_dxInit3				: Decision_t	
+#
+typehint: ff_dxPktInit0				: Decision_t	
+typehint: ff_dxPktInit1				: Decision_t	
+typehint: ff_dxPktInit2				: Decision_t	
+typehint: ff_dxPktInit3				: Decision_t	
+#
+typehint: ff_dxPktDetect0			: Decision_t	
+typehint: ff_dxPktDetect1			: Decision_t	
+typehint: ff_dxPktDetect2			: Decision_t	
+typehint: ff_dxPktDetect3			: Decision_t	
+#
+#typehint: ff_dxLTFProc0				: Decision_t	
+#typehint: ff_dxLTFProc1				: Decision_t	
+#typehint: ff_dxLTFProc2				: Decision_t	
+#typehint: ff_dxLTFProc3				: Decision_t	
+#
+typehint: ff_dxPlcpParser0			: Decision_t	
+typehint: ff_dxPlcpParser1			: Decision_t	
+typehint: ff_dxPlcpParser2			: Decision_t	
+typehint: ff_dxPlcpParser3			: Decision_t	
+#
+#typehint: ff_dxDataDecode00			: Decision_t	
+typehint: ff_dxDataDecode01			: Decision_t	
+typehint: ff_dxDataDecode02			: Decision_t	
+typehint: ff_dxDataDecode03			: Decision_t	
+#
+#typehint: ff_dxDataDecodeFinish0_1		: Decision_t	
+#typehint: ff_dxDataDecodeFinish1_1		: Decision_t	
+#typehint: ff_dxDataDecodeFinish2_1		: Decision_t	
+#typehint: ff_dxDataDecodeFinish3_1		: Decision_t	
+
+typehint: ff_dxDataDecodeFinish0_3		: Decision_t	
+typehint: ff_dxDataDecodeFinish1_3		: Decision_t	
+typehint: ff_dxDataDecodeFinish2_3		: Decision_t	
+typehint: ff_dxDataDecodeFinish3_3		: Decision_t	
+#
+typehint: ff_dxRxFinish0			: Decision_t	
+typehint: ff_dxRxFinish1			: Decision_t	
+typehint: ff_dxRxFinish2			: Decision_t	
+typehint: ff_dxRxFinish3			: Decision_t	
+#
+typehint: ff_decodeDoneSynchronization1		: Uint64
+typehint: ff_decodeDoneSynchronization3		: Uint64
+typehint: ff_decodeDoneSynchronization0		: Uint64
+#
+typehint: ff_dallServiceField_1			: ORILIB_t_BitBucket64
+typehint: ff_d54mPayloadFrame_1			: ORILIB_t_BitBucket256
+
+typehint: ff_dallServiceField_3			: ORILIB_t_BitBucket64
+typehint: ff_d54mPayloadFrame_3			: ORILIB_t_BitBucket256
+#
+typehint: ff_plcpParserState_1_Copy		: ORILIB_t_PLCPParserState
+typehint: ff_joinedLTF2				: ORILIB_t_Cplx16Buf160
+#
+typehint: ff_d54mVitDecMap1Copy			: Vitdec_ViterbiDecodingMap

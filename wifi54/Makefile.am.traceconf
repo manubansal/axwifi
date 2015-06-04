@@ -1,0 +1,48 @@
+
+#for FileTraceReader
+#app_wifi54_CFLAGS+=-DINPUT_TRACE_FILE=\\\"${WIFI54_TRACE_DIR}/txpkt.dat\\\"
+
+#for memory TraceReader
+
+if INPTRACE_LM
+#-----------------------------------
+# manually loading trace to DDR
+#-----------------------------------
+INPUT_TRACE_N_SAMPLES=3000000
+INPUT_TRACE_ARRAY_NAME=0x80000000
+INPUT_TRACE_N_SPERSEC=3000000
+INPUT_TRACE_N_WRAPAROUNDS=0
+#INPUT_TRACE_CONF_FILE=\\\"/tmp/traceReader80.conf\\\"
+endif
+
+if INPTRACE_LC
+#-----------------------------------
+# regression test trace
+#-----------------------------------
+INPUT_TRACE_N_SAMPLES=4640
+INPUT_TRACE_ARRAY_NAME=trace_skip_0_ns_${INPUT_TRACE_N_SAMPLES}
+INPUT_TRACE_N_WRAPAROUNDS=100
+INPUT_TRACE_N_SPERSEC=${INPUT_TRACE_N_SAMPLES}
+INP_TRACE_C=$(top_srcdir)/samples/debug64.rate54000.snr25.nmsgs2.msglen${INPUT_TRACE_N_BYTES}.scale1.41.txpkt.dat_trace_skip_0_ns_${INPUT_TRACE_N_SAMPLES}.c
+OUT_TRACE_C=trace.c
+app_wifi54_SOURCES+=${OUT_TRACE_C}
+endif
+
+if INPTRACE_S
+#-----------------------------------
+# regression test trace
+#-----------------------------------
+INPUT_TRACE_N_BYTES=500
+INPUT_TRACE_N_SAMPLES=4640
+INPUT_TRACE_ARRAY_NAME=trace_skip_0_ns_${INPUT_TRACE_N_SAMPLES}
+INPUT_TRACE_N_WRAPAROUNDS=0
+INPUT_TRACE_N_SPERSEC=${INPUT_TRACE_N_SAMPLES}
+INP_TRACE_C=$(top_srcdir)/samples/debug64.rate54000.snr25.nmsgs2.msglen${INPUT_TRACE_N_BYTES}.scale1.41.txpkt.dat_trace_skip_0_ns_${INPUT_TRACE_N_SAMPLES}.c
+OUT_TRACE_C=trace.c
+app_wifi54_SOURCES+=${OUT_TRACE_C}
+endif
+
+app_wifi54_CFLAGS+=-DINPUT_TRACE_ARRAY_NAME=${INPUT_TRACE_ARRAY_NAME}
+app_wifi54_CFLAGS+=-DINPUT_TRACE_N_SAMPLES=${INPUT_TRACE_N_SAMPLES}
+app_wifi54_CFLAGS+=-DINPUT_TRACE_N_SPERSEC=${INPUT_TRACE_N_SPERSEC}
+app_wifi54_CFLAGS+=-DINPUT_TRACE_N_WRAPAROUNDS=${INPUT_TRACE_N_WRAPAROUNDS}

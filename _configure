@@ -1,0 +1,5 @@
+#!/bin/bash
+
+export PATH=$PATH:${ORSYS_ROOT_LINUX_STYLE}/r2cmplr
+#CONFIG_SITE=../config.site.debug CC="_cl6x" RANLIB="_ranlib" ../configure -build i686-pc-linux-gnu --host nyquist ORSYS_INSTALL_DIR=${ORSYS_ROOT}/build $@
+CONFIG_SITE=../config.site.debug CC="_cl6x" RANLIB="_ranlib" ../configure -build i686-pc-linux-gnu --host nyquist $@

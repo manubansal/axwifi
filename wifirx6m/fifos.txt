@@ -1,0 +1,114 @@
+
+# Atomix project, fifos.txt, TODO: insert summary here
+# Copyright (c) 2015 Stanford University
+# Released under the Apache License v2.0. See the LICENSE file for details.
+# Author(s): Manu Bansal
+
+#<command==fifo>:<instancename>:<numbufs>:<src/dst/sin>:<coreid>
+#<command==fill>:<instanename>:<initial fill data as Uint8's>
+#If initial fill data is provided, each buffer in the queue starts in the filled state, otherwise 
+#each buffer starts in the empty state.
+#DEPRECATED: <command==link>: <instancename>: <instancename>: <pull|push>
+#DEPRECATED: <command==link>: <instancename>: <instancename>: <coreid of the transfer block>
+#fill: ff3: {0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,3,0,0,0,0}
+#
+fifo: ff_kk0			:2	:sin	:0
+fifo: ff_kk1			:2	:sin	:1
+fifo: ff_kk2			:2	:sin	:2
+fifo: ff_kk3			:2	:sin	:3
+#
+fifo: ff_traceReaderState	:2   	:sin	:0
+fifo: ff_traceSampleBuf  	:4	:sin	:0
+fifo: ff_alignState		:4	:sin	:0
+fifo: ff_energyState		:4	:sin	:0
+fifo: ff_corrState		:4	:sin	:0
+fifo: ff_detectState		:4	:sin	:0
+fifo: ff_agcState		:4	:sin	:0
+fifo: ff_agcStateCopy		:4	:sin	:0
+#
+fifo: ff_alignedSampleBuf	:4	:sin	:0
+fifo: ff_LTFS1			:4	:sin	:0
+fifo: ff_LTFS2			:4	:sin	:0
+fifo: ff_joinedLTF1		:4	:sin	:0
+fifo: ff_joinedLTF2		:4	:sin	:0
+fifo: ff_cfoState		:4	:sin	:0
+fifo: ff_cfoStateCopy		:4	:sin	:0
+fifo: ff_cfoCorrector		:4	:sin	:0
+fifo: ff_chState		:4	:sin	:0
+fifo: ff_chStateCopy		:4	:sin	:0
+#
+fifo: ff_plcpOfdmDemodState		:4	:sin	:0
+#fifo: ff_cfoStateCopy1c		:4	:sin	:0
+fifo: ff_cfoCorrectedPLCP	:4	:sin	:0
+fifo: ff_dataTonesPLCP		:4	:sin	:0
+fifo: ff_pilotTonesPLCP		:4	:sin	:0
+fifo: ff_eqSyms			:4	:sin	:0
+fifo: ff_yhstar			:4	:sin	:0
+fifo: ff_plcpOfdmEqState		:4	:sin	:0
+fifo: ff_plcpSoftSlicedBits		:4	:sin	:0
+fifo: ff_plcpSoftDeintBits		:4	:sin	:0
+fifo: ff_plcpSoftBranchMetrics	:4	:sin	:0
+fifo: ff_plcpVitDecState	:4	:sin	:0
+fifo: ff_plcpVitDecStateCopy	:4	:sin	:0
+fifo: ff_plcpDecodedBits	:4	:sin	:0
+fifo: ff_plcpParserState	:4	:sin	:0
+fifo: ff_pktState		:4	:sin	:0
+fifo: ff_dataVitDecMap		:4	:sin	:0
+fifo: ff_dataVitDecMapCopy		:4	:sin	:0
+#
+#fifo: ff_cfoStateCopy1d		:4	:sin	:0
+#
+#
+fifo: ff_dataOfdmDemodState	:4	:sin	:0
+fifo: ff_dataCfoCorrected	:4	:sin	:0
+fifo: ff_dataTonesData		:4	:sin	:0
+fifo: ff_dataPilotTones		:4	:sin	:0
+fifo: ff_dataEqSyms		:4	:sin	:0
+fifo: ff_datayhstar		:4	:sin	:0
+fifo: ff_dataOfdmEqState	:4	:sin	:0
+fifo: ff_dataSoftSlicedBits	:4	:sin	:0
+fifo: ff_dataSoftDeintBits	:4	:sin	:0
+fifo: ff_dataSoftBranchMetrics	:4	:sin	:0
+#
+fifo: ff_dataBMCache		:4	:sin	:0
+#
+fifo: ff_plcpVitDecWFCState	:4	:sin	:0
+fifo: ff_dataBmFrame	:4	:sin	:0
+fifo: ff_dataVitDecHeadState	:4	:sin	:0
+fifo: ff_dataVitDecHeadStateCopy	:4	:sin	:0
+fifo: ff_dataVitDecMidState	:4	:sin	:0
+fifo: ff_dataVitDecMidStateCopy	:4	:sin	:0
+fifo: ff_dataVitDecTailState	:4	:sin	:0
+fifo: ff_dataVitDecTailStateCopy	:4	:sin	:0
+fifo: ff_dataVitDecHeadTailState	:4	:sin	:0
+fifo: ff_dataVitDecHeadTailStateCopy	:4	:sin	:0
+fifo: ff_dataDecodedBitsRaw	:4	:sin	:0
+fifo: ff_dataVitDecWFCState	:4	:sin	:0
+fifo: ff_dataDecodedBitsFinished	:4	:sin	:0
+fifo: ff_dataDecodeState	:4	:sin	:0
+###################################
+###################################
+#
+#The following is required because of blocks that operate on void types.
+#Examples are CP, TD and TR. The problem is that a fifo ff in an example
+#scenario like CP --> ff --> TR will have both input and output types 
+#deduced as void. There is no way to deduce its type without making any
+#assumptions on the functionality of CP and TR blocks. Hence, this type
+#will need to be explicitly indicated at compile time.
+#The following typehints are indicated on fifos. They may be later be 
+#changed so that they are indicated on respective atoms. The two forms 
+#are equivalent.
+#
+#typehint:ff_cp_1_1_0:Decision_t
+#typehint:ff_cp_1_1_1:Decision_t
+#typehint:ff_cp_1_1_2:Decision_t
+#typehint:ff_cp_1_1_3:Decision_t
+typehint:ff_LTFS1:ORILIB_t_Cplx16Buf80
+typehint:ff_LTFS2:ORILIB_t_Cplx16Buf80
+#typehint:ff_agcStateCopy1b:ORILIB_t_PktAgcState
+#typehint:ff_cfoStateCopy1d:ORILIB_t_CFOState
+#typehint:ff_agcStateCopy1d:ORILIB_t_PktAgcState
+typehint: ff_dataDecodedBitsRaw: ORILIB_t_BitBucket64
+typehint: ff_dataDecodedBitsFinished: ORILIB_t_BitBucket24
+#typehint: ff_dataBmFrame: ORILIB_t_SoftBitBuf60
+typehint: ff_dataBmFrame: ORILIB_t_SoftBitBuf120

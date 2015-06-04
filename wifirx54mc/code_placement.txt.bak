@@ -1,0 +1,9 @@
+bufAlign
+dataOfdmDemod
+dataCfoCorrectorG
+data54mTrDataTones
+cfoStateRetainer
+data54mTrPilotTones
+agcStateRetainer
+data54mVitDecTailGenConf
+data54mTrChState

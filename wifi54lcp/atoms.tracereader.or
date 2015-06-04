@@ -1,0 +1,79 @@
+
+# Atomix project, atoms.tracereader.or, TODO: insert summary here
+# Copyright (c) 2015 Stanford University
+# Released under the Apache License v2.0. See the LICENSE file for details.
+# Author(s): Manu Bansal
+
+## traceReaderN for cplen=32 ##
+#-------------
+atom: sampleReader80		: ORILIB_TraceReaderN				: 0
+wire: sampleReader80		: ff_sampleReaderState:ff_rxSampleBuf80:ff_sampleReaderState
+
+atom: sampleReader		: ORILIB_TraceReaderN				: 0
+wire: sampleReader		: ff_sampleReaderState:ff_rxSampleBuf:ff_sampleReaderState
+
+atom: sampleReaderInit		: ORILIB_TraceReaderN_Init			: 0
+wire: sampleReaderInit		: ff_sampleReaderState
+
+atom: sampleReaderReInit	: ORILIB_TraceReaderN_ThrottleReinit		: 0
+wire: sampleReaderReInit	: ff_sampleReaderState+
+
+#no throttle
+#conf:sampleReader		: (Int16 *)INPUT_TRACE_ARRAY_NAME,INPUT_TRACE_N_SAMPLES,INPUT_TRACE_N_SPERSEC,INPUT_TRACE_N_WRAPAROUNDS,0ULL,1,80
+
+#throttle for 20MHz (4us ==> 5000 cycles at 1.25GHz)
+#conf:sampleReader		: (Int16 *)INPUT_TRACE_ARRAY_NAME,INPUT_TRACE_N_SAMPLES,INPUT_TRACE_N_SPERSEC,INPUT_TRACE_N_WRAPAROUNDS,5000ULL,1,80
+
+#throttle for 10MHz (8us ==> 10000 cycles at 1.25GHz)
+conf:sampleReader80		: (Int16 *)INPUT_TRACE_ARRAY_NAME,INPUT_TRACE_N_SAMPLES,INPUT_TRACE_N_SPERSEC,INPUT_TRACE_N_WRAPAROUNDS,10000ULL,1,80
+#conf:sampleReader		: (Int16 *)INPUT_TRACE_ARRAY_NAME,INPUT_TRACE_N_SAMPLES,INPUT_TRACE_N_SPERSEC,INPUT_TRACE_N_WRAPAROUNDS,10000ULL,1,80
+conf:sampleReader		: (Int16 *)INPUT_TRACE_ARRAY_NAME,INPUT_TRACE_N_SAMPLES,INPUT_TRACE_N_SPERSEC,INPUT_TRACE_N_WRAPAROUNDS,10000ULL,1,96
+
+#throttle for 5MHz (16us ==> 20000 cycles at 1.25GHz)
+#conf:sampleReader		: (Int16 *)INPUT_TRACE_ARRAY_NAME,INPUT_TRACE_N_SAMPLES,INPUT_TRACE_N_SPERSEC,INPUT_TRACE_N_WRAPAROUNDS,20000ULL,1,80
+
+
+
+#-------------
+## traceReaderN for cplen=16 ##
+#-------------
+##atom: sampleReader80		: ORILIB_TraceReaderN				: 0
+##wire: sampleReader80		: ff_sampleReaderState:ff_rxSampleBuf:ff_sampleReaderState
+##
+###atom: sampleReader		: ORILIB_TraceReader80				: 0
+##atom: sampleReader		: ORILIB_TraceReaderN				: 0
+##wire: sampleReader		: ff_sampleReaderState:ff_rxSampleBuf:ff_sampleReaderState
+##
+###atom: sampleReaderInit		: ORILIB_TraceReader80_Init			: 0
+##atom: sampleReaderInit		: ORILIB_TraceReaderN_Init			: 0
+##wire: sampleReaderInit		: ff_sampleReaderState
+##
+###atom: sampleReaderReInit	: ORILIB_TraceReader80_ThrottleReinit		: 0
+##atom: sampleReaderReInit	: ORILIB_TraceReaderN_ThrottleReinit		: 0
+##wire: sampleReaderReInit	: ff_sampleReaderState+
+##
+###no throttle
+###conf:sampleReader		: (Int16 *)INPUT_TRACE_ARRAY_NAME,INPUT_TRACE_N_SAMPLES,INPUT_TRACE_N_SPERSEC,INPUT_TRACE_N_WRAPAROUNDS,0ULL,1,80
+##
+###throttle for 20MHz (4us ==> 5000 cycles at 1.25GHz)
+###conf:sampleReader		: (Int16 *)INPUT_TRACE_ARRAY_NAME,INPUT_TRACE_N_SAMPLES,INPUT_TRACE_N_SPERSEC,INPUT_TRACE_N_WRAPAROUNDS,5000ULL,1,80
+##
+###throttle for 10MHz (8us ==> 10000 cycles at 1.25GHz)
+##conf:sampleReader80		: (Int16 *)INPUT_TRACE_ARRAY_NAME,INPUT_TRACE_N_SAMPLES,INPUT_TRACE_N_SPERSEC,INPUT_TRACE_N_WRAPAROUNDS,10000ULL,1,80
+##conf:sampleReader		: (Int16 *)INPUT_TRACE_ARRAY_NAME,INPUT_TRACE_N_SAMPLES,INPUT_TRACE_N_SPERSEC,INPUT_TRACE_N_WRAPAROUNDS,10000ULL,1,80
+##
+###throttle for 5MHz (16us ==> 20000 cycles at 1.25GHz)
+###conf:sampleReader		: (Int16 *)INPUT_TRACE_ARRAY_NAME,INPUT_TRACE_N_SAMPLES,INPUT_TRACE_N_SPERSEC,INPUT_TRACE_N_WRAPAROUNDS,20000ULL,1,80
+
+
+#-------------
+## fileTraceReader80 -- not tested after modularization ##
+#-------------
+#atom: sampleReader		: ORILIB_FileTraceReader80			: 0
+#wire: sampleReader		: ff_rxSampleBuf
+#conf: sampleReader 		: INPUT_TRACE_FILE
+#atom: sampleReaderInit		: BlockNOP					: 0
+#wire: sampleReaderInit		: null
+#atom: sampleReaderReInit	: BlockNOP					: 0
+#wire: sampleReaderReInit	: null
+

@@ -1,0 +1,11 @@
+#!/bin/bash
+
+#CONF=rate54.snr19.nmsgs1.scale1.41
+#NS=1340
+
+CONF=rate54.snr21.nmsgs1.msglen2.scale1.41
+NS=780
+
+INPF=${WIFIRX54MC_TRACE_DIR}/${CONF}.txpkt.dat_trace_skip_0_ns_${NS}.c   
+OUTF=trace.c
+cp -v $INPF $OUTF

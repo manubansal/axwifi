@@ -1,0 +1,23 @@
+
+# Atomix project, code_placement.or, TODO: insert summary here
+# Copyright (c) 2015 Stanford University
+# Released under the Apache License v2.0. See the LICENSE file for details.
+# Author(s): Manu Bansal
+
+#dataOfdmDemod
+#dataCfoCorrectorG
+#traceReader80
+#d54mVitDecMapRetainer
+#cfoStateRetainer
+#agcStateRetainer
+#d54mOfdmEq
+#d54myhstarDrainer
+#d54mOfdmEqStateDrainer
+#d54mSoftSlicer64QAM
+#d54mSoftDeint288
+#d54mSoftDepuncR3by4F216
+#d54mSoftBM216
+#d54mBmCacheGetMFrame0
+#d54mBmCacheGetMFrame1
+#d54mBmCacheGetMFrame2
+#d54mBmCacheGetMFrame3

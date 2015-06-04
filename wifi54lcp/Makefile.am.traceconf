@@ -1,0 +1,246 @@
+
+#for FileTraceReader
+#app_wifi54lcp_CFLAGS+=-DINPUT_TRACE_FILE=\\\"${WIFI54LCP_TRACE_DIR}/txpkt.dat\\\"
+
+#for TraceReader
+
+if INPTRACE_LM
+#-----------------------------------
+# manually loading trace to DDR
+#-----------------------------------
+INPUT_TRACE_ARRAY_NAME=0x80000000
+
+#INPUT_TRACE_N_SAMPLES=7000000
+#INPUT_TRACE_N_SPERSEC=500000
+
+#INPUT_TRACE_N_SAMPLES=4800000
+#INPUT_TRACE_N_SPERSEC=400000
+
+INPUT_TRACE_N_SAMPLES=3000000
+INPUT_TRACE_N_SPERSEC=3000000
+
+#INPUT_TRACE_N_SAMPLES=500000
+#INPUT_TRACE_N_SPERSEC=500000
+
+#INPUT_TRACE_N_SAMPLES=400000
+#INPUT_TRACE_N_SPERSEC=400000
+
+INPUT_TRACE_N_WRAPAROUNDS=0
+#INPUT_TRACE_CONF_FILE=\\\"/tmp/traceReader80.conf\\\"
+
+endif
+
+if INPTRACE_LC
+
+#-----------------------------------
+# traces for BER characterization
+#-----------------------------------
+#NS_SKIPPED=4000
+##NS_IN_TRACE=10000
+#NS_IN_TRACE=20000
+##TXP=65
+#TXP=70
+#INPUT_TRACE_ARRAY_NAME=rhs95_neg${TXP}_skip${NS_SKIPPED}_ns${NS_IN_TRACE}
+#INPUT_TRACE_N_SAMPLES=${NS_IN_TRACE}
+#INPUT_TRACE_N_WRAPAROUNDS=0
+
+
+#-----------------------------------
+# traces for BER characterization
+#-----------------------------------
+##NS_SKIPPED=4000
+#NS_SKIPPED=9000
+##NS_SKIPPED=0
+##NS_IN_TRACE=10000
+###NS_IN_TRACE=20000
+##NS_IN_TRACE=2000000
+#NS_IN_TRACE=8000
+##TXP=77
+#TXP=65
+#INPUT_TRACE_ARRAY_NAME=rhs95_neg${TXP}_skip${NS_SKIPPED}_ns${NS_IN_TRACE}
+#INPUT_TRACE_N_SAMPLES=${NS_IN_TRACE}
+##INPUT_TRACE_N_WRAPAROUNDS=0
+#INPUT_TRACE_N_WRAPAROUNDS=8
+
+#-----------------------------------
+# traces for PER spec testing
+#-----------------------------------
+##NS_SKIPPED=0
+##NS_IN_TRACE=3000000
+###RXP=30
+##RXP=44
+###RXP=47
+###RXP=50
+###RXP=53
+###RXP=56
+###RXP=59
+###RXP=62
+###RXP=65
+###RXP=68
+###RXP=71
+###RXP=74
+##INPUT_TRACE_ARRAY_NAME=spectesting_neg${RXP}_skip${NS_SKIPPED}_ns${NS_IN_TRACE}
+##INPUT_TRACE_N_SAMPLES=${NS_IN_TRACE}
+##INPUT_TRACE_N_WRAPAROUNDS=0
+##INP_TRACE_C=~/workspace/wifibb-traces/traces54/spectesting-siggen-rhs/signal_trace_spectesting_neg${RXP}_skip${NS_SKIPPED}_ns${NS_IN_TRACE}.c
+
+#-----------------------------------
+# regression test trace
+#-----------------------------------
+##NS_SKIPPED=0
+##NS_IN_TRACE=900000
+###NS_SKIPPED=5800
+###NS_IN_TRACE=8000
+##INPUT_TRACE_ARRAY_NAME=signal_trace_regression_skip${NS_SKIPPED}_ns${NS_IN_TRACE}
+##INPUT_TRACE_N_SAMPLES=${NS_IN_TRACE}
+##INPUT_TRACE_N_WRAPAROUNDS=0
+#INPUT_TRACE_N_SAMPLES=74400
+#INPUT_TRACE_ARRAY_NAME=trace_skip_0_ns_${INPUT_TRACE_N_SAMPLES}
+#INPUT_TRACE_N_WRAPAROUNDS=0
+#INPUT_TRACE_N_SPERSEC=${INPUT_TRACE_N_SAMPLES}
+##INP_TRACE_C=~/workspace/wifibb/traces/bdata/regression.rate54.snr21.nmsgs20.msglen1000.scale1.41.txpkt.dat_trace_skip_0_ns_74400.c
+##INP_TRACE_C=~/workspace/wifibb/traces/bdata/regression.rate54.snr23.nmsgs20.msglen1000.scale1.41.txpkt.dat_trace_skip_0_ns_74400.c
+#INP_TRACE_C=~/workspace/wifibb/traces/bdata/regression.rate54.snr22.nmsgs20.msglen1000.scale1.41.txpkt.dat_trace_skip_0_ns_74400.c
+
+
+#Writing to ./traces/bdata/cp32f20.rate54.snr50.nmsgs10.msglen1000.scale4.00.txpkt.dat_trace_skip_0_ns_43760.c
+#-----------------------------------
+#1000byte 10-pkt trace over "f20" (1us-spacing 2-tap) channel model, cplen=32
+#-----------------------------------
+INPUT_TRACE_N_BYTES=1000
+INPUT_TRACE_N_SAMPLES=2188000
+INPUT_TRACE_ARRAY_NAME=trace_skip_0_ns_${INPUT_TRACE_N_SAMPLES}
+INPUT_TRACE_N_WRAPAROUNDS=0
+#SNR=40
+#SNR=31
+#SNR=28
+SNR=22
+#SNR=18
+INPUT_TRACE_N_SPERSEC=${INPUT_TRACE_N_SAMPLES}
+INP_TRACE_C=~/workspace/wifibb/traces/bdata/cp32f20.rate54.snr${SNR}.nmsgs500.msglen${INPUT_TRACE_N_BYTES}.scale4.00.txpkt.dat_trace_skip_0_ns_${INPUT_TRACE_N_SAMPLES}.c
+
+
+
+OUT_TRACE_C=trace.c
+app_wifi54lcp_SOURCES+=${OUT_TRACE_C}
+
+endif
+
+if INPTRACE_S
+
+#INPUT_TRACE_CONF_FILE=\\\"/tmp/null.conf\\\"
+
+
+#-----------------------------------
+#longer pkt trace for functional test
+#-----------------------------------
+#INPUT_TRACE_ARRAY_NAME=trace_skip_0_ns_1340
+#INPUT_TRACE_N_SAMPLES=1340
+##INPUT_TRACE_N_WRAPAROUNDS=99
+#INPUT_TRACE_N_WRAPAROUNDS=1
+
+#-----------------------------------
+#longer pkt trace for functional test
+#-----------------------------------
+#INPUT_TRACE_ARRAY_NAME=trace_skip_0_ns_1320
+#INPUT_TRACE_N_SAMPLES=1320
+##INPUT_TRACE_N_WRAPAROUNDS=99
+#INPUT_TRACE_N_WRAPAROUNDS=1
+
+#-----------------------------------
+#onesymrx pkt trace for functional and timing test
+#-----------------------------------
+#INPUT_TRACE_N_SAMPLES=1520
+#INPUT_TRACE_ARRAY_NAME=trace_skip_0_ns_${INPUT_TRACE_N_SAMPLES}
+##INPUT_TRACE_N_WRAPAROUNDS=2
+#INPUT_TRACE_N_WRAPAROUNDS=0
+#INPUT_TRACE_N_SPERSEC=${INPUT_TRACE_N_SAMPLES}
+#INP_TRACE_C=~/workspace/wifibb-traces/traces54/timing/timingtest.rate54.snr25.nmsgs2.msglen20.scale1.41.txpkt.dat_trace_skip_0_ns_${INPUT_TRACE_N_SAMPLES}.c
+
+#-----------------------------------
+#sixsymrx pkt trace for functional and timing test
+#-----------------------------------
+#INPUT_TRACE_N_SAMPLES=2320
+#INPUT_TRACE_ARRAY_NAME=trace_skip_0_ns_${INPUT_TRACE_N_SAMPLES}
+##INPUT_TRACE_N_WRAPAROUNDS=0
+#INPUT_TRACE_N_WRAPAROUNDS=1
+#INPUT_TRACE_N_SPERSEC=${INPUT_TRACE_N_SAMPLES}
+#INP_TRACE_C=~/workspace/wifibb/traces/bdata/sixsymrx.rate54.snr25.nmsgs2.msglen155.scale1.41.txpkt.dat_trace_skip_0_ns_${INPUT_TRACE_N_SAMPLES}.c
+
+
+#-----------------------------------
+#19sym/500byte pkt trace for functional and timing test
+#-----------------------------------
+#INPUT_TRACE_N_BYTES=500
+#INPUT_TRACE_N_SAMPLES=4400
+#INPUT_TRACE_ARRAY_NAME=trace_skip_0_ns_${INPUT_TRACE_N_SAMPLES}
+#INPUT_TRACE_N_WRAPAROUNDS=0
+#INPUT_TRACE_N_SPERSEC=${INPUT_TRACE_N_SAMPLES}
+#INP_TRACE_C=~/workspace/wifibb/traces/bdata/sixsymrx.rate54.snr25.nmsgs2.msglen${INPUT_TRACE_N_BYTES}.scale1.41.txpkt.dat_trace_skip_0_ns_${INPUT_TRACE_N_SAMPLES}.c
+
+#-----------------------------------
+#38sym/1000byte pkt trace for functional and timing test
+#-----------------------------------
+#INPUT_TRACE_N_BYTES=1000
+#INPUT_TRACE_N_SAMPLES=7440
+#INPUT_TRACE_ARRAY_NAME=trace_skip_0_ns_${INPUT_TRACE_N_SAMPLES}
+#INPUT_TRACE_N_WRAPAROUNDS=0
+#INPUT_TRACE_N_SPERSEC=${INPUT_TRACE_N_SAMPLES}
+#INP_TRACE_C=~/workspace/wifibb/traces/bdata/sixsymrx.rate54.snr25.nmsgs2.msglen${INPUT_TRACE_N_BYTES}.scale1.41.txpkt.dat_trace_skip_0_ns_${INPUT_TRACE_N_SAMPLES}.c
+
+#-----------------------------------
+#56sym/1500byte pkt trace for functional and timing test
+#-----------------------------------
+#INPUT_TRACE_N_BYTES=1500
+#INPUT_TRACE_N_SAMPLES=10320
+#INPUT_TRACE_ARRAY_NAME=trace_skip_0_ns_${INPUT_TRACE_N_SAMPLES}
+#INPUT_TRACE_N_WRAPAROUNDS=0
+#INPUT_TRACE_N_SPERSEC=${INPUT_TRACE_N_SAMPLES}
+#INP_TRACE_C=~/workspace/wifibb/traces/bdata/sixsymrx.rate54.snr25.nmsgs2.msglen${INPUT_TRACE_N_BYTES}.scale1.41.txpkt.dat_trace_skip_0_ns_${INPUT_TRACE_N_SAMPLES}.c
+
+
+
+#Writing to ./traces/bdata/cp16f20.rate54.snr45.nmsgs1.msglen1000.scale4.00.txpkt.dat_trace_skip_0_ns_3720.c
+#-----------------------------------
+#1000byte pkt trace over "f20" (1us-spacing 2-tap) channel model, cplen=16
+#-----------------------------------
+#INPUT_TRACE_N_BYTES=1000
+#INPUT_TRACE_N_SAMPLES=3720
+#INPUT_TRACE_ARRAY_NAME=trace_skip_0_ns_${INPUT_TRACE_N_SAMPLES}
+#INPUT_TRACE_N_WRAPAROUNDS=0
+#INPUT_TRACE_N_SPERSEC=${INPUT_TRACE_N_SAMPLES}
+#INP_TRACE_C=~/workspace/wifibb/traces/bdata/cp16f20.rate54.snr45.nmsgs1.msglen${INPUT_TRACE_N_BYTES}.scale4.00.txpkt.dat_trace_skip_0_ns_${INPUT_TRACE_N_SAMPLES}.c
+
+#Writing to ./traces/bdata/cp32f20.rate54.snr45.nmsgs3.msglen1000.scale4.00.txpkt.dat_trace_skip_0_ns_13128.c
+#-----------------------------------
+#1000byte, 3-pkt trace over "f20" (1us-spacing 2-tap) channel model, cplen=32
+#-----------------------------------
+
+#Writing to ./traces/bdata/cp32f20.rate54.snr45.nmsgs1.msglen1000.scale4.00.txpkt.dat_trace_skip_0_ns_4376.c
+#-----------------------------------
+#1000byte pkt trace over "f20" (1us-spacing 2-tap) channel model, cplen=32
+#-----------------------------------
+INPUT_TRACE_N_BYTES=1000
+INPUT_TRACE_N_SAMPLES=4376
+INPUT_TRACE_ARRAY_NAME=trace_skip_0_ns_${INPUT_TRACE_N_SAMPLES}
+INPUT_TRACE_N_WRAPAROUNDS=0
+INPUT_TRACE_N_SPERSEC=${INPUT_TRACE_N_SAMPLES}
+INP_TRACE_C=~/workspace/wifibb/traces/bdata/cp32f20.rate54.snr45.nmsgs1.msglen${INPUT_TRACE_N_BYTES}.scale4.00.txpkt.dat_trace_skip_0_ns_${INPUT_TRACE_N_SAMPLES}.c
+
+
+
+
+#==========================================================================================================
+
+
+OUT_TRACE_C=trace.c
+app_wifi54lcp_SOURCES+=${OUT_TRACE_C}
+
+endif
+
+app_wifi54lcp_CFLAGS+=-DINPUT_TRACE_ARRAY_NAME=${INPUT_TRACE_ARRAY_NAME}
+app_wifi54lcp_CFLAGS+=-DINPUT_TRACE_N_SAMPLES=${INPUT_TRACE_N_SAMPLES}
+app_wifi54lcp_CFLAGS+=-DINPUT_TRACE_N_SPERSEC=${INPUT_TRACE_N_SPERSEC}
+app_wifi54lcp_CFLAGS+=-DINPUT_TRACE_N_WRAPAROUNDS=${INPUT_TRACE_N_WRAPAROUNDS}
+#app_wifi54lcp_CFLAGS+=-DINPUT_TRACE_CONF_FILE=${INPUT_TRACE_CONF_FILE}
+

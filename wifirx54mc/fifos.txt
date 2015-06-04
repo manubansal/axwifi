@@ -1,0 +1,275 @@
+
+# Atomix project, fifos.txt, TODO: insert summary here
+# Copyright (c) 2015 Stanford University
+# Released under the Apache License v2.0. See the LICENSE file for details.
+# Author(s): Manu Bansal
+
+#<command==fifo>:<instancename>:<numbufs>:<src/dst/sin>:<coreid>
+#<command==fill>:<instanename>:<initial fill data as Uint8's>
+#If initial fill data is provided, each buffer in the queue starts in the filled state, otherwise 
+#each buffer starts in the empty state.
+#DEPRECATED: <command==link>: <instancename>: <instancename>: <pull|push>
+#DEPRECATED: <command==link>: <instancename>: <instancename>: <coreid of the transfer block>
+#fill: ff3: {0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,3,0,0,0,0}
+#
+fifo: ff_kk0			:2	:sin	:0
+fifo: ff_kk1			:2	:sin	:1
+fifo: ff_kk2			:2	:sin	:2
+fifo: ff_kk3			:2	:sin	:3
+#
+fifo: ff_traceReaderState	:2   	:sin	:0
+fifo: ff_traceSampleBuf  	:4	:sin	:0
+fifo: ff_alignState		:4	:sin	:0
+fifo: ff_energyState		:4	:sin	:0
+fifo: ff_corrState		:4	:sin	:0
+fifo: ff_detectState		:4	:sin	:0
+fifo: ff_agcState		:4	:sin	:0
+#fifo: ff_agcStateCopy		:4	:sin	:0
+#
+fifo: ff_alignedSampleBuf	:4	:sin	:0
+fifo: ff_LTFS1			:4	:sin	:0
+fifo: ff_LTFS2			:4	:sin	:0
+fifo: ff_joinedLTF1		:4	:sin	:0
+fifo: ff_joinedLTF2		:4	:sin	:0
+fifo: ff_cfoState		:4	:sin	:0
+#fifo: ff_cfoStateCopy		:4	:sin	:0
+fifo: ff_cfoCorrected		:4	:sin	:0
+fifo: ff_chState		:4	:sin	:0
+#fifo: ff_chStateCopy		:4	:sin	:0
+#
+fifo: ff_ofdmDemodState		:4	:sin	:0
+#fifo: ff_cfoStateCopy1c	:4	:sin	:0
+fifo: ff_dataTones		:4	:sin	:0
+fifo: ff_pilotTones		:4	:sin	:0
+fifo: ff_eqSyms			:4	:sin	:0
+fifo: ff_yhstar			:4	:sin	:0
+fifo: ff_plcpOfdmEqState	:4	:sin	:0
+fifo: ff_plcpSoftSlicedBits	:4	:sin	:0
+fifo: ff_plcpSoftDeintBits	:4	:sin	:0
+fifo: ff_plcpSoftBranchMetrics	:4	:sin	:0
+fifo: ff_plcpVitDecState	:4	:sin	:0
+fifo: ff_plcpVitDecWFCState	:4	:sin	:0
+fifo: ff_plcpVitDecStateCopy	:4	:sin	:0
+fifo: ff_plcpDecodedBits	:4	:sin	:0
+fifo: ff_plcpParserState	:4	:sin	:0
+fifo: ff_plcpParserState_Copy	:4	:sin	:0
+fifo: ff_pktState		:4	:sin	:0
+#########################################
+#
+#########################################
+#
+fifo: ff_plcpParserState_2			: 4	: sin	: 2
+fifo: ff_d54mChState				: 4	: sin	: 1
+#fifo: ff_d54mChStateCopy			: 4	: sin	: 1
+fifo: ff_d54mDataTones_1			: 4	: sin	: 1
+fifo: ff_d54mPilotTones_1			: 4	: sin	: 1
+fifo: ff_d54mEqSyms				: 4	: sin	: 1
+fifo: ff_d54myhstar				: 4	: sin	: 1
+fifo: ff_d54mOfdmEqState			: 4	: sin	: 1
+fifo: ff_d54mSoftSliced64QAMBits		: 4	: sin	: 1
+fifo: ff_d54mSoftDeint288Bits		: 4	: sin	: 1
+fifo: ff_d54mSoftDepunc432Bits		: 4	: sin	: 1
+#
+fifo: ff_d54mSoftBM216_1			: 4	: sin	: 1
+#
+fifo: ff_d54mSoftBM216_2			: 4	: sin	: 2
+fifo: ff_d54mBmCache				: 4	: sin	: 2
+fifo: ff_d54mBmFrame0_2			: 4	: sin	: 2
+fifo: ff_d54mBmFrame1_2			: 4	: sin	: 2
+fifo: ff_d54mBmFrame2_2			: 4	: sin	: 2
+fifo: ff_d54mBmFrame3_2			: 4	: sin	: 2
+#
+fifo: ff_d54mBmFrame0_3			: 4	: sin	: 3
+fifo: ff_d54mBmFrame1_3			: 4	: sin	: 3
+fifo: ff_d54mBmFrame2_3			: 4	: sin	: 3
+fifo: ff_d54mBmFrame3_3			: 4	: sin	: 3
+#
+fifo: ff_d54mVitDecMap			: 4	: sin	: 0
+#fifo: ff_d54mVitDecMapCopy			: 4	: sin	: 0
+#
+fifo: ff_d54mVitDecHeadState			: 4	: sin	: 3
+#fifo: ff_d54mVitDecHeadStateCopy		: 4	: sin	: 3
+fifo: ff_d54mVitDecMidState0			: 4	: sin	: 3
+#fifo: ff_d54mVitDecMidStateCopy0		: 4	: sin	: 3
+fifo: ff_d54mVitDecMidState1			: 4	: sin	: 3
+#fifo: ff_d54mVitDecMidStateCopy1		: 4	: sin	: 3
+fifo: ff_d54mVitDecMidState2			: 4	: sin	: 3
+#fifo: ff_d54mVitDecMidStateCopy2		: 4	: sin	: 3
+fifo: ff_d54mVitDecMidState3			: 4	: sin	: 3
+#fifo: ff_d54mVitDecMidStateCopy3		: 4	: sin	: 3
+#fifo: ff_d54mVitDecTailState		: 4	: sin	: 0
+#fifo: ff_d54mVitDecTailStateCopy		: 4	: sin	: 0
+#fifo: ff_d54mVitDecTailState_3		: 4	: sin	: 3
+#
+fifo: ff_d54mVitDecWFCState0			: 4	: sin	: 3
+fifo: ff_d54mVitDecWFCState1			: 4	: sin	: 3
+fifo: ff_d54mVitDecWFCState2			: 4	: sin	: 3
+fifo: ff_d54mVitDecWFCState3			: 4	: sin	: 3
+#
+fifo: ff_d54mDecodedBitsRaw			: 8	: sin	: 3
+#
+#fifo: ff_serviceField				: 2	: sin	: 3
+fifo: ff_d54mHdCache				: 4	: sin	: 3
+fifo: ff_d54mHdFrames			: 8	: sin	: 3
+fifo: ff_descramblerState			: 4	: sin	: 3
+fifo: ff_d54mDescrambled			: 8	: sin	: 3
+fifo: ff_d54mDescrCache			: 4	: sin	: 3
+fifo: ff_d54mServiceField			: 1	: sin	: 3
+fifo: ff_d54mPayloadFrame			: 4	: sin	: 3
+fifo: ff_d54mCrc32State_0			: 4	: sin	: 0
+fifo: ff_d54mCrc32State			: 4	: sin	: 3
+#
+#fifo: ff_d54mDecodedBitsFinished0		: 4	: sin	: 3
+#fifo: ff_d54mDecodedBitsFinished1		: 4	: sin	: 3
+#fifo: ff_d54mDecodedBitsFinished2		: 4	: sin	: 3
+#fifo: ff_d54mDecodedBitsFinished3		: 4	: sin	: 3
+#
+fifo: ff_d54mDecodeState			: 4	: sin	: 0
+###################################
+fifo: ff_dxInit					: 4	: sin	: 0
+fifo: ff_dxInit0				: 4	: sin	: 0
+fifo: ff_dxInit1				: 4	: sin	: 0
+fifo: ff_dxInit2				: 4	: sin	: 0
+fifo: ff_dxInit3				: 4	: sin	: 0
+#
+fifo: ff_dxPktInit				: 4	: sin	: 0
+fifo: ff_dxPktInit0				: 4	: sin	: 0
+fifo: ff_dxPktInit1				: 4	: sin	: 0
+fifo: ff_dxPktInit2				: 4	: sin	: 0
+fifo: ff_dxPktInit3				: 4	: sin	: 0
+#
+fifo: ff_dxPktDetect				: 4	: sin	: 0
+fifo: ff_dxPktDetect0				: 4	: sin	: 0
+fifo: ff_dxPktDetect1				: 4	: sin	: 0
+fifo: ff_dxPktDetect2				: 4	: sin	: 0
+fifo: ff_dxPktDetect3				: 4	: sin	: 0
+#
+fifo: ff_dxLTFProc				: 4	: sin	: 0
+fifo: ff_dxLTFProc0				: 4	: sin	: 0
+fifo: ff_dxLTFProc1				: 4	: sin	: 0
+fifo: ff_dxLTFProc2				: 4	: sin	: 0
+fifo: ff_dxLTFProc3				: 4	: sin	: 0
+#
+fifo: ff_dxPlcpParser				: 4	: sin	: 0
+fifo: ff_dxPlcpParser0				: 4	: sin	: 0
+fifo: ff_dxPlcpParser1				: 4	: sin	: 0
+fifo: ff_dxPlcpParser2				: 4	: sin	: 0
+fifo: ff_dxPlcpParser3				: 4	: sin	: 0
+#
+fifo: ff_dxDataDecode				: 4	: sin	: 0
+fifo: ff_dxDataDecode0				: 4	: sin	: 0
+fifo: ff_dxDataDecode1				: 4	: sin	: 0
+fifo: ff_dxDataDecode2				: 4	: sin	: 0
+fifo: ff_dxDataDecode3				: 4	: sin	: 0
+#
+fifo: ff_dxDataDecodeFinish			: 4	: sin	: 0
+fifo: ff_dxDataDecodeFinish0			: 4	: sin	: 0
+fifo: ff_dxDataDecodeFinish1			: 4	: sin	: 0
+fifo: ff_dxDataDecodeFinish2			: 4	: sin	: 0
+fifo: ff_dxDataDecodeFinish3			: 4	: sin	: 0
+#
+fifo: ff_dxRxFinish				: 4	: sin	: 0
+fifo: ff_dxRxFinish0				: 4	: sin	: 0
+fifo: ff_dxRxFinish1				: 4	: sin	: 0
+fifo: ff_dxRxFinish2				: 4	: sin	: 0
+fifo: ff_dxRxFinish3				: 4	: sin	: 0
+#
+fifo: ff_decodeDoneSynchronization3		: 1	: sin	: 3
+fifo: ff_decodeDoneSynchronization0		: 1	: sin	: 0
+###################################
+#
+#The following is required because of blocks that operate on void types.
+#Examples are CP, TD and TR. The problem is that a fifo ff in an example
+#scenario like CP --> ff --> TR will have both input and output types 
+#deduced as void. There is no way to deduce its type without making any
+#assumptions on the functionality of CP and TR blocks. Hence, this type
+#will need to be explicitly indicated at compile time.
+#The following typehints are indicated on fifos. They may be later be 
+#changed so that they are indicated on respective atoms. The two forms 
+#are equivalent.
+#
+#typehint:ff_cp_1_1_0:Decision_t
+#typehint:ff_cp_1_1_1:Decision_t
+#typehint:ff_cp_1_1_2:Decision_t
+#typehint:ff_cp_1_1_3:Decision_t
+typehint:ff_LTFS1:ORILIB_t_Cplx16Buf80
+typehint:ff_LTFS2:ORILIB_t_Cplx16Buf80
+#typehint:ff_agcStateCopy1b:ORILIB_t_PktAgcState
+#typehint:ff_cfoStateCopy1d:ORILIB_t_CFOState
+#typehint:ff_agcStateCopy1d:ORILIB_t_PktAgcState
+#--------------------------------
+typehint: ff_d54mSoftBM216_2 : ORILIB_t_SoftBitBuf432
+#typehint: ff_d54mBmFrame: ORILIB_t_SoftBitBuf800
+typehint: ff_d54mBmFrame0_2: ORILIB_t_SoftBitBuf800
+typehint: ff_d54mBmFrame1_2: ORILIB_t_SoftBitBuf800
+typehint: ff_d54mBmFrame2_2: ORILIB_t_SoftBitBuf800
+typehint: ff_d54mBmFrame3_2: ORILIB_t_SoftBitBuf800
+#
+typehint: ff_d54mBmFrame0_3: ORILIB_t_SoftBitBuf800
+typehint: ff_d54mBmFrame1_3: ORILIB_t_SoftBitBuf800
+typehint: ff_d54mBmFrame2_3: ORILIB_t_SoftBitBuf800
+typehint: ff_d54mBmFrame3_3: ORILIB_t_SoftBitBuf800
+#
+typehint: ff_d54mDecodedBitsRaw: ORILIB_t_BitBucket512
+#typehint: ff_d54mDecodedBitsRaw: ORILIB_t_BitBucket320
+#
+##typehint: ff_d54mDecodedBitsFinished: ORILIB_t_BitBucket512
+#typehint: ff_d54mDecodedBitsFinished0: ORILIB_t_BitBucket512
+#typehint: ff_d54mDecodedBitsFinished1: ORILIB_t_BitBucket512
+#typehint: ff_d54mDecodedBitsFinished2: ORILIB_t_BitBucket512
+#typehint: ff_d54mDecodedBitsFinished3: ORILIB_t_BitBucket512
+#typehint: ff_d54mHdFrames: ORILIB_t_BitBucket512
+typehint: ff_d54mHdFrames: ORILIB_t_BitBucket64
+typehint: ff_serviceField: ORILIB_t_BitBucket64
+typehint: ff_d54mDescrambled: ORILIB_t_BitBucket64
+##
+####typehint: ff_d54mChState: ORILIB_t_ChEstimatorLTF_Float_State
+typehint: ff_d54mChState: ORILIB_t_ChEstimatorLTF_State
+#
+typehint: ff_dxInit0			: Decision_t	
+typehint: ff_dxInit1			: Decision_t	
+typehint: ff_dxInit2			: Decision_t	
+typehint: ff_dxInit3			: Decision_t	
+#
+typehint: ff_dxPktInit0			: Decision_t	
+typehint: ff_dxPktInit1			: Decision_t	
+typehint: ff_dxPktInit2			: Decision_t	
+typehint: ff_dxPktInit3			: Decision_t	
+#
+typehint: ff_dxPktDetect0			: Decision_t	
+typehint: ff_dxPktDetect1			: Decision_t	
+typehint: ff_dxPktDetect2			: Decision_t	
+typehint: ff_dxPktDetect3			: Decision_t	
+#
+typehint: ff_dxLTFProc0			: Decision_t	
+typehint: ff_dxLTFProc1			: Decision_t	
+typehint: ff_dxLTFProc2			: Decision_t	
+typehint: ff_dxLTFProc3			: Decision_t	
+#
+typehint: ff_dxPlcpParser0			: Decision_t	
+typehint: ff_dxPlcpParser1			: Decision_t	
+typehint: ff_dxPlcpParser2			: Decision_t	
+typehint: ff_dxPlcpParser3			: Decision_t	
+#
+typehint: ff_dxDataDecode0			: Decision_t	
+typehint: ff_dxDataDecode1			: Decision_t	
+typehint: ff_dxDataDecode2			: Decision_t	
+typehint: ff_dxDataDecode3			: Decision_t	
+#
+typehint: ff_dxDataDecodeFinish0			: Decision_t	
+typehint: ff_dxDataDecodeFinish1			: Decision_t	
+typehint: ff_dxDataDecodeFinish2			: Decision_t	
+typehint: ff_dxDataDecodeFinish3			: Decision_t	
+#
+typehint: ff_dxRxFinish0			: Decision_t	
+typehint: ff_dxRxFinish1			: Decision_t	
+typehint: ff_dxRxFinish2			: Decision_t	
+typehint: ff_dxRxFinish3			: Decision_t	
+#
+typehint: ff_decodeDoneSynchronization3		: Uint64
+typehint: ff_decodeDoneSynchronization0		: Uint64
+#
+typehint: ff_d54mServiceField		: ORILIB_t_BitBucket64
+typehint: ff_d54mPayloadFrame		: ORILIB_t_BitBucket256
+#
+typehint: ff_plcpParserState_Copy		: ORILIB_t_PLCPParserState

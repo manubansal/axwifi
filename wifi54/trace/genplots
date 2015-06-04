@@ -1,0 +1,16 @@
+#!/bin/bash
+ATOMIX_BLDDIR=~/workspace/atomix/build
+AXWIFI_BLDDIR=~/workspace/axwifi/build
+if [[ $1 = "copy" ]]; then
+  cp -v $ATOMIX_BLDDIR/config.log __config.log
+  cp -v $ATOMIX_BLDDIR/syslog.txt __syslog.txt
+  cp -v $AXWIFI_BLDDIR/wifi54/state_profiling_table.txt __state_profiling_table.txt
+  cp -v $AXWIFI_BLDDIR/wifi54/pxc.log __pxc.log
+fi
+##parse st __syslog.txt  __state_profiling_table.txt ../conf.py
+#parse st-detailed __syslog.txt  __state_profiling_table.txt conf_10mhz.py
+#orplot core-util-map __data_busy_map.txt __data_state_transitions.txt __data_core_util_stats.txt
+
+#parse st __syslog.txt  __state_profiling_table.txt ../conf.py
+axparse st-detailed __syslog.txt  __state_profiling_table.txt conf_10mhz.py
+axplot core-util-map __data_busy_map.txt __data_state_transitions.txt __data_core_util_stats.txt

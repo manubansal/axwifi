@@ -1,0 +1,328 @@
+
+# Atomix project, atoms.txt, TODO: insert summary here
+# Copyright (c) 2015 Stanford University
+# Released under the Apache License v2.0. See the LICENSE file for details.
+# Author(s): Manu Bansal
+
+#<command==wire>: <instancename>: <fifo1>: [fifo2]: ...
+#<command==pars>: <instancename>: <par1>: [par2]: ...
+atom: kk0: BlockKK: 0
+atom: kk1: BlockKK: 1
+atom: kk2: BlockKK: 2
+atom: kk3: BlockKK: 3
+#
+#----------------
+#For init
+#----------------
+atom: traceReader80Init		: ORILIB_TraceReader80_Init			: 0
+atom: jumpInit			: BlockJ					: 0
+#
+#----------------
+#For pkt init
+#----------------
+atom: traceReader80		: ORILIB_TraceReader80				: 0
+atom: pktAlignInit		: ORILIB_PacketSearch_Align_InitPerPacket	: 0
+atom: pktDetectInit		: ORILIB_PacketSearch_Detect_InitPerPacket	: 0
+atom: dataBMCacheInit		: ORILIB_ByteCacheInit_C200			: 0
+atom: jumpPktInit		: BlockJ					: 0
+#
+#----------------
+#For pkt detect
+#----------------
+atom: pktDetect			: ORILIB_PacketSearch_Detect			: 0
+atom: pktDetectDecision		: ORILIB_PacketSearch_Detect_Decision		: 0
+atom: agcStateRetainer		: BlockCP2					: 0
+#
+#----------------
+#State drainers
+#----------------
+atom: alignStateDrainer		: BlockDrain					: 0 
+atom: energyStateDrainer	: BlockDrain					: 0 
+atom: corrStateDrainer		: BlockDrain					: 0 
+atom: agcStateDrainer		: BlockDrain					: 0
+atom: plcpOfdmDemodStateDrainer	: BlockDrain					: 0
+atom: dataOfdmDemodStateDrainer	: BlockDrain					: 0
+#
+atom: cfoStateDrainer		: BlockDrain					: 0
+atom: chStateDrainer		: BlockDrain					: 0
+atom: dataVitDecMapDrainer	: BlockDrain					: 0
+atom: dataDecodeDecisionStateDrainer: BlockDrain				: 0
+atom: dataBMCacheDrainer	: BlockDrain					: 0
+atom: plcpEqSymsDrainer		: BlockDrain					: 0
+atom: dataEqSymsDrainer		: BlockDrain					: 0
+#
+#
+#----------------
+#For LTF proc 
+#----------------
+atom: bufAlign			: ORILIB_PacketSearch_Align			: 0
+atom: bufCopyTwoWays		: BlockCP2					: 0
+atom: bufJoin1			: ORILIB_BufferJoin2To1				: 0
+atom: cfoEstLTF			: ORILIB_CFOEstimatorLTF			: 0
+atom: cfoStateRetainer		: BlockCP2					: 0
+atom: cfoCorrectorG		: ORILIB_CFOCorrectorG				: 0
+atom: cfoCorrectorGM		: ORILIB_CFOCorrectorGM				: 0
+atom: bufJoin2			: ORILIB_BufferJoin2To1				: 0
+atom: chEstLTF			: ORILIB_ChEstimatorLTF				: 0
+atom: chStateRetainer		: BlockCP2					: 0
+atom: jumpLTFProc		: BlockJ					: 0
+#
+#
+#----------------
+#For PLCP decode
+#----------------
+atom: plcpOfdmDemodPktInit	: ORILIB_OFDMDemodulator_InitPerPacket		: 0
+atom: plcpCfoCorrectorG		: ORILIB_CFOCorrectorG				: 0
+atom: plcpOfdmDemod		: ORILIB_OFDMDemodulator			: 0
+atom: plcpOfdmEq		: ORILIB_OFDMEqualizer				: 0
+atom: plcpSoftSlicerBPSK	: ORILIB_SoftDemapperBPSKyhstar			: 0
+atom: plcpSoftDeint48		: ORILIB_SoftDeinterleaver48			: 0
+atom: plcpSoftBM24		: ORILIB_SoftBranchMetricsR1by2F24		: 0
+#
+atom: plcpVitDecInit		: ORILIB_ViterbiDecoder_InitOnce		: 0
+atom: plcpVitDecGenConfSL	: ORILIB_ViterbiDecoder_GenConfSL		: 0
+atom: plcpVitDecStateRetainer	: BlockCP2					: 0
+atom: plcpVitDecSingleHT	: ORILIB_ViterbiDecoderVCP			: 0
+atom: plcpVitDecWFC		: ORILIB_ViterbiDecoderVCP_WaitForCompletion	: 0
+atom: plcpParser		: ORILIB_PLCPParser				: 0
+#
+#
+#---------------------
+#For data decode init
+#---------------------
+#
+#---------------------
+#For data decode - common upto branch metric calculation
+#---------------------
+atom: dataOfdmDemodPktInit	: ORILIB_OFDMDemodulator_InitPerPacket		: 0
+atom: dataCfoCorrectorG		: ORILIB_CFOCorrectorG				: 0
+atom: dataOfdmDemod		: ORILIB_OFDMDemodulator			: 0
+atom: dataOfdmEq		: ORILIB_OFDMEqualizer				: 0
+atom: dataSoftSlicerBPSK	: ORILIB_SoftDemapperBPSKyhstar			: 0
+atom: dataSoftDeint48		: ORILIB_SoftDeinterleaver48			: 0
+atom: dataSoftBM24		: ORILIB_SoftBranchMetricsR1by2F24		: 0
+atom: dataBMCachePut		: ORILIB_ByteCachePut_a8_C200B48		: 0
+#
+#
+#---------------------
+#For data decode - branch metric caching and retrieval
+#---------------------
+atom: dataVitDecMapRetainer	: BlockCP2					: 0
+#
+#---------------------
+#For data decode - viterbi decoding
+#---------------------
+atom: dataBmCacheGetHeadTailFrame	: ORILIB_ByteCacheGetFrame_a8_C200		: 0
+atom: dataBmCacheGetHeadFrame	: ORILIB_ByteCacheGetFrame_a8_C200		: 0
+atom: dataBmCacheGetMidFrame	: ORILIB_ByteCacheGetFrame_a8_C200		: 0
+atom: dataBmCacheGetTailFrame	: ORILIB_ByteCacheGetFrame_a8_C200		: 0
+#
+atom: dataVitDecHeadStateRetainer	: BlockCP2					: 0
+atom: dataVitDecMidStateRetainer	: BlockCP2					: 0
+atom: dataVitDecTailStateRetainer	: BlockCP2					: 0
+atom: dataVitDecHeadTailStateRetainer	: BlockCP2					: 0
+#
+atom: dataVitDecHeadInit	: ORILIB_ViterbiDecoder_InitOnce		: 0
+atom: dataVitDecHeadGenConfSL	: ORILIB_ViterbiDecoder_GenConfSL		: 0
+atom: dataVitDecMidInit		: ORILIB_ViterbiDecoder_InitOnce		: 0
+atom: dataVitDecMidGenConfSL	: ORILIB_ViterbiDecoder_GenConfSL		: 0
+atom: dataVitDecTailInit	: ORILIB_ViterbiDecoder_InitOnce		: 0
+atom: dataVitDecTailGenConf	: ORILIB_ViterbiDecoder_GenConf			: 0
+atom: dataVitDecHeadTailInit	: ORILIB_ViterbiDecoder_InitOnce		: 0
+atom: dataVitDecHeadTailGenConf	: ORILIB_ViterbiDecoder_GenConf			: 0
+#
+atom: dataVitDecHead		: ORILIB_ViterbiDecoderVCP			: 0
+atom: dataVitDecMid		: ORILIB_ViterbiDecoderVCP			: 0
+atom: dataVitDecTail		: ORILIB_ViterbiDecoderVCP			: 0
+atom: dataVitDecHeadTail	: ORILIB_ViterbiDecoderVCP			: 0
+#
+atom: dataVitDecWFC		: ORILIB_ViterbiDecoderVCP_WaitForCompletion	: 0
+atom: dataDebugPrintBitBucket	: ORILIB_DebugPrintBitBucket			: 0
+#
+atom: dataDecodeDecisionInit	: ORILIB_DataDecodeDecisionInit			: 0
+atom: dataDecodeDecision	: ORILIB_DataDecodeDecision			: 0
+atom: jumpDataDecodeFinish	: BlockJ					: 0
+#
+#################
+# For the kernels
+#################
+wire: kk0:ff_kk0
+wire: kk1:ff_kk1
+wire: kk2:ff_kk2
+wire: kk3:ff_kk3
+#
+#################
+# For init
+#################
+wire: traceReader80Init		:ff_traceReaderState
+wire: jumpInit			:ff_kk0
+#
+#################
+# For pkt init 
+#################
+wire: pktAlignInit		:ff_alignState
+wire: pktDetectInit		:ff_energyState:ff_corrState:ff_agcState
+wire: agcStateRetainer		:ff_agcState:ff_agcState:ff_agcStateCopy
+wire: plcpOfdmDemodPktInit	:ff_plcpOfdmDemodState
+wire: dataOfdmDemodPktInit	:ff_dataOfdmDemodState
+wire: jumpPktInit		:ff_kk0
+#
+#################
+# For pkt detect
+#################
+wire: traceReader80		:ff_traceReaderState:ff_traceSampleBuf:ff_traceReaderState
+wire: pktDetect			:ff_traceSampleBuf:ff_alignState:ff_energyState:ff_corrState:ff_alignState:ff_energyState:ff_corrState:ff_detectState
+#wire: jumpPktDetect		:ff_kk0
+wire: agcStateDrainer		:ff_agcState
+wire: pktDetectDecision		:ff_detectState:ff_agcState:ff_kk0
+#
+#################
+# For LTF Proc
+#################
+wire: bufAlign			:ff_traceSampleBuf:ff_alignState:ff_alignedSampleBuf:ff_alignState
+wire: bufCopyTwoWays		:ff_alignedSampleBuf:ff_LTFS1:ff_LTFS2
+wire: bufJoin1			:ff_LTFS1:ff_LTFS1:ff_joinedLTF1
+wire: cfoEstLTF			:ff_joinedLTF1:ff_agcStateCopy:ff_cfoState
+wire: cfoStateRetainer		:ff_cfoState:ff_cfoState:ff_cfoStateCopy
+wire: cfoCorrectorG		:ff_LTFS2:ff_cfoStateCopy:ff_agcStateCopy:ff_cfoCorrector
+wire: cfoCorrectorGM		:ff_LTFS2:ff_cfoStateCopy:ff_agcStateCopy:ff_cfoCorrector
+wire: bufJoin2			:ff_cfoCorrector:ff_cfoCorrector:ff_joinedLTF2
+wire: chEstLTF			:ff_joinedLTF2:ff_chState
+wire: chStateRetainer		:ff_chState:ff_chState:ff_chStateCopy
+wire: jumpLTFProc		:ff_kk0
+#
+#################
+# For PLCP Decode
+#################
+wire: plcpCfoCorrectorG		: ff_alignedSampleBuf:ff_cfoStateCopy:ff_agcStateCopy:ff_cfoCorrectedPLCP
+wire: plcpOfdmDemod		: ff_cfoCorrectedPLCP:ff_plcpOfdmDemodState:ff_dataTonesPLCP:ff_pilotTonesPLCP:ff_plcpOfdmDemodState
+wire: plcpOfdmEq		: ff_dataTonesPLCP:ff_pilotTonesPLCP:ff_chStateCopy:ff_eqSyms:ff_yhstar:ff_plcpOfdmEqState
+wire: plcpSoftSlicerBPSK	: ff_yhstar:ff_plcpOfdmEqState:ff_plcpSoftSlicedBits
+wire: plcpSoftDeint48		: ff_plcpSoftSlicedBits:ff_plcpSoftDeintBits
+wire: plcpSoftBM24		: ff_plcpSoftDeintBits:ff_plcpSoftBranchMetrics
+wire: plcpVitDecInit		: ff_plcpVitDecState
+wire: plcpVitDecGenConfSL	: ff_plcpVitDecState:ff_plcpVitDecState
+wire: plcpVitDecStateRetainer	: ff_plcpVitDecState:ff_plcpVitDecState:ff_plcpVitDecStateCopy
+wire: plcpVitDecSingleHT	: ff_plcpSoftBranchMetrics:ff_plcpVitDecStateCopy:ff_plcpDecodedBits:ff_plcpVitDecWFCState
+wire: plcpVitDecWFC		: ff_plcpVitDecWFCState
+wire: plcpParser		: ff_plcpDecodedBits:ff_plcpParserState:ff_pktState:ff_dataVitDecMap
+#
+#####################
+# For data demodulate
+#####################
+wire: dataCfoCorrectorG		: ff_alignedSampleBuf:ff_cfoStateCopy:ff_agcStateCopy:ff_dataCfoCorrected
+wire: dataOfdmDemod		: ff_dataCfoCorrected:ff_dataOfdmDemodState:ff_dataTonesData:ff_dataPilotTones:ff_dataOfdmDemodState
+wire: dataOfdmEq		: ff_dataTonesData:ff_dataPilotTones:ff_chStateCopy:ff_dataEqSyms:ff_datayhstar:ff_dataOfdmEqState
+wire: dataSoftSlicerBPSK	: ff_datayhstar:ff_dataOfdmEqState:ff_dataSoftSlicedBits
+wire: dataSoftDeint48		: ff_dataSoftSlicedBits:ff_dataSoftDeintBits
+wire: dataSoftBM24		: ff_dataSoftDeintBits:ff_dataSoftBranchMetrics
+#
+#
+#####################
+# For data decode
+#####################
+wire: dataBMCacheInit		: ff_dataBMCache
+wire: dataBMCachePut		: ff_dataSoftBranchMetrics:ff_dataBMCache:ff_dataBMCache
+#
+wire: dataBmCacheGetHeadTailFrame: ff_dataBMCache:ff_dataBMCache:ff_dataBmFrame
+wire: dataBmCacheGetHeadFrame	: ff_dataBMCache:ff_dataBMCache:ff_dataBmFrame
+wire: dataBmCacheGetMidFrame	: ff_dataBMCache:ff_dataBMCache:ff_dataBmFrame
+wire: dataBmCacheGetTailFrame	: ff_dataBMCache:ff_dataBMCache:ff_dataBmFrame
+#
+wire: dataVitDecHeadInit	: ff_dataVitDecHeadState
+wire: dataVitDecMidInit		: ff_dataVitDecMidState
+wire: dataVitDecTailInit	: ff_dataVitDecTailState
+wire: dataVitDecHeadTailInit	: ff_dataVitDecHeadTailState
+#
+wire: dataVitDecHeadGenConfSL	: ff_dataVitDecHeadState:ff_dataVitDecHeadState
+wire: dataVitDecMidGenConfSL	: ff_dataVitDecMidState:ff_dataVitDecMidState
+wire: dataVitDecTailGenConf	: ff_dataVitDecMapCopy:ff_dataVitDecTailState:ff_dataVitDecTailState
+wire: dataVitDecHeadTailGenConf	: ff_dataVitDecMapCopy:ff_dataVitDecHeadTailState:ff_dataVitDecHeadTailState
+#
+wire: dataVitDecHeadStateRetainer	: ff_dataVitDecHeadState:ff_dataVitDecHeadState:ff_dataVitDecHeadStateCopy
+wire: dataVitDecMidStateRetainer	: ff_dataVitDecMidState:ff_dataVitDecMidState:ff_dataVitDecMidStateCopy
+wire: dataVitDecTailStateRetainer	: ff_dataVitDecTailState:ff_dataVitDecTailState:ff_dataVitDecTailStateCopy
+wire: dataVitDecHeadTailStateRetainer	: ff_dataVitDecHeadTailState:ff_dataVitDecHeadTailState:ff_dataVitDecHeadTailStateCopy
+#
+wire: dataVitDecHead		: ff_dataBmFrame:ff_dataVitDecHeadStateCopy:ff_dataDecodedBitsRaw:ff_dataVitDecWFCState
+wire: dataVitDecMid		: ff_dataBmFrame:ff_dataVitDecMidStateCopy:ff_dataDecodedBitsRaw:ff_dataVitDecWFCState
+wire: dataVitDecTail		: ff_dataBmFrame:ff_dataVitDecTailStateCopy:ff_dataDecodedBitsRaw:ff_dataVitDecWFCState
+wire: dataVitDecHeadTail	: ff_dataBmFrame:ff_dataVitDecHeadTailStateCopy:ff_dataDecodedBitsFinished:ff_dataVitDecWFCState
+#
+wire: dataVitDecWFC		: ff_dataVitDecWFCState
+wire: dataDebugPrintBitBucket	: ff_dataDecodedBitsRaw
+#
+wire: dataVitDecMapRetainer	: ff_dataVitDecMap:ff_dataVitDecMap:ff_dataVitDecMapCopy
+wire: dataDecodeDecisionInit	: ff_dataDecodeState
+wire: dataDecodeDecision	: ff_dataVitDecMapCopy:ff_dataDecodeState:ff_dataDecodeState:ff_kk0
+wire: jumpDataDecodeFinish	:ff_kk0
+#
+#
+wire: alignStateDrainer		: ff_alignState
+wire: energyStateDrainer	: ff_energyState
+wire: corrStateDrainer		: ff_corrState
+wire: plcpOfdmDemodStateDrainer	: ff_plcpOfdmDemodState
+wire: dataOfdmDemodStateDrainer	: ff_dataOfdmDemodState
+wire: cfoStateDrainer		: ff_cfoState 
+wire: chStateDrainer		: ff_chState
+wire: dataVitDecMapDrainer	: ff_dataVitDecMap
+wire: dataDecodeDecisionStateDrainer: ff_dataDecodeState
+wire: dataBMCacheDrainer	: ff_dataBMCache
+wire: plcpEqSymsDrainer		: ff_eqSyms
+wire: dataEqSymsDrainer		: ff_dataEqSyms
+#
+############################################################################################
+conf:jumpInit			:staRxPktInit
+conf:jumpPktInit		:staRxPktDetect
+#conf:jumpPktDetect		:staRxPktDetect
+#conf:pktDetectDecision		:staRxPktInit,staRxPktDetect
+conf:pktDetectDecision		:staRxLTFProc,staRxPktDetect
+conf:jumpLTFProc		:staRxPLCPDecode
+#
+#conf:tr_pkt_init_0		:ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(Decision_t))
+#conf:tr_pkt_init_1		:ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(Decision_t))
+#conf:tr_pkt_init_2		:ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(Decision_t))
+#conf:tr_pkt_init_3		:ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(Decision_t))
+#conf:cp_1_1			:ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(Decision_t))
+conf:traceReader80		:trace_6mbps_skip_400000_ns_10000,10000
+conf:bufJoin1			:ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(ORILIB_t_Cplx16Buf80))
+conf:bufCopyTwoWays		:ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(ORILIB_t_Cplx16Buf80))
+conf:bufJoin2			:ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(ORILIB_t_Cplx16Buf80))
+#conf:bufCp2AgcState		:ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(ORILIB_t_PktAgcState))
+#conf:bufCp4AgcState		:ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(ORILIB_t_PktAgcState))
+conf:agcStateRetainer		:ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(ORILIB_t_PktAgcState))
+#conf:bufCp2CfoState		:ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(ORILIB_t_CFOState))
+#conf:bufCp4CfoState		:ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(ORILIB_t_CFOState))
+conf:cfoStateRetainer		:ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(ORILIB_t_CFOState))
+conf:chStateRetainer		:ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(ORILIB_ChEstimatorLTF_t_State))
+#conf:plcpVitDecInit		:kVCPI_0, kWifiGee6mbps
+conf:plcpVitDecInit		:kVCPI_0, VITDEC_HEADTAIL
+conf:plcpVitDecGenConfSL	:VITDEC_HEADTAIL, 18
+conf: plcpVitDecStateRetainer: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(ORILIB_t_ViterbiDecoderState))
+conf: dataVitDecMapRetainer	: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(Vitdec_ViterbiDecodingMap))
+conf: dataVitDecHeadStateRetainer: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(ORILIB_t_ViterbiDecoderState))
+conf: dataVitDecMidStateRetainer: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(ORILIB_t_ViterbiDecoderState))
+conf: dataVitDecTailStateRetainer: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(ORILIB_t_ViterbiDecoderState))
+conf: dataVitDecHeadTailStateRetainer: ROUND_UP_N_BYTES_TO_DOUBLE_WORD_MULTIPLE(sizeof(ORILIB_t_ViterbiDecoderState))
+conf: dataBmCacheGetHeadTailFrame	: MAXUINT32, MAXUINT32
+conf: dataBmCacheGetHeadFrame	: ((24 + 18) * 2),((24-18) * 2)
+conf: dataBmCacheGetMidFrame	: ((18 + 24 + 18) * 2),((18 + 24 - 18) * 2)
+#tail frame can have at most 18 + 24 + 18 - 1 symbols to decode (otherwise we would
+#have issued one more mid convergent). However, for the tail frame, the actual number
+#of symbols is variable. So the get frame block provides a special mode to retrieve
+#and consume *all* that it has in the cache, whatever that number is.
+conf: dataBmCacheGetTailFrame	: MAXUINT32, MAXUINT32
+#
+conf: dataVitDecHeadInit	: kVCPI_0, VITDEC_HEADCONVGT
+conf: dataVitDecHeadGenConfSL 	: VITDEC_HEADCONVGT, 24
+conf: dataVitDecMidInit 	: kVCPI_0, VITDEC_MIDCONVGT
+conf: dataVitDecMidGenConfSL 	: VITDEC_MIDCONVGT, 24
+conf: dataVitDecTailInit 	: kVCPI_0, VITDEC_TAILCONVGT
+conf: dataVitDecTailGenConf 	: VITDEC_TAILCONVGT
+conf: dataVitDecHeadTailInit 	: kVCPI_0, VITDEC_HEADTAIL
+conf: dataVitDecHeadTailGenConf : VITDEC_HEADTAIL
+#
+conf: jumpDataDecodeFinish	: staRxPktInit
+conf: dataDecodeDecision	: staRxDataDecode6m_c, staRxDataDecode6m_HT, staRxDataDecode6m_H, staRxDataDecode6m_M, staRxDataDecode6m_T, staRxDataDecode6m_f
+#
+conf: dataDebugPrintBitBucket	: 2

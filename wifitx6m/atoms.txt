@@ -1,0 +1,77 @@
+
+# Atomix project, atoms.txt, TODO: insert summary here
+# Copyright (c) 2015 Stanford University
+# Released under the Apache License v2.0. See the LICENSE file for details.
+# Author(s): Manu Bansal
+
+#<command==wire>: <instancename>: <fifo1>: [fifo2]: ...
+#<command==pars>: <instancename>: <par1>: [par2]: ...
+
+atom: kk0: BlockKK: 0
+atom: kk1: BlockKK: 1
+atom: kk2: BlockKK: 2
+atom: kk3: BlockKK: 3
+
+atom: jumpInit                 : BlockJn                             : 0
+atom: jumpPreambleSignal       : BlockJn                             : 0
+atom: jumpTxAck                : BlockJ                              : 0
+atom: byteReaderInit           : ORILIB_ByteReader_Init              : 0
+atom: byteReader               : ORILIB_ByteReader                   : 0
+atom: preambleTraceReaderInit  : ORILIB_TraceReader80_Init           : 0
+atom: preambleTraceReader      : ORILIB_TraceReader80                : 0
+atom: ackPacker                : ORILIB_AckPacker                    : 0
+atom: bitCacheInit             : ORILIB_BitCacheInit_C1024           : 0
+atom: bitCachePut              : ORILIB_BitCacheSkipPut_a8_C1024b    : 0
+atom: bitCacheGet              : ORILIB_BitCacheGet_a8_C1024         : 0
+atom: scramblerInit            : ORILIB_Scrambler_Init               : 0
+atom: scrambler                : ORILIB_Scrambler24                  : 0
+atom: tailZeroer               : ORILIB_TailZeroer24                 : 0
+atom: convEncoderInit          : ORILIB_ConvolutionalEncoder24_Init  : 0
+atom: convEncoder              : ORILIB_ConvolutionalEncoder24       : 0
+atom: convEncoderFinal         : ORILIB_ConvolutionalEncoder24       : 0
+atom: puncturer                : ORILIB_PuncturerOneHalf             : 0
+atom: interleaver              : ORILIB_Interleaver48                : 0
+atom: bpskMapper               : ORILIB_MapperBPSK                   : 0
+atom: ofdmModPktInit           : ORILIB_OFDMModulator_InitPerPacket  : 0
+atom: ofdmMod                  : ORILIB_OFDMModulator                : 0
+atom: ofdmModDrain             : BlockDrain                          : 0
+
+wire: kk0:ff_kk0
+wire: kk1:ff_kk1
+wire: kk2:ff_kk2
+wire: kk3:ff_kk3
+
+wire: jumpInit                  : ff_kk0
+wire: jumpPreambleSignal        : ff_kk0
+wire: jumpTxAck                 : ff_kk0
+wire: preambleTraceReaderInit   : ff_preambleTraceReaderState
+wire: preambleTraceReader       : ff_preambleTraceReaderState:ff_ofdmModSymbols:ff_preambleTraceReaderState
+wire: byteReaderInit            : ff_byteReaderState
+wire: byteReader                : ff_byteReaderState:ff_byteBuf:ff_byteReaderState
+wire: ackPacker                 : ff_byteBuf:ff_ackBitsBuf:ff_tailZeroState
+wire: bitCacheInit              : ff_bitCache
+wire: bitCachePut               : ff_ackBitsBuf:ff_bitCache:ff_bitCache
+wire: bitCacheGet               : ff_bitCache:ff_bitCache:ff_ackSymbolBitsBuf
+wire: scramblerInit             : ff_scramState
+wire: scrambler                 : ff_ackSymbolBitsBuf:ff_scramState:ff_scramBitsBuf:ff_scramState
+wire: tailZeroer                : ff_scramBitsBuf:ff_tailZeroState:ff_tailZeroBitsBuf
+wire: convEncoderInit           : ff_convEncoderState
+wire: convEncoder               : ff_scramBitsBuf:ff_convEncoderState:ff_convBitsBufA:ff_convBitsBufB:ff_convEncoderState
+wire: convEncoderFinal          : ff_tailZeroBitsBuf:ff_convEncoderState:ff_convBitsBufA:ff_convBitsBufB:ff_convEncoderState
+wire: puncturer                 : ff_convBitsBufA:ff_convBitsBufB:ff_puncturedBitsBuf
+wire: interleaver               : ff_puncturedBitsBuf:ff_interleavedBitsBuf
+wire: bpskMapper                : ff_interleavedBitsBuf:ff_mappedSymbolBuf
+wire: ofdmModPktInit            : ff_ofdmModState
+wire: ofdmMod                   : ff_mappedSymbolBuf:ff_ofdmModState:ff_ofdmModSymbols:ff_ofdmModState
+wire: ofdmModDrain              : ff_ofdmModSymbols
+
+conf: jumpInit            : staTxAckPreambleSignal,5
+conf: jumpPreambleSignal  : staTxAck,5
+conf: jumpTxAck           : staTxAckFinal
+conf: preambleTraceReader : wifilib_ack_preamble_signal,400,1
+conf: byteReader          : INPUT_TRACE_ARRAY_NAME,INPUT_TRACE_N_SAMPLES_PER_SYMBOL,INPUT_TRACE_N_SAMPLES,INPUT_TRACE_N_WRAPAROUNDS
+conf: bitCachePut         : 160,144,16
+conf: bitCacheGet         : 144,24
+conf: bpskMapper          : 1<<8
+conf: ofdmMod             : 1<<8
+conf: ofdmModPktInit      : 1
