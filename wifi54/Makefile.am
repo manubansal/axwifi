@@ -66,8 +66,7 @@ app_wifi54_LDADD = \
    $(ATOMIX_INSTALL_DIR_VAL)/exilib/lib.exilib.a \
    $(ATOMIX_INSTALL_DIR_VAL)/osl/lib.osl.vitdec.a \
    $(ATOMIX_INSTALL_DIR_VAL)/osl/lib.osl.platform.a \
-   ${ORILIB_INSTALL_DIR}/lib.orilib.a \
-   ${ORILIBRES_INSTALL_DIR}/lib.orilibres.a
+   ${ORILIB_INSTALL_DIR}/lib.orilib.a
 #   ${IQMATH_ROOT}/lib/IQmath_c64x+e_elf.lib
 
 if !DEVICE_IS_6638K2K
