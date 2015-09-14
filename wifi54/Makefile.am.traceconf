@@ -19,6 +19,7 @@ if INPTRACE_LC
 #-----------------------------------
 # regression test trace
 #-----------------------------------
+INPUT_TRACE_N_BYTES=500
 INPUT_TRACE_N_SAMPLES=4640
 INPUT_TRACE_ARRAY_NAME=trace_skip_0_ns_${INPUT_TRACE_N_SAMPLES}
 INPUT_TRACE_N_WRAPAROUNDS=100
